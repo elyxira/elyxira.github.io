@@ -1229,7 +1229,6 @@
             .control-item {
                 position: relative;
                 flex: 1;
-                min-width: 110px;
             }
 
             /* 下拉选择器样式 */
@@ -1725,7 +1724,7 @@
 
         <div id="importPage">
             <div class="card import-section">
-                <h2>导入题库</h2>
+                <h2>本地题库</h2>
                 <div class="file-input-container">
                     <label class="file-input-label">
                         选择TXT文件
@@ -1770,7 +1769,28 @@
                     </button>
                 </div>
             </div>
-
+            <div class="card import-section">
+                <h2>在线题库</h2>
+                <div class="controls">
+                    <div class="control-group">
+                        <label for="onlineJsonSelect">选择在线JSON文件:</label>
+                        <select id="onlineJsonSelect">
+                            <option value="">加载中...</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="io-buttons">
+                    <button onclick="loadOnlineJson()" id="loadOnlineJsonButton" class="fade-in">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        加载在线题库
+                    </button>
+                </div>
+            </div>
             <div class="card">
                 <h2>刷题设置</h2>
                 <div class="controls">
@@ -2217,6 +2237,7 @@
             initMermaid();
             initSettings();
             initMobileUI();
+            loadJsonFileList();
         });
 
         // 初始化移动端UI功能
@@ -2454,6 +2475,98 @@
             if (savedTheme) {
                 document.documentElement.setAttribute('data-theme', savedTheme);
                 updateThemeToggleButton(savedTheme);
+            }
+        }
+
+        // 设置JSON文件所在的目录路径
+        const jsonDirectoryPath = 'data/';
+
+        // 在线JSON文件列表
+        let onlineJsonFiles = [];
+
+        // 加载在线JSON文件列表
+        async function loadJsonFileList() {
+            try {
+                // 获取文件列表索引
+                const response = await fetch(jsonDirectoryPath + 'index.json');
+                if (!response.ok) {
+                    throw new Error('无法获取文件列表');
+                }
+
+                // 解析文件列表
+                onlineJsonFiles = await response.json();
+
+                // 更新下拉选择框
+                updateOnlineJsonSelect();
+
+                showToast('已加载在线题库列表', 'success');
+            } catch (error) {
+                console.error('加载JSON文件列表失败:', error);
+                showToast('加载在线题库列表失败', 'error');
+
+                // 更新选择器为错误状态
+                const select = document.getElementById('onlineJsonSelect');
+                select.innerHTML = '<option value="">无法加载文件列表</option>';
+            }
+        }
+
+        // 更新在线JSON选择器
+        function updateOnlineJsonSelect() {
+            const select = document.getElementById('onlineJsonSelect');
+            select.innerHTML = '';
+
+            // 添加默认选项
+            const defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.textContent = '请选择一个在线题库文件';
+            select.appendChild(defaultOption);
+
+            // 添加文件选项
+            onlineJsonFiles.forEach(file => {
+                const option = document.createElement('option');
+                option.value = file.path;
+                option.textContent = file.name || file.path.split('/').pop();
+                select.appendChild(option);
+            });
+        }
+
+        // 加载选定的在线JSON文件
+        async function loadOnlineJson() {
+            const select = document.getElementById('onlineJsonSelect');
+            const selectedFilePath = select.value;
+
+            if (!selectedFilePath) {
+                showToast('请先选择一个文件', 'error');
+                return;
+            }
+
+            try {
+                // 显示加载中提示
+                showToast('正在加载题库...', 'info');
+
+                // 获取JSON文件内容
+                const response = await fetch(selectedFilePath);
+                if (!response.ok) {
+                    throw new Error('无法获取文件内容');
+                }
+
+                // 解析JSON内容
+                const jsonContent = await response.text();
+                quizData = JSON.parse(jsonContent);
+
+                // 保存到本地存储
+                localStorage.setItem('quizData', JSON.stringify(quizData));
+
+                // 更新UI
+                updateDataSummary();
+                initChapters();
+                document.getElementById('startButton').disabled = false;
+                document.getElementById('exportButton').disabled = false;
+
+                showToast('在线题库加载成功！', 'success');
+            } catch (error) {
+                console.error('加载在线JSON文件失败:', error);
+                showToast('加载题库失败: ' + error.message, 'error');
             }
         }
 
