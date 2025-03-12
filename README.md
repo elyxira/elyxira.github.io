@@ -1,0 +1,1 @@
+# yokuminto.github.io
