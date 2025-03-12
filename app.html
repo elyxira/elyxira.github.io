@@ -110,6 +110,10 @@
             line-height: 1.6;
             padding: 20px;
             transition: background-color 0.5s ease, color 0.5s ease;
+            -webkit-tap-highlight-color: transparent;
+            /* 移除移动端点击高亮 */
+            overscroll-behavior: contain;
+            /* 防止页面弹跳 */
         }
 
         .container {
@@ -126,7 +130,6 @@
             position: relative;
             display: flex;
             flex-direction: column;
-            /* 改为纵向排列 */
             justify-content: center;
             align-items: center;
             margin-bottom: 30px;
@@ -141,8 +144,8 @@
         /* 按钮组样式 */
         .header-actions {
             position: absolute;
-            top: 12px;
-            right: 12px;
+            top: 0;
+            right: 0;
             display: flex;
             gap: 4px;
             border-radius: var(--border-radius);
@@ -670,7 +673,6 @@
             background-color: var(--text-muted);
         }
 
-
         .modal-overlay.active .settings-modal {
             transform: translateY(0);
             opacity: 1;
@@ -1080,22 +1082,47 @@
             margin-top: 20px;
         }
 
-        /* 移动端适配调整 */
+        /* 响应式设计 - 移动端适配 */
+        /* 移动设备通用样式 */
         @media (max-width: 768px) {
-            .controls {
-                flex-direction: column;
-                align-items: stretch;
-            }
 
-            .control-group {
-                flex-direction: column;
-                align-items: stretch;
+            /* 基础样式调整 */
+            body {
+                padding: 10px;
+                font-size: 15px;
             }
 
             .container {
                 padding: 15px;
                 margin: 0;
                 border-radius: 0;
+                box-shadow: none;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+
+            h3 {
+                font-size: 16px;
+            }
+
+            /* 布局调整 */
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+                padding: 12px;
+                gap: 8px;
+            }
+
+            .control-group {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 8px;
             }
 
             .navigation-buttons {
@@ -1110,26 +1137,337 @@
                 gap: 10px;
             }
 
+            /* 按钮样式 */
             button {
+                width: 100%;
+                padding: 12px 15px;
+                min-height: 44px;
+                /* 触控友好的最小高度 */
+            }
+
+            /* 选项样式优化 */
+            .option {
+                padding: 16px;
+                /* 增加触控区域 */
+                margin-bottom: 10px;
+            }
+
+            .option-key {
+                width: 36px;
+                height: 36px;
+                font-size: 16px;
+            }
+
+            /* 文件输入组件 */
+            .file-input-label {
+                width: 100%;
+                text-align: center;
+                padding: 14px 10px;
+            }
+
+            .file-name {
+                display: block;
+                margin: 5px 0 0 0;
+                text-align: center;
+            }
+
+            .file-input-container {
                 width: 100%;
             }
 
-            .io-buttons {
-                flex-direction: column;
+            /* 进度条样式 */
+            .progress-container {
+                flex-wrap: wrap;
+                gap: 8px;
+                padding: 12px;
+            }
+
+            .progress-text,
+            .accuracy {
+                width: 100%;
+                text-align: center;
+            }
+
+            .progress-bar-container {
+                margin: 8px 0;
+                height: 12px;
+            }
+
+            /* 题目展示样式 */
+            .question {
+                font-size: 16px;
+                padding: 15px;
+                margin-bottom: 15px;
+            }
+
+            /* 笔记区域 */
+            .notes-title {
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+
+            .notes-content {
+                min-height: 80px;
+                padding: 10px;
+            }
+
+            .notes-editor {
+                min-height: 120px;
+            }
+
+            /* Markdown 工具栏 */
+            .markdown-toolbar {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 5px;
+            }
+
+            .markdown-toolbar button {
+                padding: 10px 8px;
+                width: 100%;
+            }
+
+            /* 模态框调整 */
+            .settings-modal,
+            .question-overview-modal,
+            .statistics-modal {
+                padding: 15px;
+                width: 95%;
+                max-height: 85vh;
+            }
+
+            .modal-header {
+                padding-bottom: 8px;
+                margin-bottom: 12px;
             }
 
             .setting-item {
                 flex-direction: column;
                 align-items: flex-start;
+                padding-bottom: 12px;
+                margin-bottom: 12px;
             }
 
             .setting-description {
-                margin-bottom: 10px;
+                margin-bottom: 8px;
                 padding-right: 0;
+                width: 100%;
             }
 
+            /* 题目总览调整 */
             .question-overview-grid {
-                grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+                grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+                gap: 8px;
+            }
+
+            .question-item {
+                height: 40px;
+                font-size: 12px;
+            }
+
+            /* 统计结果样式 */
+            .score-display {
+                font-size: 30px;
+            }
+
+            .chapter-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+
+            .chapter-score {
+                align-self: flex-end;
+            }
+
+            .btn-group {
+                flex-direction: column;
+            }
+
+            /* 导入/导出按钮 */
+            .io-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            /* Toast 消息 */
+            .toast {
+                width: 90%;
+                text-align: center;
+                padding: 12px 10px;
+            }
+        }
+
+        /* 小屏幕手机特殊调整 (小于 480px) */
+        @media (max-width: 480px) {
+            body {
+                padding: 5px;
+                font-size: 14px;
+            }
+
+            .container {
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 22px;
+            }
+
+            h2 {
+                font-size: 18px;
+            }
+
+            /* 头部布局调整 */
+            header {
+                margin-bottom: 20px;
+                padding-bottom: 15px;
+            }
+
+            .header-actions {
+                position: relative;
+                top: 0;
+                right: 0;
+                justify-content: center;
+                margin-top: 0;
+            }
+
+            /* 按钮尺寸适配 */
+            button.btn-group-item {
+                width: 36px;
+                height: 36px;
+            }
+
+            /* 选项显示 */
+            .option {
+                padding: 12px;
+            }
+
+            .option-key {
+                width: 32px;
+                height: 32px;
+                font-size: 14px;
+                margin-right: 10px;
+            }
+
+            .key-hint {
+                display: none;
+                /* 在很小的屏幕上隐藏键盘提示 */
+            }
+
+            /* 题目总览 */
+            .question-overview-grid {
+                grid-template-columns: repeat(auto-fill, minmax(36px, 1fr));
+                gap: 6px;
+            }
+
+            .question-item {
+                height: 36px;
+                font-size: 11px;
+            }
+
+            /* 模态框调整 */
+            .settings-modal,
+            .question-overview-modal,
+            .statistics-modal {
+                padding: 12px;
+            }
+
+            /* 统计区域 */
+            .score-display {
+                font-size: 26px;
+            }
+
+            /* Markdown 工具栏 */
+            .markdown-toolbar {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* 横屏模式的特殊调整 */
+        @media (max-width: 914px) and (orientation: landscape) {
+            body {
+                padding: 5px;
+            }
+
+            .container {
+                max-height: 85vh;
+                overflow-y: auto;
+            }
+
+            /* 在横屏模式下恢复某些布局为水平方向 */
+            .navigation-buttons {
+                flex-direction: row;
+            }
+
+            .navigation-left,
+            .navigation-right {
+                flex-direction: row;
+                width: auto;
+            }
+
+            /* 设置滚动条样式 */
+            .container::-webkit-scrollbar {
+                width: 8px;
+            }
+
+            .container::-webkit-scrollbar-track {
+                background: transparent;
+            }
+
+            .container::-webkit-scrollbar-thumb {
+                background-color: var(--border-color);
+                border-radius: 4px;
+            }
+        }
+
+        /* Safari特定的修复 */
+        @supports (-webkit-touch-callout: none) {
+
+            /* Safari移动版的特定修复 */
+            input,
+            select,
+            button,
+            textarea {
+                font-size: 16px;
+                /* 防止Safari缩放表单元素 */
+            }
+
+            .notes-editor {
+                -webkit-appearance: none;
+                /* 修复Safari的textarea样式问题 */
+                border-radius: var(--border-radius);
+            }
+        }
+
+        /* 增强触控体验 */
+        @media (pointer: coarse) {
+
+            button,
+            .option,
+            .file-input-label,
+            .slider,
+            .question-item {
+                cursor: pointer;
+            }
+
+            /* 增加按钮之间的间距，防止误触 */
+            .navigation-buttons .navigation-left,
+            .navigation-buttons .navigation-right {
+                gap: 12px;
+            }
+
+            /* 增加选项的触摸反馈 */
+            .option:active {
+                transform: translateX(3px);
+                background-color: var(--primary-light);
+                opacity: 0.9;
+            }
+        }
+
+        /* 暗色模式额外调整 */
+        @media (prefers-color-scheme: dark) {
+            [data-theme="dark"] .option:active {
+                background-color: rgba(255, 255, 255, 0.15);
             }
         }
     </style>
