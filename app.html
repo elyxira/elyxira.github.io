@@ -136,6 +136,61 @@
             transition: var(--transition);
         }
 
+        /* 默认隐藏滚动条但保留滚动功能 */
+        ::-webkit-scrollbar {
+            width: 10px;
+            background-color: transparent;
+        }
+
+        ::-webkit-scrollbar-track {
+            background-color: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: rgba(0, 0, 0, 0);
+            /* 完全透明 */
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        /* 滚动时显示滚动条的类 */
+        body.scrolling ::-webkit-scrollbar-thumb {
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+
+        body.scrolling ::-webkit-scrollbar-thumb:hover {
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+
+        /* 暗色模式 */
+        [data-theme="dark"].scrolling ::-webkit-scrollbar-thumb {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        [data-theme="dark"].scrolling ::-webkit-scrollbar-thumb:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Firefox */
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: transparent transparent;
+            transition: scrollbar-color 0.3s;
+        }
+
+        body.scrolling * {
+            scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+        }
+
+        [data-theme="dark"].scrolling * {
+            scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+        }
+
+        /* 设置滚动容器固定宽度 */
+        html {
+            overflow-y: scroll;
+        }
+
         /* 头部样式 */
         header {
             position: relative;
@@ -224,23 +279,28 @@
             margin-bottom: 30px;
         }
 
-        /* 控制区域样式 */
         .controls {
             display: flex;
             flex-wrap: wrap;
             gap: 12px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             padding: 15px;
             background-color: var(--primary-light);
             border-radius: var(--border-radius);
             align-items: center;
             transition: var(--transition);
+            max-width: 100%;
+            box-sizing: border-box;
         }
 
         .control-group {
             display: flex;
             align-items: center;
             gap: 10px;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         label {
@@ -351,7 +411,7 @@
 
         .question {
             font-size: 18px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             line-height: 1.6;
             font-weight: 500;
             padding: 18px 22px;
@@ -384,7 +444,6 @@
             display: flex;
             align-items: center;
             border: 1px solid var(--border-color);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
         }
 
         .option:hover {
@@ -402,13 +461,11 @@
         .option.correct {
             background-color: var(--success-bg);
             border: 1px solid var(--success-color);
-            box-shadow: 0 0 0 2px var(--success-bg);
         }
 
         .option.incorrect {
             background-color: var(--danger-bg);
             border: 1px solid var(--danger-color);
-            box-shadow: 0 0 0 2px var(--danger-bg);
         }
 
         .option-key {
@@ -433,12 +490,12 @@
         }
 
         .option-key.correct {
-            background-color: var(--success-color);
+            background-color: var(--success-color) !important;
             color: white;
         }
 
         .option-key.incorrect {
-            background-color: var(--danger-color);
+            background-color: var(--danger-color) !important;
             color: white;
         }
 
@@ -472,8 +529,8 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-top: 30px;
-            padding: 15px;
+            margin-top: 15px;
+            padding: 10px 20px 10px 20px;
             background-color: var(--primary-light);
             border-radius: var(--border-radius);
             transition: var(--transition);
@@ -508,6 +565,7 @@
         /* 数据摘要样式 */
         .data-summary {
             margin-top: 20px;
+            margin-bottom: 20px;
             padding: 15px;
             background-color: var(--primary-light);
             border-radius: var(--border-radius);
@@ -1163,7 +1221,7 @@
                 padding: 14px;
                 background-color: var(--primary-light);
                 border-radius: 12px;
-                margin-bottom: 16px;
+                margin-bottom: 15px;
                 overflow-x: auto;
                 box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
             }
@@ -1316,12 +1374,13 @@
             .progress-container {
                 flex-wrap: wrap;
                 gap: 8px;
-                padding: 12px;
+                margin-top: 10px;
+                padding: 5px;
             }
 
             .progress-text,
             .accuracy {
-                width: 100%;
+                width: 30%;
                 text-align: center;
             }
 
@@ -1408,13 +1467,21 @@
             }
 
             .chapter-item {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 5px;
+                display: grid;
+                grid-template-columns: 1fr auto;
+                align-items: center;
+                gap: 8px;
+                padding: 8px 0;
+            }
+
+            .chapter-name {
+                font-size: 14px;
+                word-break: break-word;
             }
 
             .chapter-score {
-                align-self: flex-end;
+                font-size: 14px;
+                white-space: nowrap;
             }
 
             .btn-group {
@@ -1490,6 +1557,10 @@
                 display: none;
             }
 
+            .btn-key-hint {
+                display: none;
+            }
+
             /* 题目总览 */
             .question-overview-grid {
                 grid-template-columns: repeat(auto-fill, minmax(36px, 1fr));
@@ -1519,7 +1590,7 @@
             }
 
             /* 导航按钮优化 */
-            .navigation-buttons button .key-hint {
+            .navigation-buttons button .key-hint .btn-hint {
                 display: none;
             }
         }
@@ -1624,6 +1695,15 @@
             <div class="header-content">
                 <h1>巡夜医学</h1>
             </div>
+            <div class="header-actions" style="left: 0; right: auto;">
+                <button class="btn-group-item" id="returnButton" title="返回" aria-label="返回" onclick="backToImport()"
+                    style="display: none;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 12H5M12 19l-7-7 7-7" />
+                    </svg>
+                </button>
+            </div>
             <div class="header-actions">
                 <button class="btn-group-item" id="themeToggle" title="切换夜间模式" aria-label="切换夜间模式">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -1722,13 +1802,15 @@
                 <div class="data-summary" id="dataSummary">
                     暂无数据，请先导入题库文件
                 </div>
-
-                <button onclick="startQuiz()" id="startButton" disabled class="scale-in">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                    </svg>
-                    开始刷题
-                </button>
+                <div class="io-buttons">
+                    <button onclick="startQuiz()" id="startButton" disabled class="scale-in">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                        </svg>
+                        开始刷题
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -1858,14 +1940,24 @@
                         上一题
                     </button>
 
-                    <button class="secondary" onclick="backToImport()">
+                    <button class="secondary" onclick="redoQuiz()">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <path d="M19 12H5M12 19l-7-7 7-7" />
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 2v6h6"></path>
+                            <path d="M3 8a9 9 0 0 0 5.207 8.144 9.002 9.002 0 0 0 10.767-1.249 9 9 0 0 0 1.233-12.69">
+                            </path>
                         </svg>
-                        返回
+                        重做
                     </button>
                 </div>
+            </div>
+
+            <div class="progress-container">
+                <div class="progress-text" id="progressText">进度: 0/0</div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+                </div>
+                <div class="accuracy" id="accuracyText">正确率: 0%</div>
             </div>
 
             <!-- 笔记部分 -->
@@ -1889,14 +1981,6 @@
                     <textarea id="notesTextarea" class="notes-editor" placeholder="在这里添加笔记..."></textarea>
                     <button onclick="saveNotes()">保存笔记</button>
                 </div>
-            </div>
-
-            <div class="progress-container">
-                <div class="progress-text" id="progressText">进度: 0/0</div>
-                <div class="progress-bar-container">
-                    <div class="progress-bar" id="progressBar" style="width: 0%"></div>
-                </div>
-                <div class="accuracy" id="accuracyText">正确率: 0%</div>
             </div>
         </div>
     </div>
@@ -1944,7 +2028,7 @@
             </div>
 
             <div class="settings-group">
-                <h3>笔记设置</h3>
+                <h3>页面设置</h3>
                 <div class="setting-item">
                     <div class="setting-description">
                         <div class="setting-name">回答后显示笔记</div>
@@ -1952,6 +2036,16 @@
                     </div>
                     <label class="toggle-switch">
                         <input type="checkbox" id="showNotesAfterAnswerToggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-description">
+                        <div class="setting-name">显示进度区域</div>
+                        <div class="setting-detail">在刷题界面显示进度条和正确率</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="showProgressToggle" checked>
                         <span class="slider"></span>
                     </label>
                 </div>
@@ -2084,7 +2178,9 @@
     </div>
 
     <script>
+
         // 全局变量
+        let scrollTimer;
         let quizData = null;
         let currentQuestion = null;
         let questions = [];
@@ -2103,6 +2199,15 @@
         let viewWrongAfterAll = false;   // 全部答完后查看错题
         let lockAnswerAfterWrong = false; // 选错后不能更改答案
         let answersCache = {};       // 答题缓存，切换章节/模式时刷新
+
+        // 滚动事件
+        window.addEventListener('scroll', function () {
+            document.body.classList.add('scrolling');
+            clearTimeout(scrollTimer);
+            scrollTimer = setTimeout(function () {
+                document.body.classList.remove('scrolling');
+            }, 1500);
+        });
 
         // 初始化
         document.addEventListener('DOMContentLoaded', function () {
@@ -2216,6 +2321,7 @@
             showNotesAfterAnswer = localStorage.getItem('showNotesAfterAnswer') === 'true'; // 默认为false
             viewWrongAfterAll = localStorage.getItem('viewWrongAfterAll') === 'true'; // 默认为false
             lockAnswerAfterWrong = localStorage.getItem('lockAnswerAfterWrong') === 'true'; // 默认为false
+            showProgress = localStorage.getItem('showProgress') !== 'false'; // 默认为true
 
             // 设置开关状态
             document.getElementById('autoSubmitToggle').checked = autoSubmit;
@@ -2226,6 +2332,7 @@
             document.getElementById('showNotesAfterAnswerToggle').checked = showNotesAfterAnswer;
             document.getElementById('viewWrongAfterAllToggle').checked = viewWrongAfterAll;
             document.getElementById('lockAnswerAfterWrongToggle').checked = lockAnswerAfterWrong;
+            document.getElementById('showProgressToggle').checked = showProgress;
 
             // 根据动画设置启用/禁用动画类
             if (!animationEnabled) {
@@ -2236,6 +2343,8 @@
 
             // 控制笔记显示
             updateNotesVisibility();
+            // 控制进度区域显示
+            updateProgressVisibility();
         }
 
         // 保存设置
@@ -2248,6 +2357,7 @@
             showNotesAfterAnswer = document.getElementById('showNotesAfterAnswerToggle').checked;
             viewWrongAfterAll = document.getElementById('viewWrongAfterAllToggle').checked;
             lockAnswerAfterWrong = document.getElementById('lockAnswerAfterWrongToggle').checked;
+            showProgress = document.getElementById('showProgressToggle').checked
 
             // 保存到本地存储
             localStorage.setItem('autoSubmit', autoSubmit);
@@ -2258,6 +2368,7 @@
             localStorage.setItem('showNotesAfterAnswer', showNotesAfterAnswer);
             localStorage.setItem('viewWrongAfterAll', viewWrongAfterAll);
             localStorage.setItem('lockAnswerAfterWrong', lockAnswerAfterWrong);
+            localStorage.setItem('showProgress', lockAnswerAfterWrong);
 
             // 关闭设置弹窗
             toggleSettingsModal();
@@ -2265,6 +2376,8 @@
             // 更新笔记显示状态
             updateNotesVisibility();
 
+            // 控制进度区域显示
+            updateProgressVisibility()
             // 显示提示
             showToast('设置已保存', 'success');
 
@@ -2309,6 +2422,14 @@
             } else {
                 // 始终显示笔记
                 notesSection.classList.remove('hidden');
+            }
+        }
+
+        // 添加更新进度区域可见性的函数
+        function updateProgressVisibility() {
+            const progressContainer = document.querySelector('.progress-container');
+            if (progressContainer) {
+                showProgress ? progressContainer.classList.remove('hidden') : progressContainer.classList.add('hidden');
             }
         }
 
@@ -2840,10 +2961,30 @@
             // 切换到测验页面
             document.getElementById('importPage').classList.add('hidden');
             document.getElementById('quizPage').classList.remove('hidden');
+            document.getElementById('returnButton').style.display = 'grid';
 
             // 准备题目并加载第一题
             prepareQuestions();
             loadQuestion();
+        }
+
+        function redoQuiz() {
+            if (confirm('确定要重做当前题目？这将清空所有做题记录')) {
+                questions.forEach(question => {
+                    question.userAnswer = null;
+                });
+
+                answeredCount = 0;
+                correctCount = 0;
+                wrongQuestions = [];
+                currentIndex = 0;
+
+                updateProgress();
+                loadQuestion();
+                saveProgress();
+
+                showToast('已重置做题记录', 'success');
+            }
         }
 
         // 根据设置准备题目
@@ -2936,7 +3077,7 @@
         function backToImport() {
             document.getElementById('quizPage').classList.add('hidden');
             document.getElementById('importPage').classList.remove('hidden');
-            // 刷新数据摘要
+            document.getElementById('returnButton').style.display = 'none';
             updateDataSummary();
         }
 
@@ -3299,18 +3440,18 @@
                 option.classList.remove('correct', 'incorrect');
                 optionKeyElement.classList.remove('correct', 'incorrect');
 
-                if(optionKey === currentQuestion.userAnswer){
-                // 如果是正确答案
-                if (optionKey === currentQuestion.answer) {
-                    option.classList.add('correct');
-                    optionKeyElement.classList.add('correct');
-                }
+                if (optionKey === currentQuestion.userAnswer) {
+                    // 如果是正确答案
+                    if (optionKey === currentQuestion.answer) {
+                        option.classList.add('correct');
+                        optionKeyElement.classList.add('correct');
+                    }
 
-                // 如果是用户选择的错误答案
-                else if (!isCorrect) {
-                    option.classList.add('incorrect');
-                    optionKeyElement.classList.add('incorrect');
-                }
+                    // 如果是用户选择的错误答案
+                    else if (!isCorrect) {
+                        option.classList.add('incorrect');
+                        optionKeyElement.classList.add('incorrect');
+                    }
                 }
             });
 
