@@ -20,7 +20,7 @@
             --card-bg: #ffffff;
             --text-color: #333;
             --text-light: #666;
-            --key-color: rgba(255,255,255,0.5);
+            --key-color: rgba(255, 255, 255, 0.5);
             --border-color: #eaeef6;
             --border-radius: 10px;
             --box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
@@ -66,7 +66,7 @@
             --card-bg: #2d2d30;
             --text-color: #e6eaef;
             --text-light: #8891a6;
-            --key-color: rgba(255,255,255,0.5);
+            --key-color: rgba(255, 255, 255, 0.5);
             --border-color: #38383f;
             --box-shadow: 0 6px 16px rgba(10, 30, 60, 0.45);
 
@@ -125,6 +125,8 @@
         header {
             position: relative;
             display: flex;
+            flex-direction: column;
+            /* 改为纵向排列 */
             justify-content: center;
             align-items: center;
             margin-bottom: 30px;
@@ -136,36 +138,41 @@
             text-align: center;
         }
 
+        /* 按钮组样式 */
         .header-actions {
             position: absolute;
-            right: 10px;
+            top: 12px;
+            right: 12px;
             display: flex;
-            flex-direction: column;
-            gap: 5px;
+            gap: 4px;
+            border-radius: var(--border-radius);
         }
 
-        .theme-toggle,
-        .settings-toggle {
-            background: none;
-            border: none;
+        button.btn-group-item {
+            background-color: transparent;
             color: var(--text-color);
-            cursor: pointer;
-            font-size: 20px;
-            padding: 6px;
+            border: none;
             border-radius: 6px;
-            transition: var(--transition);
-            width: 36px;
-            height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            cursor: pointer;
+            width: 48px;
+            height: 48px;
+            padding: 0;
+            display: grid;
+            place-items: center;
+            transition: all 0.2s ease;
+            min-width: unset;
+            /* 重置通用按钮的min-width */
         }
 
-        .theme-toggle:hover,
-        .settings-toggle:hover {
-            color: var(--primary-color);
-            background-color: var(--primary-light);
-            transform: translateY(-3px);
+        button.btn-group-item:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+            transform: translateY(-1px);
+            box-shadow: none;
+            /* 覆盖通用按钮的阴影 */
+        }
+
+        button.btn-group-item:active {
+            transform: translateY(1px);
         }
 
         h1 {
@@ -1107,10 +1114,6 @@
                 width: 100%;
             }
 
-            .header-actions {
-                flex-direction: column;
-            }
-
             .io-buttons {
                 flex-direction: column;
             }
@@ -1146,9 +1149,15 @@
                 <p>导入题库，随时随地练习医学知识</p>
             </div>
             <div class="header-actions">
-                <button class="theme-toggle" id="themeToggle" title="切换夜间模式">🌙</button>
-                <button class="settings-toggle" id="settingsToggle" title="设置">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <button class="btn-group-item" id="themeToggle" title="切换夜间模式" aria-label="切换夜间模式">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+                <button class="btn-group-item" id="settingsToggle" title="设置" aria-label="设置">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="12" cy="12" r="3"></circle>
                         <path
                             d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
