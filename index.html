@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>巡夜医学 - 医学学习平台</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+        
+        .tagline {
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            color: #7f8c8d;
+        }
+        
+        .main-button {
+            display: inline-block;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+        }
+        
+        .main-button:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
+        }
+        
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 4rem;
+            max-width: 900px;
+        }
+        
+        .feature {
+            flex: 1 1 250px;
+            margin: 1rem;
+            padding: 1.5rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .feature:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #3498db;
+        }
+        
+        .feature-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+        
+        .feature-desc {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+        
+        footer {
+            margin-top: 4rem;
+            color: #95a5a6;
+            font-size: 0.9rem;
+        }
+        
+        .footer-link {
+            color: #3498db;
+            text-decoration: none;
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2rem;
+            }
+            
+            .tagline {
+                font-size: 1rem;
+                margin-bottom: 2rem;
+            }
+            
+            .main-button {
+                padding: 0.8rem 1.5rem;
+                font-size: 1rem;
+            }
+            
+            .features {
+                margin-top: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">巡夜医学</div>
+        <p class="tagline">一站式医学学习平台，助力医学生高效备考</p>
+        
+        <a href="./app.html" class="main-button">立即开始刷题</a>
+        
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon">📚</div>
+                <h3 class="feature-title">海量题库</h3>
+                <p class="feature-desc">覆盖各类医学考试，持续更新最新考点</p>
+            </div>
+            
+            <div class="feature">
+                <div class="feature-icon">📊</div>
+                <h3 class="feature-title">智能分析</h3>
+                <p class="feature-desc">个性化学习报告，精准定位薄弱环节</p>
+            </div>
+            
+            <div class="feature">
+                <div class="feature-icon">📱</div>
+                <h3 class="feature-title">随时随地</h3>
+                <p class="feature-desc">多端同步，碎片时间高效学习</p>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2025 巡夜医学 - 开源医学学习平台 | <a href="https://github.com/yokuminto/yokuminto.github.io" class="footer-link">GitHub</a></p>
+        </footer>
+    </div>
+</body>
+</html>
+
