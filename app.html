@@ -10,6 +10,7 @@
         :root {
             /* 核心颜色系统 */
             --primary-color: #4361ee;
+            --heading-color: #8790f2;  /* 暗色模式标题颜色 */
             --primary-light: rgba(67, 97, 238, 0.1);
             --secondary-color: #3f37c9;
             --tertiary-color: rgba(155, 175, 245, 0.1);
@@ -17,6 +18,83 @@
             --success-bg: rgba(77, 195, 155, 0.15);
             --danger-color: #e45c68;
             --danger-bg: rgba(247, 37, 133, 0.1);
+            --surface-card: #f0f0f0;
+            --border-radius: 8px;
+            --transition: all 0.2s ease;
+
+            /* Markdown笔记主题变量 */
+            --note-primary: #4361ee;
+            --note-secondary: #3f37c9;
+            --note-success: #49bb95;
+            --note-danger: #e45c68;
+            --note-warning: #f4bf00;
+            --note-info: #4dabf7;
+            --note-pink: #ff69b4;
+            --note-purple: #9c27b0;
+            --note-orange: #ff9800;
+            --note-brown: #795548;
+            --note-gray: #607d8b;
+            --note-cyan: #00bcd4;
+            
+            /* 笔记文本颜色 */
+            --note-text-primary: #333333;
+            --note-text-secondary: #666666;
+            --note-text-light: #888888;
+            --note-text-highlight: #4361ee;
+            
+            /* 笔记背景颜色 */
+            --note-bg-primary: rgba(67, 97, 238, 0.1);
+            --note-bg-secondary: rgba(63, 55, 201, 0.1);
+            --note-bg-success: rgba(73, 187, 149, 0.1);
+            --note-bg-danger: rgba(228, 92, 104, 0.1);
+            --note-bg-warning: rgba(255, 212, 59, 0.1);
+            --note-bg-info: rgba(77, 171, 247, 0.1);
+            --note-bg-pink: rgba(255, 105, 180, 0.1);
+            --note-bg-purple: rgba(156, 39, 176, 0.1);
+            --note-bg-orange: rgba(255, 152, 0, 0.1);
+            --note-bg-brown: rgba(121, 85, 72, 0.1);
+            --note-bg-gray: rgba(96, 125, 139, 0.1);
+            --note-bg-cyan: rgba(0, 188, 212, 0.1);
+            
+            /* 笔记边框颜色 */
+            --note-border-primary: #4361ee;
+            --note-border-secondary: #3f37c9;
+            --note-border-success: #49bb95;
+            --note-border-danger: #e45c68;
+            --note-border-warning: #ffd43b;
+            --note-border-info: #4dabf7;
+            
+            /* 笔记代码块样式 */
+            --note-code-bg: #f5f7fc;
+            --note-code-text: #333333;
+            --note-code-border: #eaeef6;
+            
+            /* 笔记表格样式 */
+            --note-table-header-bg: #f5f8ff;
+            --note-table-header-text: #333333;
+            --note-table-border: #e0e4e9;
+            --note-table-stripe: #f5f8ff;
+            --note-table-bg: #ffffff;
+            
+            /* 笔记引用块样式 */
+            --note-quote-bg: rgba(67, 97, 238, 0.1);
+            --note-quote-border: #4361ee;
+            --note-quote-text: #333333;
+            
+            /* 笔记标记样式 */
+            --note-mark-yellow: rgba(255, 212, 59, 0.4);
+            --note-mark-green: rgba(73, 187, 149, 0.4);
+            --note-mark-blue: rgba(77, 171, 247, 0.4);
+            --note-mark-red: rgba(228, 92, 104, 0.4);
+            --note-mark-purple: rgba(63, 55, 201, 0.4);
+            
+            /* 笔记图表样式 */
+            --note-chart-primary: #4361ee;
+            --note-chart-secondary: #3f37c9;
+            --note-chart-success: #49bb95;
+            --note-chart-danger: #e45c68;
+            --note-chart-warning: #ffd43b;
+            --note-chart-info: #4dabf7;
 
             /* 背景和文本颜色 */
             --bg-color: #f8faff;
@@ -32,17 +110,15 @@
             --box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
             --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 
-            /* Markdown 变量 */
-            --md-text-color: #333333;
-            --md-bg-color: #ffffff;
-            --md-code-bg: #f5f7fc;
-            --md-blockquote-border: #4361ee;
-            --md-blockquote-bg: rgba(67, 97, 238, 0.1);
-            --md-link-color: #4361ee;
-            --md-table-border: #e0e0e0;
-            --md-table-stripe: #f9f9f9;
-            --md-mark-bg: rgba(67, 97, 238, 0.1);
-            --md-mark-color: #4361ee;
+            /* 笔记Markdown样式 */
+            --note-text-markdown: #222222;
+            --note-bg-markdown: #ffffff;
+            --note-code-markdown: #f0f4f9;
+            --note-quote-markdown-border: #3a56d4;
+            --note-quote-markdown-bg: rgba(58, 86, 212, 0.15);
+            --note-link-markdown: #2a4dd1;
+            --note-mark-markdown-bg: rgba(58, 86, 212, 0.15);
+            --note-mark-markdown: #2a4dd1;
 
             /* Mermaid 变量 */
             --mermaid-bg: #ffffff;
@@ -62,13 +138,90 @@
         [data-theme="dark"] {
             /* 核心颜色系统 */
             --primary-color: #727be0;
+            --heading-color: #8790f2;  /* 暗色模式标题颜色 */
             --primary-light: rgba(192, 192, 192, 0.15);
-            --secondary-color: #5c9ece;
+            --secondary-color: #8790f2;
             --tertiary-color: rgba(128, 128, 128, 0.1);
             --success-color: #4aad8c;
             --success-bg: rgba(74, 173, 140, 0.15);
             --danger-color: #cf5a64;
             --danger-bg: rgba(207, 90, 100, 0.15);
+            --surface-card: var(--card-bg);
+            --surface-bg: var(--bg-color);
+
+            /* Markdown笔记主题变量 - 暗色模式 */
+            --note-primary: #727be0;
+            --note-secondary: #8790f2;
+            --note-success: #57ba99;
+            --note-danger: #d77079;
+            --note-warning: #e6c13b;
+            --note-info: #4dabf7;
+            --note-pink: #fa94c4;
+            --note-purple: #bd93f9;
+            --note-orange: #ffb86c;
+            --note-brown: #a1887f;
+            --note-gray: #78909c;
+            --note-cyan: #26c6da;
+            
+            /* 笔记文本颜色 - 暗色模式 */
+            --note-text-primary: #f0f4f8;
+            --note-text-secondary: #a0aec0;
+            --note-text-light: #718096;
+            --note-text-highlight: #8b93f7;
+            
+            /* 笔记背景颜色 - 暗色模式 */
+            --note-bg-primary: rgba(139, 147, 247, 0.12);
+            --note-bg-secondary: rgba(156, 163, 244, 0.12);
+            --note-bg-success: rgba(92, 204, 164, 0.12);
+            --note-bg-danger: rgba(245, 101, 101, 0.12);
+            --note-bg-warning: rgba(246, 224, 94, 0.12);
+            --note-bg-info: rgba(99, 179, 237, 0.12);
+            --note-bg-pink: rgba(237, 137, 204, 0.12);
+            --note-bg-purple: rgba(196, 167, 231, 0.12);
+            --note-bg-orange: rgba(246, 173, 85, 0.12);
+            --note-bg-brown: rgba(179, 157, 149, 0.12);
+            --note-bg-gray: rgba(160, 174, 192, 0.12);
+            --note-bg-cyan: rgba(76, 209, 224, 0.12);
+            
+            /* 笔记边框颜色 - 暗色模式 */
+            --note-border-primary: #8b93f7;
+            --note-border-secondary: #9ca3f4;
+            --note-border-success: #5ccca4;
+            --note-border-danger: #f56565;
+            --note-border-warning: #f6e05e;
+            --note-border-info: #63b3ed;
+            
+            /* 笔记代码块样式 - 暗色模式 */
+            --note-code-bg: #2d3748;
+            --note-code-text: #f0f4f8;
+            --note-code-border: #4a5568;
+            
+            /* 笔记表格样式 - 暗色模式 */
+            --note-table-header-bg: #3b3b3e;
+            --note-table-header-text: #e6eaef;
+            --note-table-border: #3b3b3e;
+            --note-table-stripe: #3b3b3e;
+            --note-table-bg: #2d2d30;
+            
+            /* 笔记引用块样式 - 暗色模式 */
+            --note-quote-bg: rgba(139, 147, 247, 0.12);
+            --note-quote-border: #8b93f7;
+            --note-quote-text: #f0f4f8;
+            
+            /* 笔记标记样式 - 暗色模式 */
+            --note-mark-yellow: rgba(246, 224, 94, 0.25);
+            --note-mark-green: rgba(92, 204, 164, 0.25);
+            --note-mark-blue: rgba(99, 179, 237, 0.25);
+            --note-mark-red: rgba(245, 101, 101, 0.25);
+            --note-mark-purple: rgba(139, 147, 247, 0.25);
+            
+            /* 笔记图表样式 - 暗色模式 */
+            --note-chart-primary: #8b93f7;
+            --note-chart-secondary: #9ca3f4;
+            --note-chart-success: #5ccca4;
+            --note-chart-danger: #f56565;
+            --note-chart-warning: #f6e05e;
+            --note-chart-info: #4dabf7;
 
             /* 背景和文本颜色 */
             --bg-color: #212121;
@@ -82,31 +235,29 @@
             /* UI 样式变量 */
             --box-shadow: 0 6px 16px rgba(10, 30, 60, 0.45);
 
-            /* Markdown 深色变量 */
-            --md-text-color: #f0f0f0;
-            --md-bg-color: #26252A;
-            --md-code-bg: rgba(70, 120, 190, 0.15);
-            --md-blockquote-border: #4678be;
-            --md-blockquote-bg: rgba(70, 120, 190, 0.15);
-            --md-link-color: #a4c8ff;
-            --md-table-border: #555555;
-            --md-table-stripe: rgba(255, 255, 255, 0.05);
-            --md-mark-bg: rgba(70, 120, 190, 0.15);
-            --md-mark-color: #a4c8ff;
+            /* 笔记Markdown样式 - 暗色模式 */
+            --note-text-markdown: #f0f4f8;
+            --note-bg-markdown: #26252A;
+            --note-code-markdown: rgba(70, 120, 190, 0.15);
+            --note-quote-markdown-border: #4678be;
+            --note-quote-markdown-bg: rgba(70, 120, 190, 0.15);
+            --note-link-markdown: #a4c8ff;
+            --note-mark-markdown-bg: rgba(70, 120, 190, 0.15);
+            --note-mark-markdown: #a4c8ff;
 
             /* Mermaid 深色变量 */
-            --mermaid-bg: #1f2020;
-            --mermaid-primary: #1f2020;
-            --mermaid-secondary: #333333;
-            --mermaid-tertiary: #2d2f31;
-            --mermaid-text: #cccccc;
-            --mermaid-line: #4678be;
-            --mermaid-node-bg: #1f2020;
-            --mermaid-node-border: #666666;
-            --mermaid-cluster-bg: #2d2f31;
-            --mermaid-cluster-border: rgba(255, 255, 255, 0.25);
-            --mermaid-label-bg: #2d2f31;
-            --mermaid-label-border: #666666;
+            --mermaid-bg: #2d2d30;
+            --mermaid-primary: #3b3b3e;
+            --mermaid-secondary: #4a4a4d;
+            --mermaid-tertiary: #5d5d60;
+            --mermaid-text: #e6eaef;
+            --mermaid-line: #727be0;
+            --mermaid-node-bg: #3b3b3e;
+            --mermaid-node-border: #5d5d60;
+            --mermaid-cluster-bg: #2d2d30;
+            --mermaid-cluster-border: rgba(255, 255, 255, 0.2);
+            --mermaid-label-bg: #3b3b3e;
+            --mermaid-label-border: #5d5d60;
         }
 
         * {
@@ -136,54 +287,59 @@
             transition: var(--transition);
         }
 
-        /* 默认隐藏滚动条但保留滚动功能 */
+        /* 默认隐藏所有滚动条 */
+        * {
+            scrollbar-width: none;  /* Firefox */
+            -ms-overflow-style: none;  /* IE and Edge */
+        }
+
+        /* Chrome, Safari and Opera */
+        *::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* 移除原有的滚动条相关样式 */
         ::-webkit-scrollbar {
-            width: 10px;
-            background-color: transparent;
+            display: none;
         }
 
         ::-webkit-scrollbar-track {
-            background-color: transparent;
+            display: none;
         }
 
         ::-webkit-scrollbar-thumb {
-            background-color: rgba(0, 0, 0, 0);
-            /* 完全透明 */
-            border-radius: 5px;
-            transition: background-color 0.3s;
+            display: none;
         }
 
-        /* 滚动时显示滚动条的类 */
+        /* 移除滚动时显示滚动条的类 */
         body.scrolling ::-webkit-scrollbar-thumb {
-            background-color: rgba(0, 0, 0, 0.2);
+            display: none;
         }
 
         body.scrolling ::-webkit-scrollbar-thumb:hover {
-            background-color: rgba(0, 0, 0, 0.3);
+            display: none;
         }
 
-        /* 暗色模式 */
+        /* 移除暗色模式滚动条样式 */
         [data-theme="dark"].scrolling ::-webkit-scrollbar-thumb {
-            background-color: rgba(255, 255, 255, 0.2);
+            display: none;
         }
 
         [data-theme="dark"].scrolling ::-webkit-scrollbar-thumb:hover {
-            background-color: rgba(255, 255, 255, 0.3);
+            display: none;
         }
 
         /* Firefox */
         * {
-            scrollbar-width: thin;
-            scrollbar-color: transparent transparent;
-            transition: scrollbar-color 0.3s;
+            scrollbar-width: none;
         }
 
         body.scrolling * {
-            scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+            scrollbar-color: transparent transparent;
         }
 
         [data-theme="dark"].scrolling * {
-            scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+            scrollbar-color: transparent transparent;
         }
 
         /* 设置滚动容器固定宽度 */
@@ -241,7 +397,7 @@
 
         /* 标题样式 */
         h1 {
-            color: var(--primary-color);
+            color: var(--heading-color);  /* 标准化标题颜色变量 */
             font-size: 28px;
             margin-bottom: 10px;
         }
@@ -249,7 +405,7 @@
         h2 {
             color: var(--secondary-color);
             font-size: 22px;
-            margin: 20px 0 15px;
+            margin: 0px 0 15px;
         }
 
         h3 {
@@ -298,7 +454,6 @@
             align-items: center;
             gap: 10px;
             max-width: 100%;
-            overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
         }
@@ -349,6 +504,31 @@
             color: var(--text-color);
         }
 
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: #ffffff;
+            cursor: pointer;
+            border: none;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary-color);
+            color: #ffffff;
+        }
+
+        .btn-success {
+            background-color: var(--success-color);
+        }
+
+        .btn-danger {
+            background-color: var(--danger-color);
+        }
+
         input:focus {
             border-color: var(--primary-color);
             box-shadow: 0 0 0 3px var(--primary-light);
@@ -373,6 +553,7 @@
         }
 
         button.secondary {
+            padding: 5px 15px 5px 15px !important;
             background-color: var(--primary-light);
             color: var(--text-color);
         }
@@ -588,18 +769,6 @@
             color: var(--primary-color);
         }
 
-        /* 数据摘要样式 */
-        .data-summary {
-            margin-top: 20px;
-            margin-bottom: 20px;
-            padding: 15px;
-            background-color: var(--primary-light);
-            border-radius: var(--border-radius);
-            font-size: 14px;
-            color: var(--text-light);
-            transition: var(--transition);
-        }
-
         /* 导航按钮样式 */
         .navigation-buttons {
             display: flex;
@@ -633,6 +802,48 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 10px;
+        }
+
+        .notes-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .notes-actions button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 8px 12px;
+            min-width: 80px;
+            height: 36px;
+        }
+
+        .notes-actions button svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* 移动端适配 */
+        @media (max-width: 768px) {
+            .notes-actions {
+                flex-wrap: wrap;
+                justify-content: flex-start;
+            }
+
+            .notes-actions button {
+                flex: 1;
+                min-width: 0;
+                padding: 8px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .notes-actions button {
+                padding: 6px;
+                font-size: 12px;
+            }
         }
 
         .notes-content {
@@ -871,7 +1082,7 @@
         .markdown-body h2,
         .markdown-body h3,
         .markdown-body h4 {
-            color: var(--primary-color);
+            color: var(--h1-color);
             margin-top: 16px;
             margin-bottom: 8px;
         }
@@ -880,6 +1091,7 @@
             color: var(--md-link-color);
             text-decoration: underline;
             transition: color 0.3s ease;
+            font-weight: 500;
         }
 
         .markdown-body code {
@@ -925,14 +1137,15 @@
 
         .markdown-body table {
             border-collapse: collapse;
-            width: 100%;
+            width: auto;
+            min-width: 50%;
+            max-width: 100%;
             margin: 10px 0;
         }
 
         .markdown-body table,
         .markdown-body th,
         .markdown-body td {
-            border: 1px solid var(--md-table-border);
             transition: var(--transition);
         }
 
@@ -943,7 +1156,7 @@
         }
 
         .markdown-body tr:nth-child(odd) {
-            background-color: var(--md-table-stripe);
+            background-color: var(--note-bg-primary);
             transition: var(--transition);
         }
 
@@ -1043,7 +1256,7 @@
             border-radius: 8px;
             font-weight: 500;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
+            z-index: 9999;
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.3s, visibility 0.3s, bottom 0.3s;
@@ -1707,6 +1920,374 @@
                 background-color: rgba(255, 255, 255, 0.15);
             }
         }
+
+        .option.disabled {
+            cursor: default !important;
+            pointer-events: none;  /* 完全禁用交互 */
+            opacity: 0.8;  /* 稍微降低透明度表示禁用状态 */
+        }
+
+        .option.disabled:hover {
+            transform: none !important;  /* 禁用悬停效果 */
+            box-shadow: none !important;
+        }
+
+        /* 加载动画样式 */
+        .loading-spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* API配置模态框样式 */
+        .api-input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 8px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .api-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px var(--primary-light);
+            outline: none;
+        }
+
+        .api-textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 8px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            font-size: 14px;
+            resize: vertical;
+            min-height: 100px;
+            font-family: inherit;
+            transition: var(--transition);
+        }
+
+        .api-textarea:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px var(--primary-light);
+            outline: none;
+        }
+
+        .api-config-group {
+            margin-bottom: 20px;
+        }
+
+        .api-config-item {
+            margin-bottom: 15px;
+        }
+
+        .api-config-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        .api-config-description {
+            font-size: 12px;
+            color: var(--text-light);
+            margin-bottom: 8px;
+        }
+
+        .api-config-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .api-config-buttons button {
+            flex: 1;
+        }
+
+        .prompt-controls {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .prompt-controls select {
+            flex: 1;
+        }
+
+        .prompt-controls button {
+            padding: 8px;
+            min-width: 40px;
+        }
+
+        .prompt-controls button svg {
+            margin: 0;
+        }
+
+        /* 添加Markdown笔记的自定义样式 */
+        .markdown-note {
+            color: var(--note-text-primary);
+            line-height: 1.8;
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            padding: 1em;
+        }
+
+        .markdown-note h1,
+        .markdown-note h2,
+        .markdown-note h3,
+        .markdown-note h4 {
+            color: var(--note-primary);
+            margin-top: 1.5em;
+            margin-bottom: 0.8em;
+            font-weight: 600;
+        }
+
+        .markdown-note code {
+            background-color: var(--note-code-bg);
+            color: var(--note-code-text);
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+
+        .markdown-note pre {
+            background-color: var(--note-code-bg);
+            border: 1px solid var(--note-code-border);
+            padding: 1em;
+            border-radius: var(--border-radius);
+            overflow-x: auto;
+            margin: 1em 0;
+        }
+
+        .markdown-note table {
+            width: auto;
+            min-width: 50%;
+            max-width: 100%;
+            border-collapse: collapse;
+            border-spacing: 0;
+            margin: 1em 0;
+            display: table;
+            border: 1px solid var(--note-table-border);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+        }
+
+        .markdown-note th {
+            background-color: var(--note-table-header-bg);
+            color: var(--note-table-header-text);
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+            border: 1px solid var(--note-table-border);
+            white-space: nowrap;
+        }
+
+        .markdown-note td {
+            padding: 12px 16px;
+            text-align: left;
+            border: 1px solid var(--note-table-border);
+            background-color: var(--note-table-bg);
+        }
+
+        .markdown-note tr:nth-child(even) td {
+            background-color: var(--note-table-stripe);
+        }
+
+        .markdown-note blockquote {
+            background-color: var(--note-quote-bg);
+            border-left: 4px solid var(--note-quote-border);
+            color: var(--note-quote-text);
+            padding: 1em;
+            margin: 1em 0;
+        }
+
+        .markdown-note p {
+            margin: 1em 0;
+        }
+
+        .markdown-note ul,
+        .markdown-note ol {
+            padding-left: 2em;
+            margin: 1em 0;
+        }
+
+        .markdown-note li {
+            margin: 0.5em 0;
+        }
+
+        /* 标记样式 */
+        .markdown-note .mark-yellow {
+            background-color: var(--note-mark-yellow);
+        }
+
+        .markdown-note .mark-green {
+            background-color: var(--note-mark-green);
+        }
+
+        .markdown-note .mark-blue {
+            background-color: var(--note-mark-blue);
+        }
+
+        .markdown-note .mark-red {
+            background-color: var(--note-mark-red);
+        }
+
+        .markdown-note .mark-purple {
+            background-color: var(--note-mark-purple);
+        }
+
+        /* 提示框样式 */
+        .markdown-note .note-tip {
+            background-color: var(--note-bg-primary);
+            border-left: 4px solid var(--note-border-primary);
+            padding: 1em;
+            margin: 1em 0;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+
+        .markdown-note .note-warning {
+            background-color: var(--note-bg-warning);
+            border-left: 4px solid var(--note-border-warning);
+        }
+
+        .markdown-note .note-danger {
+            background-color: var(--note-bg-danger);
+            border-left: 4px solid var(--note-border-danger);
+        }
+
+        .markdown-note .note-info {
+            background-color: var(--note-bg-info);
+            border-left: 4px solid var(--note-border-info);
+        }
+
+        .markdown-note .note-success {
+            background-color: var(--note-bg-success);
+            border-left: 4px solid var(--note-border-success);
+        }
+
+        /* 仪表盘样式 */
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        .dashboard-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background-color: var(--primary-light);
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .dashboard-item:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--box-shadow);
+        }
+
+        .dashboard-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            margin-right: 10px;
+            color: var(--primary-color);
+        }
+
+        .dashboard-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .dashboard-label {
+            font-size: 13px;
+            color: var(--text-light);
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .dashboard-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        /* 移动端适配优化 */
+        @media (max-width: 1024px) {
+            .dashboard {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .dashboard-item:nth-last-child(-n+2) {
+                grid-column: span 1.5;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: repeat(2, 1fr);
+                padding: 10px;
+                gap: 8px;
+            }
+
+            .dashboard-item:nth-last-child(-n+2) {
+                grid-column: span 1;
+            }
+
+            .dashboard-item {
+                padding: 8px;
+            }
+
+            .dashboard-icon {
+                width: 32px;
+                height: 32px;
+                margin-right: 8px;
+            }
+
+            .dashboard-label {
+                font-size: 12px;
+            }
+
+            .dashboard-value {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .dashboard {
+                grid-template-columns: repeat(3, 1fr);
+                grid-template-rows: auto auto;
+            }
+
+            .dashboard-item:nth-child(4),
+            .dashboard-item:nth-child(5) {
+                grid-column: span 1.5;
+            }
+        }
     </style>
     <!-- 引入Markdown和Mermaid库 -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
@@ -1806,6 +2387,22 @@
                             <option value="">加载中...</option>
                         </select>
                     </div>
+                    <!-- 添加远程仓库配置部分 -->
+                    <div class="control-group">
+                        <button onclick="toggleRepoConfig()" class="secondary" id="repoConfigBtn">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                            </svg>
+                            远程仓库配置
+                        </button>
+                        <button onclick="showRepoHelp()" class="secondary" title="使用说明">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
                 <div class="io-buttons">
                     <button onclick="loadOnlineJson()" id="loadOnlineJsonButton" class="fade-in">
@@ -1830,13 +2427,13 @@
                     </div>
 
                     <div class="control-group">
-                        <label for="modeSelect">模式:</label>
-                        <select id="modeSelect">
-                            <option value="sequential">顺序刷题</option>
-                            <option value="random">随机刷题</option>
-                            <option value="wrong">错题练习</option>
-                            <option value="range">指定范围</option>
-                        </select>
+                        <button class="question-overview-button" id="importModeButton" title="刷题模式" aria-label="刷题模式">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 3v3m0 12v3M3 12h3m12 0h3M5.636 5.636l2.122 2.122m8.484 8.484l2.122 2.122M5.636 18.364l2.122-2.122m8.484-8.484l2.122-2.122"></path>
+                            </svg>
+                            刷题模式
+                        </button>
                     </div>
 
                     <div id="rangeControls" class="control-group" style="display:none;">
@@ -1847,9 +2444,6 @@
                     </div>
                 </div>
 
-                <div class="data-summary" id="dataSummary">
-                    暂无数据，请先导入题库文件
-                </div>
                 <div class="io-buttons">
                     <button onclick="startQuiz()" id="startButton" disabled class="scale-in">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -1858,6 +2452,68 @@
                         </svg>
                         开始刷题
                     </button>
+                </div>
+
+                <div class="dashboard">
+                    <div class="dashboard-item">
+                        <div class="dashboard-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                            </svg>
+                        </div>
+                        <div class="dashboard-info">
+                            <div class="dashboard-label">总章节数</div>
+                            <div class="dashboard-value" id="totalChapters">0</div>
+                        </div>
+                    </div>
+                    <div class="dashboard-item">
+                        <div class="dashboard-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                                <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                            </svg>
+                        </div>
+                        <div class="dashboard-info">
+                            <div class="dashboard-label">总题目数</div>
+                            <div class="dashboard-value" id="totalQuestions">0</div>
+                        </div>
+                    </div>
+                    <div class="dashboard-item">
+                        <div class="dashboard-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <path d="M12 6v6l4 2"></path>
+                            </svg>
+                        </div>
+                        <div class="dashboard-info">
+                            <div class="dashboard-label">已答题数</div>
+                            <div class="dashboard-value" id="answeredQuestions">0</div>
+                        </div>
+                    </div>
+                    <div class="dashboard-item">
+                        <div class="dashboard-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                            </svg>
+                        </div>
+                        <div class="dashboard-info">
+                            <div class="dashboard-label">正确题数</div>
+                            <div class="dashboard-value" id="correctQuestions">0</div>
+                        </div>
+                    </div>
+                    <div class="dashboard-item">
+                        <div class="dashboard-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                            </svg>
+                        </div>
+                        <div class="dashboard-info">
+                            <div class="dashboard-label">正确率</div>
+                            <div class="dashboard-value" id="accuracyRate">0%</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1873,22 +2529,15 @@
                 </div>
 
                 <div class="control-group">
-                    <label for="quizModeSelect">模式:</label>
-                    <select id="quizModeSelect">
-                        <option value="sequential">顺序刷题</option>
-                        <option value="random">随机刷题</option>
-                        <option value="wrong">错题练习</option>
-                        <option value="range">指定范围</option>
-                    </select>
+                    <button class="question-overview-button" id="quizModeButton" title="刷题模式" aria-label="刷题模式">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 3v3m0 12v3M3 12h3m12 0h3M5.636 5.636l2.122 2.122m8.484 8.484l2.122 2.122M5.636 18.364l2.122-2.122m8.484-8.484l2.122-2.122"></path>
+                        </svg>
+                        刷题模式
+                    </button>
                 </div>
 
-                <div id="quizRangeControls" class="control-group" style="display:none;">
-                    <input type="number" id="quizRangeStart" placeholder="起始题号" min="1">
-                    <span>-</span>
-                    <input type="number" id="quizRangeEnd" placeholder="结束题号" min="1">
-                </div>
-
-                <button onclick="applySettings()">应用设置</button>
                 <button onclick="toggleQuestionOverview()" class="question-overview-button" title="题目总览">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
@@ -1909,35 +2558,27 @@
                 </div>
 
                 <div class="control-item">
-                    <select id="mobileModeSelect" class="select-styled">
-                        <option value="sequential">顺序刷题</option>
-                        <option value="random">随机刷题</option>
-                        <option value="wrong">错题练习</option>
-                        <option value="range">指定范围</option>
-                    </select>
+                    <button class="question-overview-button" id="mobileModeButton" title="刷题模式" aria-label="刷题模式">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 3v3m0 12v3M3 12h3m12 0h3M5.636 5.636l2.122 2.122m8.484 8.484l2.122 2.122M5.636 18.364l2.122-2.122m8.484-8.484l2.122-2.122"></path>
+                        </svg>
+                        刷题模式
+                    </button>
                 </div>
 
-                <div id="mobileRangeControls" class="range-controls" style="display:none;">
-                    <input type="number" id="mobileRangeStart" placeholder="起始" min="1" class="range-input">
-                    <span class="range-separator">-</span>
-                    <input type="number" id="mobileRangeEnd" placeholder="结束" min="1" class="range-input">
+                <div class="control-item">
+                    <button onclick="toggleQuestionOverview()" class="question-overview-button" title="题目总览">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="9" y1="3" x2="9" y2="21"></line>
+                            <line x1="15" y1="3" x2="15" y2="21"></line>
+                            <line x1="3" y1="9" x2="21" y2="9"></line>
+                            <line x1="3" y1="15" x2="21" y2="15"></line>
+                        </svg>
+                        题目总览
+                    </button>
                 </div>
-
-                <button class="btn-apply" onclick="applyMobileSettings()">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                </button>
-
-                <button onclick="toggleQuestionOverview()" class="btn-overview" title="题目总览">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                        <line x1="9" y1="3" x2="9" y2="21"></line>
-                        <line x1="15" y1="3" x2="15" y2="21"></line>
-                        <line x1="3" y1="9" x2="21" y2="9"></line>
-                        <line x1="3" y1="15" x2="21" y2="15"></line>
-                    </svg>
-                </button>
             </div>
 
             <div class="question-container" id="questionContainer">
@@ -1946,89 +2587,112 @@
                 </div>
                 <ul class="options" id="optionsList"></ul>
                 <div class="result hidden" id="result"></div>
-            </div>
 
-            <div class="navigation-buttons">
-                <!-- 按照移动端要求的顺序排列按钮: 提交答案, 下一题, 下一题, 交卷, 返回 -->
-                <div class="navigation-right">
-                    <button onclick="submitAnswer()" id="submitButton">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <polyline points="20 6 9 17 4 12"></polyline>
-                        </svg>
-                        提交答案
-                        <span class="btn-key-hint">空格</span>
-                    </button>
+                <div class="navigation-buttons">
+                    <!-- 按照移动端要求的顺序排列按钮: 提交答案, 下一题, 下一题, 交卷, 返回 -->
+                    <div class="navigation-right">
+                        <button onclick="submitAnswer()" id="submitButton">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            提交答案
+                            <span class="btn-key-hint">空格</span>
+                        </button>
 
-                    <button onclick="nextQuestion()" id="nextButton" class="success" disabled>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <path d="M5 12h14M12 5l7 7-7 7" />
-                        </svg>
-                        下一题
-                        <span class="btn-key-hint">空格</span>
-                    </button>
-                </div>
-
-                <div class="navigation-left">
-                    <button class="danger" onclick="submitQuiz()" id="submitQuizButton">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                        </svg>
-                        交卷
-                    </button>
-
-                    <button class="secondary" onclick="previousQuestion()" id="prevButton" disabled>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M19 12H5M12 19l-7-7 7-7" />
-                        </svg>
-                        上一题
-                    </button>
-
-                    <button class="secondary" onclick="redoQuiz()">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M23 4v6h-6"></path>
-                            <path d="M1 20v-6h6"></path>
-                            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10"></path>
-                            <path d="M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
-                        </svg>
-                        重做
-                    </button>
-                </div>
-            </div>
-
-            <div class="progress-container">
-                <div class="progress-text" id="progressText">进度: 0/0</div>
-                <div class="progress-bar-container">
-                    <div class="progress-bar" id="progressBar" style="width: 0%"></div>
-                </div>
-                <div class="accuracy" id="accuracyText">正确率: 0%</div>
-            </div>
-
-            <!-- 笔记部分 -->
-            <div class="notes-section" id="notesSection">
-                <div class="notes-title">
-                    <h3>笔记</h3>
-                    <button onclick="toggleNotesEditor()" id="editNotesBtn">编辑</button>
-                </div>
-                <div id="notesDisplay" class="notes-content markdown-body"></div>
-                <div id="notesEditor" class="hidden">
-                    <div class="markdown-toolbar">
-                        <button onclick="insertMarkdown('**粗体**')">粗体</button>
-                        <button onclick="insertMarkdown('*斜体*')">斜体</button>
-                        <button onclick="insertMarkdown('# 标题')">标题</button>
-                        <button onclick="insertMarkdown('- 列表项')">列表</button>
-                        <button onclick="insertMarkdown('```\n代码块\n```')">代码块</button>
-                        <button onclick="insertMarkdown('<div style=\'color:red;\'>带样式文本</div>')">CSS样式</button>
-                        <button
-                            onclick="insertMarkdown('```mermaid\ngraph TD;\nA-->B;\nA-->C;\nB-->D;\nC-->D;\n```')">Mermaid图表</button>
+                        <button onclick="nextQuestion()" id="nextButton" class="success" disabled>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7" />
+                            </svg>
+                            下一题
+                            <span class="btn-key-hint">空格</span>
+                        </button>
                     </div>
-                    <textarea id="notesTextarea" class="notes-editor" placeholder="在这里添加笔记..."></textarea>
-                    <button onclick="saveNotes()">保存笔记</button>
+
+                    <div class="navigation-left">
+                        <button class="danger" onclick="submitQuiz()" id="submitQuizButton">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                            </svg>
+                            交卷
+                        </button>
+
+                        <button class="secondary" onclick="previousQuestion()" id="prevButton" disabled>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M19 12H5M12 19l-7-7 7-7" />
+                            </svg>
+                            上一题
+                        </button>
+
+                        <button class="secondary" onclick="redoQuiz()">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M23 4v6h-6"></path>
+                                <path d="M1 20v-6h6"></path>
+                                <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10"></path>
+                                <path d="M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                            </svg>
+                            重做
+                        </button>
+                    </div>
+                </div>
+
+                <div class="progress-container">
+                    <div class="progress-text" id="progressText">进度: 0/0</div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+                    </div>
+                    <div class="accuracy" id="accuracyText">正确率: 0%</div>
+                </div>
+
+                <!-- 笔记部分 -->
+                <div class="notes-section" id="notesSection">
+                    <div class="notes-title">
+                        <h3>笔记</h3>
+                        <div class="notes-actions">
+                            <button id="editNotesBtn" class="secondary" title="编辑笔记" onclick="toggleNotesEditor()">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                </svg>
+                            </button>
+                            <button id="syncNotesBtn" class="secondary" title="同步到GitHub" onclick="syncNotesToGithub()" style="display: none;">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                                </svg>
+                            </button>
+                            <button id="aiGenerateNotesBtn" class="secondary" title="AI自动生成笔记" onclick="generateNotesWithAI()">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                                </svg>
+                            </button>
+                            <button id="apiConfigBtn" class="secondary" title="API配置" onclick="showAPIConfigModal()">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="notesDisplay" class="notes-content markdown-body"></div>
+                    <div id="notesEditor" class="hidden">
+                        <div class="markdown-toolbar">
+                            <button onclick="insertMarkdown('**粗体**')">粗体</button>
+                            <button onclick="insertMarkdown('*斜体*')">斜体</button>
+                            <button onclick="insertMarkdown('# 标题')">标题</button>
+                            <button onclick="insertMarkdown('- 列表项')">列表</button>
+                            <button onclick="insertMarkdown('```\n代码块\n```')">代码块</button>
+                            <button onclick="insertMarkdown('<div style=\'color:red;\'>带样式文本</div>')">CSS样式</button>
+                            <button
+                                onclick="insertMarkdown('```mermaid\ngraph TD;\nA-->B;\nA-->C;\nB-->D;\nC-->D;\n```')">Mermaid图表</button>
+                        </div>
+                        <textarea id="notesTextarea" class="notes-editor" placeholder="在这里添加笔记..."></textarea>
+                        <button onclick="saveNotes()">保存笔记</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -2209,7 +2873,7 @@
                 </div>
 
                 <div class="statistics-section">
-                    <div class="statistics-title">章节得分分析</div>
+                    <div class="statistics-title">章节分析</div>
                     <div class="statistics-card">
                         <div class="chapter-statistics" id="chapterStatisticsList">
                             <!-- 章节统计将通过JavaScript动态生成 -->
@@ -2222,6 +2886,270 @@
                     <button onclick="closeStatisticsModal()" class="secondary">继续</button>
                     <button onclick="backToImport()" class="primary">返回主页</button>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 刷题模式弹窗 -->
+    <div class="modal-overlay" id="modeSettingsModal">
+        <div class="settings-modal">
+            <div class="modal-header">
+                <h2>刷题模式设置</h2>
+                <button class="modal-close" id="closeModeSettings">&times;</button>
+            </div>
+
+            <div class="settings-group">
+                <h3>刷题模式</h3>
+                <div class="setting-item">
+                    <div class="setting-description">
+                        <div class="setting-name">随机刷题</div>
+                        <div class="setting-detail">开启随机顺序刷题模式</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="randomModeToggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-description">
+                        <div class="setting-name">背题模式</div>
+                        <div class="setting-detail">直接显示答案和笔记，用于背题</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="reviewModeToggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-description">
+                        <div class="setting-name">启用范围限制</div>
+                        <div class="setting-detail">只刷指定范围内的题目</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="rangeEnabledToggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="settings-group" id="rangeSettingsGroup" style="display:none;">
+                <h3>范围设置</h3>
+                <div class="setting-item">
+                    <label for="modeRangeStart">起始题号:</label>
+                    <input type="number" id="modeRangeStart" min="1" class="range-input" placeholder="起始题号">
+                </div>
+                <div class="setting-item">
+                    <label for="modeRangeEnd">结束题号:</label>
+                    <input type="number" id="modeRangeEnd" min="1" class="range-input" placeholder="结束题号">
+                </div>
+            </div>
+
+            <button onclick="saveModeSettings()" class="success">
+                保存设置
+            </button>
+        </div>
+    </div>
+
+    <!-- API配置模态框 -->
+    <div class="modal-overlay" id="apiConfigModal">
+        <div class="settings-modal">
+            <div class="modal-header">
+                <h2>API配置</h2>
+                <button class="modal-close" id="closeAPIConfig">&times;</button>
+            </div>
+
+            <div class="api-config-group">
+                <div class="api-config-item">
+                    <label class="api-config-label">API地址</label>
+                    <div class="api-config-description">AI服务的API端点URL</div>
+                    <input type="text" id="aiApiUrl" class="api-input" placeholder="https://api.example.com/v1/chat/completions">
+                </div>
+                
+                <div class="api-config-item">
+                    <label class="api-config-label">API密钥</label>
+                    <div class="api-config-description">访问AI服务所需的密钥</div>
+                    <input type="password" id="aiApiKey" class="api-input" placeholder="sk-...">
+                </div>
+                
+                <div class="api-config-item">
+                    <label class="api-config-label">模型名称</label>
+                    <div class="api-config-description">要使用的AI模型</div>
+                    <input type="text" id="aiModel" class="api-input" placeholder="deepseek-r1-250120">
+                </div>
+            </div>
+
+            <div class="api-config-group">
+                <h3>提示词设置</h3>
+                <div class="api-config-item">
+                    <label class="api-config-label">提示词预设</label>
+                    <div class="api-config-description">选择或自定义AI助手的行为模式</div>
+                    <div class="prompt-controls">
+                        <select id="promptPresetSelect" class="api-input">
+                            <option value="">选择提示词预设...</option>
+                        </select>
+                        <button id="editPresetBtn" onclick="editPromptPreset()" class="secondary" title="编辑当前预设">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                            </svg>
+                        </button>
+                        <button onclick="createNewPreset()" class="success" title="新建预设">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 5v14M5 12h14"/>
+                            </svg>
+                        </button>
+                        <button onclick="deletePromptPreset()" class="danger" title="删除当前预设">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 6h18"></path>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                            </svg>
+                        </button>
+                        <button onclick="saveAsNewPreset()" class="primary" title="另存为新预设">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                                <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                                <polyline points="7 3 7 8 15 8"></polyline>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="api-config-item">
+                    <label class="api-config-label">系统提示词</label>
+                    <div class="api-config-description">定义AI助手的行为和专业领域</div>
+                    <textarea id="aiSystemPrompt" class="api-textarea" placeholder="你是一个医学专家助手，擅长解释医学概念和知识点。"></textarea>
+                </div>
+            </div>
+
+            <div class="api-config-group">
+                <h3>高级设置</h3>
+                <div class="setting-item">
+                    <div class="setting-description">
+                        <div class="setting-name">启用流式输出</div>
+                        <div class="setting-detail">实时显示AI生成的内容</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="streamOutputToggle" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="api-config-item">
+                    <label class="api-config-label">温度</label>
+                    <div class="api-config-description">控制输出的随机性（0-1）</div>
+                    <input type="number" id="temperature" class="api-input" min="0" max="1" step="0.1" value="0.7">
+                </div>
+                <div class="api-config-item">
+                    <label class="api-config-label">Top P</label>
+                    <div class="api-config-description">控制输出的多样性（0-1）</div>
+                    <input type="number" id="topP" class="api-input" min="0" max="1" step="0.1" value="0.9">
+                </div>
+            </div>
+            
+            <div class="api-config-buttons">
+                <button onclick="saveAIAPIConfig()" class="success">保存配置</button>
+                <button onclick="closeModal('apiConfigModal')" class="secondary">取消</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 远程仓库配置模态框 -->
+    <div class="modal-overlay" id="repoConfigModal">
+        <div class="settings-modal">
+            <div class="modal-header">
+                <h2>远程仓库配置</h2>
+                <button class="modal-close" id="closeRepoConfig">&times;</button>
+            </div>
+
+            <div class="api-config-group">
+                <div class="api-config-item">
+                    <label class="api-config-label">GitHub仓库地址</label>
+                    <div class="api-config-description">例如：owner/repository</div>
+                    <input type="text" id="githubRepo" class="api-input" placeholder="例如：username/repo">
+                </div>
+                
+                <div class="api-config-item">
+                    <label class="api-config-label">分支名称</label>
+                    <div class="api-config-description">默认为main或master</div>
+                    <input type="text" id="githubBranch" class="api-input" placeholder="main">
+                </div>
+                
+                <div class="api-config-item">
+                    <label class="api-config-label">题库文件路径</label>
+                    <div class="api-config-description">仓库中题库文件所在的目录</div>
+                    <input type="text" id="githubPath" class="api-input" placeholder="data/">
+                </div>
+                
+                <div class="api-config-item">
+                    <label class="api-config-label">GitHub Token</label>
+                    <div class="api-config-description">用于访问私有仓库或增加API限制</div>
+                    <input type="password" id="githubToken" class="api-input" placeholder="ghp_xxxxxxxxxxxx">
+                </div>
+
+                <div class="api-config-item">
+                    <label class="api-config-label">自动同步</label>
+                    <div class="api-config-description">启用后会自动将笔记同步到远程仓库</div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="autoSyncToggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="api-config-buttons">
+                <button onclick="testGithubConnection()" class="secondary">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                    测试连接
+                </button>
+                <button onclick="saveRepoConfig()" class="success">保存配置</button>
+                <button onclick="closeModal('repoConfigModal')" class="secondary">取消</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 帮助文档模态框 -->
+    <div class="modal-overlay" id="repoHelpModal">
+        <div class="settings-modal">
+            <div class="modal-header">
+                <h2>远程仓库使用说明</h2>
+                <button class="modal-close" id="closeRepoHelp">&times;</button>
+            </div>
+            <div class="markdown-note">
+                <h3>配置说明</h3>
+                <ol>
+                    <li>创建GitHub仓库用于存储题库文件</li>
+                    <li>生成GitHub Personal Access Token:
+                        <ul>
+                            <li>访问GitHub Settings -> Developer settings -> Personal access tokens</li>
+                            <li>点击"Generate new token"</li>
+                            <li>勾选"repo"权限</li>
+                            <li>生成并保存token</li>
+                        </ul>
+                    </li>
+                    <li>在远程仓库配置中填写：
+                        <ul>
+                            <li>仓库地址：你的GitHub用户名/仓库名</li>
+                            <li>分支名称：通常是main或master</li>
+                            <li>题库路径：题库文件存放的目录</li>
+                            <li>GitHub Token：之前生成的token</li>
+                        </ul>
+                    </li>
+                </ol>
+                <h3>使用说明</h3>
+                <ul>
+                    <li>题库文件格式应为JSON格式</li>
+                    <li>启用自动同步后，笔记会自动保存到远程仓库</li>
+                    <li>也可以通过笔记编辑器中的同步按钮手动同步</li>
+                    <li>首次使用请先测试连接以确保配置正确</li>
+                </ul>
+                <h3>注意事项</h3>
+                <ul>
+                    <li>请妥善保管GitHub Token，不要泄露给他人</li>
+                    <li>建议定期备份本地数据</li>
+                    <li>如遇到同步问题，请检查网络连接和Token权限</li>
+                </ul>
             </div>
         </div>
     </div>
@@ -2244,9 +3172,18 @@
         let autoBackup = true;       // 自动备份数据
         let animationEnabled = true; // 启用动画效果
         let allowSkip = false;       // 允许不选择答案进入下一题
-        let showNotesAfterAnswer = false; // 回答后显示笔记
+        let showNotesAfterAnswer = true; // 回答后显示笔记，默认改为true
         let viewWrongAfterAll = false;   // 全部答完后查看错题
         let lockAnswerAfterWrong = false; // 选错后不能更改答案
+        let showProgress = true;       // 显示进度区域
+        let streamOutput = true;       // 启用流式输出，默认为true
+        
+        // 刷题模式变量
+        let randomMode = false;        // 随机刷题模式
+        let rangeEnabled = false;      // 启用范围限制
+        let rangeStart = 1;            // 范围起始题号
+        let rangeEnd = 9999;           // 范围结束题号
+        let reviewMode = false;        // 背题模式
         let answersCache = {};       // 答题缓存，切换章节/模式时刷新
 
         // 滚动事件
@@ -2267,20 +3204,25 @@
             initSettings();
             initMobileUI();
             loadJsonFileList();
+            initAPIConfigModal();
+            initPromptPresets(); // 添加初始化提示词预设
+            initRepoFeatures();
         });
 
         // 初始化移动端UI功能
         function initMobileUI() {
-
             // 移动端设置同步到主设置
             document.getElementById('mobileChapterSelect').addEventListener('change', function () {
                 document.getElementById('quizChapterSelect').value = this.value;
+                // 如果在刷题页面，重新准备题目
+                if (!document.getElementById('quizPage').classList.contains('hidden')) {
+                    prepareQuestions();
+                    loadQuestion();
+                }
             });
 
-            document.getElementById('mobileModeSelect').addEventListener('change', function () {
-                document.getElementById('quizModeSelect').value = this.value;
-                toggleMobileRangeInputs();
-            });
+            // 添加刷题模式按钮事件监听
+            document.getElementById('mobileModeButton').addEventListener('click', toggleModeSettingsModal);
 
             // 初始化左右滑动手势
             initSwipeGesture();
@@ -2325,27 +3267,12 @@
             // 同步原有选择器到移动端
             document.getElementById('mobileChapterSelect').innerHTML = document.getElementById('quizChapterSelect').innerHTML;
             document.getElementById('mobileChapterSelect').value = document.getElementById('quizChapterSelect').value;
-
-            document.getElementById('mobileModeSelect').value = document.getElementById('quizModeSelect').value;
-            document.getElementById('mobileRangeStart').value = document.getElementById('quizRangeStart').value;
-            document.getElementById('mobileRangeEnd').value = document.getElementById('quizRangeEnd').value;
-
-            toggleMobileRangeInputs();
-        }
-
-        // 切换移动端范围输入
-        function toggleMobileRangeInputs() {
-            const mode = document.getElementById('mobileModeSelect').value;
-            document.getElementById('mobileRangeControls').style.display = mode === 'range' ? 'flex' : 'none';
         }
 
         // 应用移动端设置
         function applyMobileSettings() {
             // 同步移动端设置到原设置
             document.getElementById('quizChapterSelect').value = document.getElementById('mobileChapterSelect').value;
-            document.getElementById('quizModeSelect').value = document.getElementById('mobileModeSelect').value;
-            document.getElementById('quizRangeStart').value = document.getElementById('mobileRangeStart').value;
-            document.getElementById('quizRangeEnd').value = document.getElementById('mobileRangeEnd').value;
 
             // 应用设置
             applySettings();
@@ -2372,6 +3299,13 @@
             viewWrongAfterAll = localStorage.getItem('viewWrongAfterAll') === 'true'; // 默认为false
             lockAnswerAfterWrong = localStorage.getItem('lockAnswerAfterWrong') === 'true'; // 默认为false
             showProgress = localStorage.getItem('showProgress') !== 'false'; // 默认为true
+            streamOutput = localStorage.getItem('streamOutput') !== 'false'; // 默认为true
+            
+            // 加载刷题模式设置
+            randomMode = localStorage.getItem('randomMode') === 'true'; // 默认为false
+            rangeEnabled = localStorage.getItem('rangeEnabled') === 'true'; // 默认为false
+            rangeStart = parseInt(localStorage.getItem('rangeStart')) || 1;
+            rangeEnd = parseInt(localStorage.getItem('rangeEnd')) || 9999;
 
             // 设置开关状态
             document.getElementById('autoSubmitToggle').checked = autoSubmit;
@@ -2383,6 +3317,7 @@
             document.getElementById('viewWrongAfterAllToggle').checked = viewWrongAfterAll;
             document.getElementById('lockAnswerAfterWrongToggle').checked = lockAnswerAfterWrong;
             document.getElementById('showProgressToggle').checked = showProgress;
+            document.getElementById('streamOutputToggle').checked = streamOutput;
 
             // 根据动画设置启用/禁用动画类
             if (!animationEnabled) {
@@ -2407,7 +3342,8 @@
             showNotesAfterAnswer = document.getElementById('showNotesAfterAnswerToggle').checked;
             viewWrongAfterAll = document.getElementById('viewWrongAfterAllToggle').checked;
             lockAnswerAfterWrong = document.getElementById('lockAnswerAfterWrongToggle').checked;
-            showProgress = document.getElementById('showProgressToggle').checked
+            showProgress = document.getElementById('showProgressToggle').checked;
+            streamOutput = document.getElementById('streamOutputToggle').checked;
 
             // 保存到本地存储
             localStorage.setItem('autoSubmit', autoSubmit);
@@ -2418,7 +3354,8 @@
             localStorage.setItem('showNotesAfterAnswer', showNotesAfterAnswer);
             localStorage.setItem('viewWrongAfterAll', viewWrongAfterAll);
             localStorage.setItem('lockAnswerAfterWrong', lockAnswerAfterWrong);
-            localStorage.setItem('showProgress', lockAnswerAfterWrong);
+            localStorage.setItem('showProgress', showProgress);
+            localStorage.setItem('streamOutput', streamOutput);
 
             // 关闭设置弹窗
             toggleSettingsModal();
@@ -2462,6 +3399,13 @@
 
             const notesSection = document.getElementById('notesSection');
 
+            // 如果是背题模式，始终显示笔记
+            if (reviewMode) {
+                notesSection.classList.remove('hidden');
+                return;
+            }
+
+            // 非背题模式下，根据设置显示笔记
             if (showNotesAfterAnswer) {
                 // 如果设置为回答后显示笔记
                 if (currentQuestion.userAnswer === currentQuestion.answer) {
@@ -2489,7 +3433,7 @@
             if (savedData) {
                 try {
                     quizData = JSON.parse(savedData);
-                    updateDataSummary();
+                    updateDashboard();
                     initChapters();
                     document.getElementById('startButton').disabled = false;
                     document.getElementById('exportButton').disabled = false;
@@ -2508,7 +3452,7 @@
         }
 
         // 设置JSON文件所在的目录路径
-        const jsonDirectoryPath = 'data/';
+        const jsonDirectoryPath = './data/';
 
         // 在线JSON文件列表
         let onlineJsonFiles = [];
@@ -2516,22 +3460,62 @@
         // 加载在线JSON文件列表
         async function loadJsonFileList() {
             try {
-                // 获取文件列表索引
-                const response = await fetch(jsonDirectoryPath + 'index.json');
-                if (!response.ok) {
-                    throw new Error('无法获取文件列表');
+                const files = [];
+                
+                // 加载本地题库列表
+                try {
+                    const response = await fetch(jsonDirectoryPath + 'index.json');
+                    if (response.ok) {
+                        const localFiles = await response.json();
+                        files.push(...localFiles.map(file => ({
+                            ...file,
+                            type: 'local'
+                        })));
+                    }
+                } catch (error) {
+                    console.warn('加载本地题库列表失败:', error);
                 }
 
-                // 解析文件列表
-                onlineJsonFiles = await response.json();
+                // 如果配置了GitHub，加载GitHub题库列表
+                const githubRepo = localStorage.getItem('github_repo');
+                const githubToken = localStorage.getItem('github_token');
+                const githubPath = localStorage.getItem('github_path');
+                
+                if (githubRepo && githubToken) {
+                    try {
+                        const response = await fetch(`https://api.github.com/repos/${githubRepo}/contents/${githubPath}`, {
+                            headers: {
+                                'Authorization': `token ${githubToken}`
+                            }
+                        });
 
-                // 更新下拉选择框
+                        if (response.ok) {
+                            const githubFiles = await response.json();
+                            const jsonFiles = githubFiles.filter(file => file.name.endsWith('.json'));
+                            files.push(...jsonFiles.map(file => ({
+                                name: file.name,
+                                path: file.download_url,
+                                type: 'github'
+                            })));
+                        }
+                    } catch (error) {
+                        console.warn('加载GitHub题库列表失败:', error);
+                        showToast('加载GitHub题库列表失败: ' + error.message, 'info');
+                    }
+                }
+
+                // 更新题库列表
+                onlineJsonFiles = files;
                 updateOnlineJsonSelect();
 
-                showToast('已加载在线题库列表', 'success');
+                if (files.length > 0) {
+                    showToast('已加载题库列表', 'success');
+                } else {
+                    showToast('未找到可用的题库文件', 'info');
+                }
             } catch (error) {
-                console.error('加载JSON文件列表失败:', error);
-                showToast('加载在线题库列表失败', 'error');
+                console.error('加载题库列表失败:', error);
+                showToast('加载题库列表失败: ' + error.message, 'error');
 
                 // 更新选择器为错误状态
                 const select = document.getElementById('onlineJsonSelect');
@@ -2547,63 +3531,108 @@
             // 添加默认选项
             const defaultOption = document.createElement('option');
             defaultOption.value = '';
-            defaultOption.textContent = '请选择一个在线题库文件';
+            defaultOption.textContent = '请选择一个题库文件';
             select.appendChild(defaultOption);
 
-            // 添加文件选项
-            onlineJsonFiles.forEach(file => {
-                const option = document.createElement('option');
-                option.value = file.path;
-                option.textContent = file.name || file.path.split('/').pop();
-                select.appendChild(option);
-            });
+            // 添加本地题库选项组
+            const localFiles = onlineJsonFiles.filter(file => file.type === 'local');
+            if (localFiles.length > 0) {
+                const localGroup = document.createElement('optgroup');
+                localGroup.label = '默认题库';
+                localFiles.forEach(file => {
+                    const option = document.createElement('option');
+                    option.value = file.path;
+                    option.textContent = file.name;
+                    option.dataset.type = 'local';
+                    localGroup.appendChild(option);
+                });
+                select.appendChild(localGroup);
+            }
+
+            // 添加GitHub题库选项组
+            const githubFiles = onlineJsonFiles.filter(file => file.type === 'github');
+            if (githubFiles.length > 0) {
+                const githubGroup = document.createElement('optgroup');
+                githubGroup.label = 'GitHub题库';
+                githubFiles.forEach(file => {
+                    const option = document.createElement('option');
+                    option.value = file.path;
+                    option.textContent = file.name;
+                    option.dataset.type = 'github';
+                    githubGroup.appendChild(option);
+                });
+                select.appendChild(githubGroup);
+            }
         }
 
-        // 加载选定的在线JSON文件
+        // 修改加载在线JSON文件的函数
         async function loadOnlineJson() {
             const select = document.getElementById('onlineJsonSelect');
-            const selectedFilePath = select.value;
-
-            if (!selectedFilePath) {
+            const selectedOption = select.selectedOptions[0];
+            
+            if (!selectedOption || !selectedOption.value) {
                 showToast('请先选择一个文件', 'error');
                 return;
             }
 
             try {
-                // 显示加载中提示
                 showToast('正在加载题库...', 'info');
 
-                // 获取JSON文件内容
-                const response = await fetch(selectedFilePath);
-                if (!response.ok) {
-                    throw new Error('无法获取文件内容');
+                const fileUrl = selectedOption.value;
+                const fileName = selectedOption.textContent;
+
+                if (selectedOption.dataset.type === 'github') {
+                    // 使用GitHub API获取文件内容
+                    const repo = localStorage.getItem('github_repo');
+                    const token = localStorage.getItem('github_token');
+                    const path = fileUrl.split('/main/')[1]; // 从URL中提取文件路径
+
+                    const response = await fetch(`https://api.github.com/repos/${repo}/contents/${path}`, {
+                        headers: {
+                            'Authorization': `token ${token}`,
+                            'Accept': 'application/vnd.github.v3.raw'
+                        }
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('无法获取文件内容');
+                    }
+
+                    const jsonContent = await response.text();
+                    quizData = JSON.parse(jsonContent);
+                    
+                    // 保存当前文件名到localStorage
+                    localStorage.setItem('current_quiz_filename', fileName);
+                    
+                } else {
+                    // 本地文件的处理保持不变
+                    const response = await fetch(fileUrl);
+                    if (!response.ok) {
+                        throw new Error('无法获取文件内容');
+                    }
+                    const jsonContent = await response.text();
+                    quizData = JSON.parse(jsonContent);
+                    
+                    // 保存当前文件名到localStorage
+                    localStorage.setItem('current_quiz_filename', fileName);
                 }
 
-                // 解析JSON内容
-                const jsonContent = await response.text();
-                quizData = JSON.parse(jsonContent);
-
-                // 保存到本地存储
                 localStorage.setItem('quizData', JSON.stringify(quizData));
 
-                // 更新UI
-                updateDataSummary();
+                updateDashboard();
                 initChapters();
                 document.getElementById('startButton').disabled = false;
                 document.getElementById('exportButton').disabled = false;
 
-                showToast('在线题库加载成功！', 'success');
+                showToast('题库加载成功！', 'success');
             } catch (error) {
-                console.error('加载在线JSON文件失败:', error);
+                console.error('加载题库文件失败:', error);
                 showToast('加载题库失败: ' + error.message, 'error');
             }
         }
 
         // 设置事件监听器
         function setupEventListeners() {
-            document.getElementById('modeSelect').addEventListener('change', toggleRangeInputs);
-            document.getElementById('quizModeSelect').addEventListener('change', toggleQuizRangeInputs);
-
             document.getElementById('fileInput').addEventListener('change', function (e) {
                 const fileName = e.target.files[0] ? e.target.files[0].name : '未选择文件';
                 document.getElementById('fileName').textContent = fileName;
@@ -2612,6 +3641,14 @@
             document.getElementById('jsonFileInput').addEventListener('change', function (e) {
                 const fileName = e.target.files[0] ? e.target.files[0].name : '未选择文件';
                 document.getElementById('jsonFileName').textContent = fileName;
+            });
+
+            // 添加章节选择器的变更事件监听
+            document.getElementById('quizChapterSelect').addEventListener('change', function() {
+                if (!document.getElementById('quizPage').classList.contains('hidden')) {
+                    prepareQuestions();
+                    loadQuestion();
+                }
             });
 
             // 主题切换
@@ -2627,7 +3664,11 @@
             // 统计结果弹窗
             document.getElementById('closeStatistics').addEventListener('click', closeStatisticsModal);
 
-            // 当点击模态框之外的区域时关闭模态框
+            // 刷题模式弹窗
+            document.getElementById('closeModeSettings').addEventListener('click', toggleModeSettingsModal);
+            document.getElementById('rangeEnabledToggle').addEventListener('change', toggleRangeSettingsGroup);
+            
+            // 当点击模态框外部时关闭模态框
             document.getElementById('settingsModal').addEventListener('click', function (e) {
                 if (e.target === this) {
                     toggleSettingsModal();
@@ -2643,6 +3684,12 @@
             document.getElementById('statisticsModal').addEventListener('click', function (e) {
                 if (e.target === this) {
                     closeStatisticsModal();
+                }
+            });
+
+            document.getElementById('modeSettingsModal').addEventListener('click', function (e) {
+                if (e.target === this) {
+                    toggleModeSettingsModal();
                 }
             });
 
@@ -2713,13 +3760,19 @@
 
         // 更新题目总览内容
         function updateQuestionOverview() {
+            const chapterIndex = document.getElementById('quizChapterSelect').value;
             const grid = document.getElementById('questionOverviewGrid');
             grid.innerHTML = '';
 
             questions.forEach((question, index) => {
                 const item = document.createElement('div');
                 item.className = 'question-item';
-                item.textContent = question.number;
+                if (chapterIndex === "all") {
+                    item.textContent = question.id;
+                } else {
+                    item.textContent = question.number;
+                }
+
 
                 // 标记当前题目
                 if (index === currentIndex) {
@@ -2826,7 +3879,7 @@
                     }
 
                     localStorage.setItem('quizData', JSON.stringify(quizData));
-                    updateDataSummary();
+                    updateDashboard();
                     initChapters();
                     document.getElementById('startButton').disabled = false;
                     document.getElementById('exportButton').disabled = false;
@@ -2858,7 +3911,7 @@
                     const jsonContent = event.target.result;
                     quizData = JSON.parse(jsonContent);
                     localStorage.setItem('quizData', JSON.stringify(quizData));
-                    updateDataSummary();
+                    updateDashboard();
                     initChapters();
                     document.getElementById('startButton').disabled = false;
                     document.getElementById('exportButton').disabled = false;
@@ -2988,39 +4041,35 @@
         }
 
         // 更新数据摘要
-        function updateDataSummary() {
+        function updateDashboard() {
             if (!quizData) {
                 return;
             }
 
-            let totalChapters = quizData.chapters.length;
+            const totalChapters = quizData.chapters.length;
             let totalQuestions = 0;
             let answeredQuestions = 0;
-            let correctQuestions = 0;
+            let correctAnswers = 0;
 
             quizData.chapters.forEach(chapter => {
                 totalQuestions += chapter.questions.length;
-
                 chapter.questions.forEach(question => {
                     if (question.userAnswer) {
                         answeredQuestions++;
                         if (question.userAnswer === question.answer) {
-                            correctQuestions++;
+                            correctAnswers++;
                         }
                     }
                 });
             });
 
-            const accuracyRate = answeredQuestions > 0 ? Math.round((correctQuestions / answeredQuestions) * 100) : 0;
+            const correctRate = totalQuestions > 0 ? (correctAnswers / totalQuestions * 100).toFixed(2) : 0;
 
-            document.getElementById('dataSummary').innerHTML = `
-                <div>已导入题库信息：</div>
-                <div>总章节数：${totalChapters}</div>
-                <div>总题目数：${totalQuestions}</div>
-                <div>已答题数：${answeredQuestions}</div>
-                <div>正确题数：${correctQuestions}</div>
-                <div>正确率：${accuracyRate}%</div>
-            `;
+            document.getElementById('totalChapters').textContent = totalChapters;
+            document.getElementById('totalQuestions').textContent = totalQuestions;
+            document.getElementById('answeredQuestions').textContent = answeredQuestions;
+            document.getElementById('correctAnswers').textContent = correctAnswers;
+            document.getElementById('correctRate').textContent = correctRate + '%';
         }
 
         // 初始化章节选择
@@ -3087,18 +4136,7 @@
 
             // 同步设置到测验页面和移动端
             document.getElementById('quizChapterSelect').value = document.getElementById('chapterSelect').value;
-            document.getElementById('quizModeSelect').value = document.getElementById('modeSelect').value;
-            document.getElementById('quizRangeStart').value = document.getElementById('rangeStart').value;
-            document.getElementById('quizRangeEnd').value = document.getElementById('rangeEnd').value;
-
-            // 同步到移动端控件
             document.getElementById('mobileChapterSelect').value = document.getElementById('chapterSelect').value;
-            document.getElementById('mobileModeSelect').value = document.getElementById('modeSelect').value;
-            document.getElementById('mobileRangeStart').value = document.getElementById('rangeStart').value;
-            document.getElementById('mobileRangeEnd').value = document.getElementById('rangeEnd').value;
-
-            toggleQuizRangeInputs();
-            toggleMobileRangeInputs();
 
             // 切换到测验页面
             document.getElementById('importPage').classList.add('hidden');
@@ -3108,6 +4146,10 @@
             // 准备题目并加载第一题
             prepareQuestions();
             loadQuestion();
+
+            // 在开始刷题时记录开始时间
+            localStorage.setItem('quiz_start_time', Date.now().toString());
+            updateDashboard();
         }
 
         function redoQuiz() {
@@ -3132,7 +4174,6 @@
         // 根据设置准备题目
         function prepareQuestions() {
             const chapterIndex = document.getElementById('quizChapterSelect').value;
-            const mode = document.getElementById('quizModeSelect').value;
 
             // 重置答题缓存
             answersCache = {};
@@ -3148,37 +4189,12 @@
             }
 
             // 应用模式过滤
-            if (mode === 'wrong') {
-                // 检查是否需要先完成所有题目
-                if (viewWrongAfterAll) {
-                    // 判断是否所有题目都已回答
-                    const allAnswered = questions.every(q => q.userAnswer !== null);
-                    if (!allAnswered) {
-                        showToast('请先完成所有题目，然后再进入错题练习模式！', 'error');
-                        // 切换到顺序模式
-                        document.getElementById('quizModeSelect').value = 'sequential';
-                        document.getElementById('mobileModeSelect').value = 'sequential';
-                        prepareQuestions(); // 递归调用，使用新的模式
-                        return;
-                    }
+            if (rangeEnabled) {
+                if (chapterIndex === 'all') {
+                    questions = questions.filter(q => q.id >= rangeStart && q.id <= rangeEnd);
+                } else {
+                    questions = questions.filter(q => q.number >= rangeStart && q.number <= rangeEnd);
                 }
-
-                // 过滤出错题
-                questions = questions.filter(q =>
-                    q.userAnswer && q.userAnswer !== q.answer
-                );
-                if (questions.length === 0) {
-                    showToast('当前没有错题记录！', 'info');
-                    // 切换到顺序模式
-                    document.getElementById('quizModeSelect').value = 'sequential';
-                    document.getElementById('mobileModeSelect').value = 'sequential';
-                    prepareQuestions(); // 递归调用，使用新的模式
-                    return;
-                }
-            } else if (mode === 'range') {
-                const start = parseInt(document.getElementById('quizRangeStart').value) || 1;
-                const end = parseInt(document.getElementById('quizRangeEnd').value) || Number.MAX_SAFE_INTEGER;
-                questions = questions.filter(q => q.number >= start && q.number <= end);
 
                 if (questions.length === 0) {
                     showToast('指定范围内没有题目！', 'error');
@@ -3187,11 +4203,15 @@
             }
 
             // 随机模式下打乱题目顺序
-            if (mode === 'random') {
+            if (randomMode) {
                 questions = shuffleArray([...questions]);
             } else {
                 // 其他模式按题号排序
-                questions.sort((a, b) => a.number - b.number);
+                if (chapterIndex === 'all') {
+                    questions.sort((a, b) => a.id - b.id);
+                } else {
+                    questions.sort((a, b) => a.number - b.number);
+                }
             }
 
             // 重置计数器
@@ -3220,7 +4240,11 @@
             document.getElementById('quizPage').classList.add('hidden');
             document.getElementById('importPage').classList.remove('hidden');
             document.getElementById('returnButton').style.display = 'none';
-            updateDataSummary();
+            const modal = document.getElementById('statisticsModal');
+            if (modal.classList.contains('active')) {
+                modal.classList.remove('active');
+            }
+            updateDashboard();
         }
 
         // 加载当前题目
@@ -3234,10 +4258,33 @@
             displayQuestion();
             renderNotes();
 
-            updateNotesVisibility();
+            // 在背题模式下，自动显示正确答案和笔记
+            if (reviewMode) {
+                // 清除选中状态
+                selectedAnswer = null;
+                currentQuestion.userAnswer = null;  // 在背题模式下不保留用户答案
+                
+                // 清除所有选项的选中状态
+                const options = document.querySelectorAll('.option');
+                options.forEach(opt => {
+                    opt.classList.remove('selected', 'correct', 'incorrect');
+                    const optionKeyElement = opt.querySelector('.option-key');
+                    optionKeyElement.classList.remove('correct', 'incorrect');
+                });
+                
+                showCorrectAnswer();
+                document.getElementById('notesSection').classList.remove('hidden');
+                // 禁用所有选项和提交按钮
+                document.getElementById('submitButton').disabled = true;
+                document.getElementById('nextButton').disabled = false;
+                disableAllOptions();
+            } else {
+                updateNotesVisibility();
+            }
+
             updatePrevButtonState();
 
-            if (currentQuestion.userAnswer) {
+            if (currentQuestion.userAnswer || reviewMode) {
                 selectedAnswer = currentQuestion.userAnswer;
 
                 const options = document.querySelectorAll('.option');
@@ -3278,8 +4325,15 @@
         function displayQuestion() {
             if (!currentQuestion) return;
 
-            const questionText = document.getElementById('questionText');
-            questionText.innerHTML = `<span class="question-id">第${currentQuestion.number}题</span> ${currentQuestion.question}`;
+            const chapterIndex = document.getElementById('quizChapterSelect').value;
+            if (chapterIndex == 'all') {
+                const questionText = document.getElementById('questionText');
+                questionText.innerHTML = `<span class="question-id">第${currentQuestion.id}题</span> ${currentQuestion.question}`;
+            } else {
+                const questionText = document.getElementById('questionText');
+                questionText.innerHTML = `<span class="question-id">第${currentQuestion.number}题</span> ${currentQuestion.question}`;
+            }
+
 
             if (animationEnabled) {
                 questionText.classList.remove('slide-up');
@@ -3319,6 +4373,11 @@
 
         // 统一的选项点击处理函数
         function handleOptionClick(event) {
+            // 在背题模式下不响应点击
+            if (reviewMode) {
+                return;
+            }
+            
             const option = event.currentTarget;
             const optionKey = option.getAttribute('data-key');
             selectOption(optionKey, option);
@@ -3333,46 +4392,89 @@
         }
 
         // 渲染笔记
-        function renderNotes() {
+        function renderNotes(content = null, isStreaming = false) {
             const notesDisplay = document.getElementById('notesDisplay');
             const notesTextarea = document.getElementById('notesTextarea');
 
-            // 设置笔记文本
-            let noteContent = currentQuestion.notes || '';
-            notesTextarea.value = noteContent;
-
-            // 渲染Markdown
-            if (noteContent) {
-                // 2. 配置marked选项，使单行换行在渲染后保留
+            // 如果是流式内容,追加显示
+            if (isStreaming && content) {
+                const currentContent = notesTextarea.value;
+                notesTextarea.value = currentContent + content;
+                
+                // 配置marked选项
                 const markedOptions = {
-                    breaks: true,  // 关键设置：使单行换行转换为<br>标签
-                    gfm: true      // 使用GitHub风格的Markdown
+                    breaks: true,
+                    gfm: true,
+                    tables: true,
+                    headerIds: false
                 };
 
-                // 尝试使用选项渲染Markdown
-                try {
-                    notesDisplay.innerHTML = marked.parse(noteContent, markedOptions);
-                } catch (e) {
-                    // 如果直接传递选项出错，尝试设置全局选项（兼容不同版本的marked库）
-                    marked.setOptions(markedOptions);
-                    notesDisplay.innerHTML = marked.parse(noteContent);
-                }
-
-                // 处理并渲染Mermaid图表
-                const mermaidDivs = notesDisplay.querySelectorAll('.language-mermaid');
-                mermaidDivs.forEach((div, index) => {
-                    const mermaidCode = div.textContent;
-                    const mermaidDiv = document.createElement('div');
-                    mermaidDiv.className = 'mermaid';
-                    mermaidDiv.textContent = mermaidCode;
-                    div.parentNode.replaceChild(mermaidDiv, div);
-                });
+                marked.setOptions(markedOptions);
 
                 try {
-                    // 重新初始化所有Mermaid图表
-                    mermaid.init(undefined, '.mermaid');
+                    const wrappedContent = `<div class="markdown-note markdown-body">${marked.parse(notesTextarea.value)}</div>`;
+                    notesDisplay.innerHTML = wrappedContent;
+
+                    // 处理并渲染Mermaid图表
+                    const mermaidDivs = notesDisplay.querySelectorAll('.language-mermaid');
+                    mermaidDivs.forEach((div) => {
+                        const mermaidCode = div.textContent;
+                        const mermaidDiv = document.createElement('div');
+                        mermaidDiv.className = 'mermaid';
+                        mermaidDiv.textContent = mermaidCode;
+                        div.parentNode.replaceChild(mermaidDiv, div);
+                    });
+
+                    try {
+                        mermaid.init(undefined, '.mermaid');
+                    } catch (error) {
+                        console.error('Mermaid初始化失败:', error);
+                    }
+
+                    // 自动滚动到底部
+                    notesDisplay.scrollTop = notesDisplay.scrollHeight;
+                    notesTextarea.scrollTop = notesTextarea.scrollHeight;
                 } catch (error) {
-                    console.error('Mermaid初始化失败:', error);
+                    console.error('Markdown渲染失败:', error);
+                }
+                return;
+            }
+
+            // 非流式显示的原有逻辑
+            let noteContent = content || currentQuestion.notes || '';
+            notesTextarea.value = noteContent;
+
+            if (noteContent) {
+                const markedOptions = {
+                    breaks: true,
+                    gfm: true,
+                    tables: true,
+                    headerIds: false
+                };
+
+                marked.setOptions(markedOptions);
+
+                try {
+                    const wrappedContent = `<div class="markdown-note markdown-body">${marked.parse(noteContent)}</div>`;
+                    notesDisplay.innerHTML = wrappedContent;
+
+                    const mermaidDivs = notesDisplay.querySelectorAll('.language-mermaid');
+                    mermaidDivs.forEach((div) => {
+                        const mermaidCode = div.textContent;
+                        const mermaidDiv = document.createElement('div');
+                        mermaidDiv.className = 'mermaid';
+                        mermaidDiv.textContent = mermaidCode;
+                        div.parentNode.replaceChild(mermaidDiv, div);
+                    });
+
+                    try {
+                        mermaid.init(undefined, '.mermaid');
+                    } catch (error) {
+                        console.error('Mermaid初始化失败:', error);
+                    }
+                } catch (error) {
+                    console.error('Markdown渲染失败:', error);
+                    notesDisplay.innerHTML = '<p class="text-muted">笔记渲染失败</p>';
                 }
             } else {
                 notesDisplay.innerHTML = '<p class="text-muted">这道题目还没有笔记...</p>';
@@ -3386,13 +4488,27 @@
             const editButton = document.getElementById('editNotesBtn');
 
             if (notesEditor.classList.contains('hidden')) {
+                // 切换到编辑模式
                 notesDisplay.classList.add('hidden');
                 notesEditor.classList.remove('hidden');
-                editButton.textContent = '取消';
+                editButton.innerHTML = `
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                `;
+                editButton.title = '取消编辑';
             } else {
+                // 切换回显示模式
                 notesDisplay.classList.remove('hidden');
                 notesEditor.classList.add('hidden');
-                editButton.textContent = '编辑';
+                editButton.innerHTML = `
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                    </svg>
+                `;
+                editButton.title = '编辑笔记';
             }
         }
 
@@ -3412,6 +4528,9 @@
             if (autoBackup && oldNotes !== currentQuestion.notes) {
                 localStorage.setItem('quizData', JSON.stringify(quizData));
                 showToast('笔记已保存并自动备份', 'success');
+                
+                // 如果启用了自动同步，则同步到GitHub
+                autoSyncNotes();
             } else {
                 showToast('笔记已保存', 'success');
             }
@@ -3566,11 +4685,13 @@
             if (autoNext && currentIndex < questions.length - 1) {
                 setTimeout(nextQuestion, 1500);
             }
+
+            // 在答题后更新仪表盘
+            updateDashboard();
         }
 
         // 显示答案结果
         function showResult() {
-            const isCorrect = currentQuestion.userAnswer === currentQuestion.answer;
             const options = document.querySelectorAll('.option');
 
             // 清除所有选项的正确/错误状态
@@ -3582,17 +4703,25 @@
                 option.classList.remove('correct', 'incorrect');
                 optionKeyElement.classList.remove('correct', 'incorrect');
 
-                if (optionKey === currentQuestion.userAnswer) {
-                    // 如果是正确答案
+                // 在背题模式下，只显示正确答案
+                if (reviewMode) {
                     if (optionKey === currentQuestion.answer) {
                         option.classList.add('correct');
                         optionKeyElement.classList.add('correct');
                     }
-
-                    // 如果是用户选择的错误答案
-                    else if (!isCorrect) {
-                        option.classList.add('incorrect');
-                        optionKeyElement.classList.add('incorrect');
+                } else {
+                    // 非背题模式下的正常逻辑
+                    if (optionKey === currentQuestion.userAnswer) {
+                        // 如果是正确答案
+                        if (optionKey === currentQuestion.answer) {
+                            option.classList.add('correct');
+                            optionKeyElement.classList.add('correct');
+                        }
+                        // 如果是用户选择的错误答案
+                        else {
+                            option.classList.add('incorrect');
+                            optionKeyElement.classList.add('incorrect');
+                        }
                     }
                 }
             });
@@ -3716,10 +4845,13 @@
             // 关闭统计弹窗
             closeStatisticsModal();
 
-            // 切换到错题模式
-            document.getElementById('quizModeSelect').value = 'wrong';
-            document.getElementById('mobileModeSelect').value = 'wrong';
-            prepareQuestions();
+            // 过滤出错题
+            questions = questions.filter(q => q.userAnswer && q.userAnswer !== q.answer);
+            if (questions.length === 0) {
+                showToast('当前没有错题记录！', 'info');
+                return;
+            }
+
             currentIndex = 0;
             loadQuestion();
 
@@ -3755,6 +4887,1015 @@
             }
             return array;
         }
+
+        // 保存刷题模式设置
+        function saveModeSettings() {
+            randomMode = document.getElementById('randomModeToggle').checked;
+            reviewMode = document.getElementById('reviewModeToggle').checked;
+            rangeEnabled = document.getElementById('rangeEnabledToggle').checked;
+            rangeStart = parseInt(document.getElementById('modeRangeStart').value) || 1;
+            rangeEnd = parseInt(document.getElementById('modeRangeEnd').value) || 9999;
+
+            // 保存到本地存储
+            localStorage.setItem('randomMode', randomMode);
+            localStorage.setItem('reviewMode', reviewMode);
+            localStorage.setItem('rangeEnabled', rangeEnabled);
+            localStorage.setItem('rangeStart', rangeStart);
+            localStorage.setItem('rangeEnd', rangeEnd);
+
+            // 关闭设置弹窗
+            toggleModeSettingsModal();
+
+            // 如果在刷题页面，重新准备题目
+            if (!document.getElementById('quizPage').classList.contains('hidden')) {
+                prepareQuestions();
+                loadQuestion();
+            }
+
+            // 显示提示
+            showToast('刷题模式已保存', 'success');
+        }
+
+        // 切换刷题模式设置弹窗
+        function toggleModeSettingsModal() {
+            const modal = document.getElementById('modeSettingsModal');
+            modal.classList.toggle('active');
+            
+            // 如果是打开弹窗，则初始化控件状态
+            if (modal.classList.contains('active')) {
+                document.getElementById('randomModeToggle').checked = randomMode;
+                document.getElementById('reviewModeToggle').checked = reviewMode;
+                document.getElementById('rangeEnabledToggle').checked = rangeEnabled;
+                document.getElementById('modeRangeStart').value = rangeStart;
+                document.getElementById('modeRangeEnd').value = rangeEnd;
+                
+                // 控制范围设置区域的显示
+                document.getElementById('rangeSettingsGroup').style.display = rangeEnabled ? 'block' : 'none';
+            }
+        }
+
+        // 根据启用范围设置控制范围输入框的显示
+        function toggleRangeSettingsGroup() {
+            const rangeEnabled = document.getElementById('rangeEnabledToggle').checked;
+            document.getElementById('rangeSettingsGroup').style.display = rangeEnabled ? 'block' : 'none';
+        }
+
+        // 加载设置
+        function loadSettings() {
+            // 加载刷题模式设置
+            randomMode = localStorage.getItem('randomMode') === 'true';
+            reviewMode = localStorage.getItem('reviewMode') === 'true';
+            rangeEnabled = localStorage.getItem('rangeEnabled') === 'true';
+            rangeStart = parseInt(localStorage.getItem('rangeStart')) || 1;
+            rangeEnd = parseInt(localStorage.getItem('rangeEnd')) || 9999;
+
+            // 初始化控件状态
+            document.getElementById('randomModeToggle').checked = randomMode;
+            document.getElementById('reviewModeToggle').checked = reviewMode;
+            document.getElementById('rangeEnabledToggle').checked = rangeEnabled;
+            document.getElementById('modeRangeStart').value = rangeStart;
+            document.getElementById('modeRangeEnd').value = rangeEnd;
+        }
+
+        // 事件监听器添加部分
+        document.getElementById('closeModeSettings').addEventListener('click', toggleModeSettingsModal);
+        document.getElementById('rangeEnabledToggle').addEventListener('change', toggleRangeSettingsGroup);
+        
+        // 当点击模态框外部时关闭模态框
+        document.getElementById('modeSettingsModal').addEventListener('click', function (e) {
+            if (e.target === this) {
+                toggleModeSettingsModal();
+            }
+        });
+
+        const modeButtons = ['importModeButton', 'quizModeButton', 'mobileModeButton'];
+        modeButtons.forEach(buttonId => {
+            const button = document.getElementById(buttonId);
+            if (button) {
+                button.addEventListener('click', toggleModeSettingsModal);
+            }
+        });
+
+        // 添加显示正确答案的函数
+        function showCorrectAnswer() {
+            const options = document.querySelectorAll('.option');
+            options.forEach(option => {
+                const optionKey = option.getAttribute('data-key');
+                const optionKeyElement = option.querySelector('.option-key');
+
+                if (optionKey === currentQuestion.answer) {
+                    option.classList.add('correct');
+                    optionKeyElement.classList.add('correct');
+                }
+            });
+        }
+
+        // AI自动生成笔记
+        async function generateNotesWithAI() {
+            const apiConfig = getAIAPIConfig();
+            
+            // 验证必要的API配置
+            if (!apiConfig.apiUrl || !apiConfig.apiKey) {
+                showToast('请先在API配置中设置API地址和密钥', 'error');
+                showAPIConfigModal(); // 自动打开配置窗口
+                return;
+            }
+
+            // 显示生成中状态
+            const startTime = Date.now();
+            showToast('AI笔记生成中...', 'info', 10000);
+            const generateBtn = document.getElementById('aiGenerateNotesBtn');
+            generateBtn.disabled = true;
+
+            // 创建定时器实时更新耗时
+            const updateTimer = setInterval(() => {
+                const currentTime = Date.now();
+                const duration = ((currentTime - startTime)/1000).toFixed(1);
+                generateBtn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg> (${duration}s)`;
+            }, 100);
+            
+            // 获取当前问题信息
+            const questionData = {
+                question: currentQuestion.question,
+                options: currentQuestion.options,
+                answer: currentQuestion.answer,
+                explanation: currentQuestion.explanation || ""
+            };
+            
+            try {
+                // 构建请求数据
+                const prompt = `请根据以下医学题目生成详细的学习笔记，包括重点知识、相关概念解释和记忆技巧：\n\n问题：${questionData.question}\n\n选项：${JSON.stringify(questionData.options)}\n\n正确答案：${questionData.answer}\n\n解析：${questionData.explanation}`;
+                
+                const requestData = {
+                    model: apiConfig.model,
+                    messages: [
+                        { role: "system", content: apiConfig.systemPrompt },
+                        { role: "user", content: prompt }
+                    ],
+                    stream: localStorage.getItem('streamOutput') !== 'false',
+                    temperature: apiConfig.temperature,
+                    top_p: apiConfig.topP
+                };
+
+                // 修改fetch请求配置
+                const response = await fetch(apiConfig.apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${apiConfig.apiKey}`,
+                        'Accept': 'application/json',
+                        'Access-Control-Allow-Origin': '*',
+                        'Access-Control-Allow-Methods': 'POST',
+                        'Access-Control-Allow-Headers': 'Content-Type, Authorization'
+                    },
+                    mode: 'cors',
+                    body: JSON.stringify(requestData)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API请求失败: ${response.status} ${response.statusText}`);
+                }
+
+                const notesTextarea = document.getElementById('notesTextarea');
+                notesTextarea.value = '';
+                let generatedNote = '';
+
+                if (requestData.stream) {
+                    // 处理流式响应
+                    const reader = response.body.getReader();
+                    const decoder = new TextDecoder();
+                    let buffer = '';
+                    
+                    while (true) {
+                        const { done, value } = await reader.read();
+                        if (done) break;
+                        
+                        buffer += decoder.decode(value, { stream: true });
+                        
+                        // 处理buffer中的每一行
+                        let lines = buffer.split('\n');
+                        buffer = lines.pop() || ''; // 最后一行可能不完整，保留到下一次
+                        
+                        for (const line of lines) {
+                            if (line.startsWith('data: ') && line !== 'data: [DONE]') {
+                                try {
+                                    const data = JSON.parse(line.substring(6));
+                                    if (data.choices && data.choices[0].delta && data.choices[0].delta.content) {
+                                        const content = data.choices[0].delta.content;
+                                        generatedNote += content;
+                                        renderNotes(content, true);
+                                    }
+                                } catch (e) {
+                                    console.error('解析流式响应出错:', e);
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    // 处理普通响应
+                    const data = await response.json();
+                    if (data.choices && data.choices[0] && data.choices[0].message) {
+                        generatedNote = data.choices[0].message.content;
+                        notesTextarea.value = generatedNote;
+                    }
+                }
+                
+                // 更新问题的笔记
+                currentQuestion.notes = generatedNote;
+                renderNotes();
+                
+                // 保存到缓存
+                saveQuestionToCache(currentQuestion);
+                
+                showToast('AI笔记生成完成！', 'success');
+            } catch (error) {
+                console.error('生成笔记出错:', error);
+                showToast('生成笔记失败: ' + error.message, 'error');
+            } finally {
+                // 清除定时器
+                clearInterval(updateTimer);
+                const endTime = Date.now();
+                const duration = ((endTime - startTime)/1000).toFixed(1);
+                generateBtn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg> (${duration}s)`;
+                setTimeout(() => {
+                    generateBtn.disabled = false;
+                    generateBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>';
+                }, 2000);
+            }
+        }
+        
+        // 获取AI API配置
+        function getAIAPIConfig() {
+            return {
+                apiUrl: localStorage.getItem('ai_api_url') || '',
+                apiKey: localStorage.getItem('ai_api_key') || '',
+                model: localStorage.getItem('ai_model') || 'deepseek-r1-250120',
+                systemPrompt: localStorage.getItem('ai_system_prompt') || '你是一个医学专家助手，擅长解释医学概念和知识点。',
+                temperature: parseFloat(localStorage.getItem('ai_temperature')) || 0.7,
+                topP: parseFloat(localStorage.getItem('ai_top_p')) || 0.9
+            };
+        }
+        
+        // 保存AI API配置
+        function saveAIAPIConfig() {
+            const apiUrl = document.getElementById('aiApiUrl').value;
+            const apiKey = document.getElementById('aiApiKey').value;
+            const model = document.getElementById('aiModel').value;
+            const systemPrompt = document.getElementById('aiSystemPrompt').value;
+            
+            localStorage.setItem('ai_api_url', apiUrl);
+            localStorage.setItem('ai_api_key', apiKey);
+            localStorage.setItem('ai_model', model);
+            localStorage.setItem('ai_system_prompt', systemPrompt);
+            
+            showToast('API配置已保存', 'success');
+            closeModal('apiConfigModal');
+        }
+        
+        // 显示API配置模态框
+        function showAPIConfigModal() {
+            const config = getAIAPIConfig();
+            
+            document.getElementById('aiApiUrl').value = config.apiUrl;
+            document.getElementById('aiApiKey').value = config.apiKey;
+            document.getElementById('aiModel').value = config.model;
+            document.getElementById('aiSystemPrompt').value = config.systemPrompt;
+            document.getElementById('streamOutputToggle').checked = localStorage.getItem('streamOutput') !== 'false';
+            document.getElementById('temperature').value = config.temperature;
+            document.getElementById('topP').value = config.topP;
+            
+            // 加载提示词预设
+            loadPromptPresets();
+            
+            // 恢复上次选择的预设
+            const lastSelectedPreset = localStorage.getItem('last_selected_preset');
+            if (lastSelectedPreset) {
+                document.getElementById('promptPresetSelect').value = lastSelectedPreset;
+                loadSelectedPreset(); // 加载预设内容
+            }
+            
+            // 显示模态框
+            const modal = document.getElementById('apiConfigModal');
+            modal.classList.add('active');
+        }
+
+        // 保存问题到缓存
+        function saveQuestionToCache(question) {
+            try {
+                // 创建一个唯一键
+                const cacheKey = `note_cache_${currentMode}_${currentQuiz.chapter}_${question.index}`;
+                localStorage.setItem(cacheKey, JSON.stringify({
+                    timestamp: Date.now(),
+                    notes: question.notes
+                }));
+            } catch (error) {
+                console.error('保存笔记到缓存失败:', error);
+            }
+        }
+
+        // 关闭模态框
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.remove('active');
+            }
+        }
+
+        // 打开模态框
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.add('active');
+            }
+        }
+
+        // 初始化API配置模态框
+        function initAPIConfigModal() {
+            document.getElementById('closeAPIConfig').addEventListener('click', function() {
+                closeModal('apiConfigModal');
+            });
+            
+            document.getElementById('apiConfigModal').addEventListener('click', function (e) {
+                if (e.target === this) {
+                    closeModal('apiConfigModal');
+                }
+            });
+        }
+
+        // 提示词预设相关变量
+        let onlinePromptPresets = []; // 在线预设
+        let localPromptPresets = []; // 本地预设
+        let currentPreset = null;
+
+        // 加载提示词预设列表
+        async function loadPromptPresets() {
+            const select = document.getElementById('promptPresetSelect');
+            select.innerHTML = '';
+
+            // 添加默认选项
+            const defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.textContent = '选择提示词预设...';
+            select.appendChild(defaultOption);
+
+            // 添加在线预设选项组
+            if (onlinePromptPresets.length > 0) {
+                const onlineGroup = document.createElement('optgroup');
+                onlineGroup.label = '在线预设';
+                onlinePromptPresets.forEach(preset => {
+                    const option = document.createElement('option');
+                    option.value = 'online:' + preset.path;
+                    option.textContent = `${preset.name} - ${preset.description}`;
+                    onlineGroup.appendChild(option);
+                });
+                select.appendChild(onlineGroup);
+            }
+
+            // 添加本地预设选项组
+            if (localPromptPresets.length > 0) {
+                const localGroup = document.createElement('optgroup');
+                localGroup.label = '本地预设';
+                localPromptPresets.forEach((preset, index) => {
+                    const option = document.createElement('option');
+                    option.value = 'local:' + index;
+                    option.textContent = `${preset.name} - ${preset.description}`;
+                    localGroup.appendChild(option);
+                });
+                select.appendChild(localGroup);
+            }
+
+            // 监听选择变化
+            select.addEventListener('change', function() {
+                if(this.value) {
+                    loadSelectedPreset();
+                    // 保存当前选择
+                    localStorage.setItem('last_selected_preset', this.value);
+                    showToast('预设已切换', 'success');
+                }
+            });
+        }
+
+        // 更新提示词预设选择器
+        function updatePromptPresetSelect() {
+            const select = document.getElementById('promptPresetSelect');
+            const lastSelected = select.value; // 保存当前选择
+            select.innerHTML = '';
+
+            // 添加默认选项
+            const defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.textContent = '选择提示词预设...';
+            select.appendChild(defaultOption);
+
+            // 添加在线预设选项组
+            if (onlinePromptPresets.length > 0) {
+                const onlineGroup = document.createElement('optgroup');
+                onlineGroup.label = '在线预设';
+                onlinePromptPresets.forEach(preset => {
+                    const option = document.createElement('option');
+                    option.value = 'online:' + preset.path;
+                    option.textContent = `${preset.name} - ${preset.description}`;
+                    onlineGroup.appendChild(option);
+                });
+                select.appendChild(onlineGroup);
+            }
+
+            // 添加本地预设选项组
+            if (localPromptPresets.length > 0) {
+                const localGroup = document.createElement('optgroup');
+                localGroup.label = '本地预设';
+                localPromptPresets.forEach((preset, index) => {
+                    const option = document.createElement('option');
+                    option.value = 'local:' + index;
+                    option.textContent = `${preset.name} - ${preset.description}`;
+                    localGroup.appendChild(option);
+                });
+                select.appendChild(localGroup);
+            }
+
+            // 恢复之前的选择（如果还存在）
+            if (lastSelected && select.querySelector(`option[value="${lastSelected}"]`)) {
+                select.value = lastSelected;
+            } else {
+                // 如果之前的选择不存在，尝试恢复上次保存的选择
+                const savedPreset = localStorage.getItem('last_selected_preset');
+                if (savedPreset && select.querySelector(`option[value="${savedPreset}"]`)) {
+                    select.value = savedPreset;
+                    loadSelectedPreset();
+                }
+            }
+        }
+
+        // 加载选中的提示词预设
+        async function loadSelectedPreset() {
+            const select = document.getElementById('promptPresetSelect');
+            const selectedValue = select.value;
+
+            if (!selectedValue) {
+                return;
+            }
+
+            try {
+                const [type, path] = selectedValue.split(':');
+        if (!type || !path) {
+            showToast('无效的预设选择', 'error');
+            return;
+        }
+                
+                if (type === 'online') {
+                    // 加载在线预设
+                    const response = await fetch(path);
+                    if (!response.ok) {
+                        throw new Error('无法获取在线提示词预设');
+                    }
+                    currentPreset = await response.json();
+                } else if (type === 'local') {
+                    // 加载本地预设
+                    const index = parseInt(path);
+                    currentPreset = localPromptPresets[index];
+                }
+                
+                // 更新表单
+                document.getElementById('aiSystemPrompt').value = currentPreset.system_prompt;
+                document.getElementById('temperature').value = currentPreset.temperature;
+                document.getElementById('topP').value = currentPreset.top_p;
+
+                showToast('已加载提示词预设', 'success');
+            } catch (error) {
+                console.error('加载提示词预设失败:', error);
+                showToast('加载提示词预设失败', 'error');
+            }
+        }
+
+        let isEditing = false;
+
+        // 创建新预设
+        function createNewPreset() {
+            const name = prompt('请输入预设名称：');
+            if (!name) return;
+
+            const description = prompt('请输入预设描述：');
+            if (!description) return;
+
+            const newPreset = {
+                name,
+                description,
+                system_prompt: document.getElementById('aiSystemPrompt').value,
+                temperature: parseFloat(document.getElementById('temperature').value),
+                top_p: parseFloat(document.getElementById('topP').value)
+            };
+
+            localPromptPresets.push(newPreset);
+            localStorage.setItem('local_prompt_presets', JSON.stringify(localPromptPresets));
+            updatePromptPresetSelect();
+            showToast('新预设已创建', 'success');
+        }
+
+        // 保存当前预设
+        function saveCurrentPreset() {
+            const select = document.getElementById('promptPresetSelect');
+            const [type, index] = select.value.split(':');
+            
+            if (type === 'local') {
+                const presetIndex = parseInt(index);
+                localPromptPresets[presetIndex] = {
+                    ...localPromptPresets[presetIndex],
+                    system_prompt: document.getElementById('aiSystemPrompt').value,
+                    temperature: parseFloat(document.getElementById('temperature').value),
+                    top_p: parseFloat(document.getElementById('topP').value)
+                };
+                localStorage.setItem('local_prompt_presets', JSON.stringify(localPromptPresets));
+                showToast('本地预设已更新', 'success');
+            } else {
+                showToast('在线预设不可修改', 'warning');
+            }
+        }
+
+        // 编辑当前预设
+        function editPromptPreset() {
+            const select = document.getElementById('promptPresetSelect');
+            const editButton = document.getElementById('editPresetBtn');
+            const aiSystemPrompt = document.getElementById('aiSystemPrompt');
+            const temperature = document.getElementById('temperature');
+            const topP = document.getElementById('topP');
+
+            if (!select.value) {
+                showToast('请先选择一个提示词预设', 'warning');
+                return;
+            }
+
+            const [type, path] = select.value.split(':');
+            if (type === 'online') {
+                showToast('在线预设不可编辑', 'warning');
+                return;
+            }
+
+            if (!isEditing) {
+                // 进入编辑模式
+                isEditing = true;
+                editButton.classList.add('editing');
+                editButton.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+            <polyline points="17 21 17 13 7 13 7 21"></polyline>
+            <polyline points="7 3 7 8 15 8"></polyline>
+        </svg>`;
+                editButton.title = '保存修改';
+                
+                aiSystemPrompt.removeAttribute('readonly');
+                temperature.removeAttribute('readonly');
+                topP.removeAttribute('readonly');
+            } else {
+                // 保存修改
+                isEditing = false;
+                editButton.classList.remove('editing');
+                editButton.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+        </svg>`;
+                editButton.title = '编辑当前预设';
+
+                aiSystemPrompt.setAttribute('readonly', 'readonly');
+                temperature.setAttribute('readonly', 'readonly');
+                topP.setAttribute('readonly', 'readonly');
+
+                const index = parseInt(path);
+                localPromptPresets[index] = {
+                    ...localPromptPresets[index],
+                    system_prompt: aiSystemPrompt.value,
+                    temperature: parseFloat(temperature.value),
+                    top_p: parseFloat(topP.value)
+                };
+                localStorage.setItem('local_prompt_presets', JSON.stringify(localPromptPresets));
+                showToast('预设修改已保存', 'success');
+            }
+        }
+
+        // 删除当前预设
+        function deletePromptPreset() {
+            const select = document.getElementById('promptPresetSelect');
+            if (!select.value) {
+                showToast('请先选择一个提示词预设', 'error');
+                return;
+            }
+
+            const [type, path] = select.value.split(':');
+            if (type === 'online') {
+                showToast('在线预设不可删除', 'error');
+                return;
+            }
+
+            if (confirm('确定要删除这个提示词预设吗？此操作不可恢复。')) {
+                const index = parseInt(path);
+                localPromptPresets.splice(index, 1);
+                localStorage.setItem('local_prompt_presets', JSON.stringify(localPromptPresets));
+                
+                // 清除最后选择的预设（如果被删除的是最后选择的预设）
+                if (localStorage.getItem('last_selected_preset') === select.value) {
+                    localStorage.removeItem('last_selected_preset');
+                }
+                
+                updatePromptPresetSelect();
+                showToast('预设已删除', 'success');
+            }
+        }
+
+        // 保存为新预设
+        function saveAsNewPreset() {
+            const name = prompt('请输入新预设名称：');
+            if (!name) return;
+
+            const description = prompt('请输入新预设描述：');
+            if (!description) return;
+
+            const newPreset = {
+                name,
+                description,
+                system_prompt: document.getElementById('aiSystemPrompt').value,
+                temperature: parseFloat(document.getElementById('temperature').value),
+                top_p: parseFloat(document.getElementById('topP').value)
+            };
+
+            localPromptPresets.push(newPreset);
+            localStorage.setItem('local_prompt_presets', JSON.stringify(localPromptPresets));
+            
+            // 更新选择器并自动选中新创建的预设
+            updatePromptPresetSelect();
+            const newPresetValue = `local:${localPromptPresets.length - 1}`;
+            document.getElementById('promptPresetSelect').value = newPresetValue;
+            localStorage.setItem('last_selected_preset', newPresetValue);
+            
+            showToast('已另存为新预设', 'success');
+        }
+
+        // 修改保存API配置的函数
+        function saveAIAPIConfig() {
+            const apiUrl = document.getElementById('aiApiUrl').value;
+            const apiKey = document.getElementById('aiApiKey').value;
+            const model = document.getElementById('aiModel').value;
+            const systemPrompt = document.getElementById('aiSystemPrompt').value;
+            const streamOutput = document.getElementById('streamOutputToggle').checked;
+            const temperature = parseFloat(document.getElementById('temperature').value);
+            const topP = parseFloat(document.getElementById('topP').value);
+            
+            localStorage.setItem('ai_api_url', apiUrl);
+            localStorage.setItem('ai_api_key', apiKey);
+            localStorage.setItem('ai_model', model);
+            localStorage.setItem('ai_system_prompt', systemPrompt);
+            localStorage.setItem('streamOutput', streamOutput);
+            localStorage.setItem('ai_temperature', temperature);
+            localStorage.setItem('ai_top_p', topP);
+            
+            showToast('API配置已保存', 'success');
+            closeModal('apiConfigModal');
+        }
+
+        // 修改获取API配置的函数
+        function getAIAPIConfig() {
+            return {
+                apiUrl: localStorage.getItem('ai_api_url') || 'https://ark.cn-beijing.volces.com/api/v3/chat/completions',
+                apiKey: localStorage.getItem('ai_api_key') || '',
+                model: localStorage.getItem('ai_model') || 'deepseek-r1-250120',
+                systemPrompt: localStorage.getItem('ai_system_prompt') || '你是一个医学专家助手，擅长解释医学概念和知识点。',
+                temperature: parseFloat(localStorage.getItem('ai_temperature')) || 0.7,
+                topP: parseFloat(localStorage.getItem('ai_top_p')) || 0.9
+            };
+        }
+
+        // 修改显示API配置模态框的函数
+        function showAPIConfigModal() {
+            const config = getAIAPIConfig();
+            
+            document.getElementById('aiApiUrl').value = config.apiUrl;
+            document.getElementById('aiApiKey').value = config.apiKey;
+            document.getElementById('aiModel').value = config.model;
+            document.getElementById('aiSystemPrompt').value = config.systemPrompt;
+            document.getElementById('streamOutputToggle').checked = streamOutput;
+            document.getElementById('temperature').value = config.temperature;
+            document.getElementById('topP').value = config.topP;
+            
+            // 加载提示词预设
+            loadPromptPresets();
+            
+            // 恢复上次选择的预设
+            const lastSelectedPreset = localStorage.getItem('last_selected_preset');
+            if (lastSelectedPreset) {
+                document.getElementById('promptPresetSelect').value = lastSelectedPreset;
+                loadSelectedPreset(); // 加载预设内容
+            }
+            
+            // 显示模态框
+            const modal = document.getElementById('apiConfigModal');
+            modal.classList.add('active');
+        }
+
+        // 初始化提示词预设
+        async function initPromptPresets() {
+            try {
+                // 加载在线预设列表
+                const response = await fetch('./prompt/index.json');
+                if (!response.ok) {
+                    throw new Error('无法获取在线提示词预设列表');
+                }
+                onlinePromptPresets = await response.json();
+
+                // 加载本地预设
+                const localPresets = localStorage.getItem('local_prompt_presets');
+                if (localPresets) {
+                    localPromptPresets = JSON.parse(localPresets);
+                }
+
+                // 如果没有本地预设，尝试加载默认预设作为第一个本地预设
+                if (!localPromptPresets || localPromptPresets.length === 0) {
+                    try {
+                        const defaultPresetResponse = await fetch('./prompt/medical_expert.json');
+                        if (defaultPresetResponse.ok) {
+                            const defaultPreset = await defaultPresetResponse.json();
+                            localPromptPresets = [defaultPreset];
+                            localStorage.setItem('local_prompt_presets', JSON.stringify(localPromptPresets));
+                        }
+                    } catch (error) {
+                        console.error('加载默认预设失败:', error);
+                        // 创建一个基础的默认预设
+                        const basicPreset = {
+                            name: "基础医学专家",
+                            description: "默认医学专家预设",
+                            system_prompt: "你是一个医学专家助手，擅长解释医学概念和知识点。",
+                            temperature: 0.7,
+                            top_p: 0.9
+                        };
+                        localPromptPresets = [basicPreset];
+                        localStorage.setItem('local_prompt_presets', JSON.stringify(localPromptPresets));
+                    }
+                }
+
+                // 更新提示词预设选择器
+                updatePromptPresetSelect();
+            } catch (error) {
+                console.error('初始化提示词预设失败:', error);
+                showToast('初始化提示词预设失败: ' + error.message, 'info');
+            }
+        }
+
+        // 测试GitHub连接
+        async function testGithubConnection() {
+            const repo = document.getElementById('githubRepo').value;
+            const branch = document.getElementById('githubBranch').value;
+            const path = document.getElementById('githubPath').value;
+            const token = document.getElementById('githubToken').value;
+
+            try {
+                // 只测试仓库访问权限,不上传数据
+                const response = await fetch(`https://api.github.com/repos/${repo}`, {
+                    headers: {
+                        'Authorization': `token ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    const repoData = await response.json();
+                    showToast(`GitHub连接测试成功! 仓库: ${repoData.full_name}`, 'success');
+                } else {
+                    throw new Error(response.statusText);
+                }
+            } catch (error) {
+                console.error('测试GitHub连接出错:', error);
+                showToast('测试GitHub连接失败: ' + error.message, 'error');
+            }
+        }
+
+        // 保存远程仓库配置
+        function saveRepoConfig() {
+            const repo = document.getElementById('githubRepo').value;
+            const branch = document.getElementById('githubBranch').value;
+            const path = document.getElementById('githubPath').value;
+            const token = document.getElementById('githubToken').value;
+            const autoSync = document.getElementById('autoSyncToggle').checked;
+
+            localStorage.setItem('github_repo', repo);
+            localStorage.setItem('github_branch', branch);
+            localStorage.setItem('github_path', path);
+            localStorage.setItem('github_token', token);
+            localStorage.setItem('auto_sync', autoSync);
+
+            showToast('远程仓库配置已保存', 'success');
+            closeModal('repoConfigModal');
+        }
+
+        // 同步笔记到GitHub
+        async function syncNotesToGithub() {
+            const repo = localStorage.getItem('github_repo');
+            let path = localStorage.getItem('github_path');
+            const branch = localStorage.getItem('github_branch');
+            const token = localStorage.getItem('github_token');
+
+            if (!repo || !token) {
+                showToast('请先配置GitHub仓库信息', 'error');
+                return;
+            }
+
+            // 处理路径，确保不以斜杠结尾，并添加文件名
+            path = path.replace(/\/+$/, ''); // 移除末尾的斜杠
+            if (!path.endsWith('.json')) {
+                path = path + '/quiz_data.json'; // 添加默认文件名
+            }
+
+            try {
+                // 获取文件的当前SHA（如果文件存在）
+                let sha;
+                try {
+                    const fileResponse = await fetch(`https://api.github.com/repos/${repo}/contents/${path}`, {
+                        headers: {
+                            'Authorization': `token ${token}`
+                        }
+                    });
+                    if (fileResponse.ok) {
+                        const fileData = await fileResponse.json();
+                        sha = fileData.sha;
+                    }
+                } catch (error) {
+                    console.log('文件可能不存在，将创建新文件');
+                }
+
+                // 准备要上传的内容
+                const content = JSON.stringify(quizData);
+                // 将内容转换为UTF-8编码的字符串，然后进行Base64编码
+                const encodedContent = btoa(unescape(encodeURIComponent(content)));
+
+                // 准备请求体
+                const requestBody = {
+                    message: "Sync notes",
+                    content: encodedContent,
+                    branch: branch
+                };
+
+                // 如果文件已存在，添加sha
+                if (sha) {
+                    requestBody.sha = sha;
+                }
+
+                const updateResponse = await fetch(`https://api.github.com/repos/${repo}/contents/${path}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(requestBody)
+                });
+
+                if (updateResponse.ok) {
+                    showToast('笔记已成功同步到GitHub！', 'success');
+                } else {
+                    const errorData = await updateResponse.json();
+                    throw new Error(errorData.message || updateResponse.statusText);
+                }
+            } catch (error) {
+                console.error('同步笔记到GitHub出错:', error);
+                showToast('同步笔记到GitHub失败: ' + error.message, 'error');
+            }
+        }
+
+        // 切换远程仓库配置模态框
+        function toggleRepoConfig() {
+            const modal = document.getElementById('repoConfigModal');
+            if (!modal.classList.contains('active')) {
+                // 加载已保存的配置
+                document.getElementById('githubRepo').value = localStorage.getItem('github_repo') || '';
+                document.getElementById('githubBranch').value = localStorage.getItem('github_branch') || 'main';
+                document.getElementById('githubPath').value = localStorage.getItem('github_path') || 'data/';
+                document.getElementById('githubToken').value = localStorage.getItem('github_token') || '';
+                document.getElementById('autoSyncToggle').checked = localStorage.getItem('auto_sync') === 'true';
+            }
+            modal.classList.toggle('active');
+        }
+
+        // 显示帮助文档
+        function showRepoHelp() {
+            const modal = document.getElementById('repoHelpModal');
+            modal.classList.add('active');
+        }
+
+        // 初始化远程仓库功能
+        function initRepoFeatures() {
+            // 添加关闭按钮事件监听
+            document.getElementById('closeRepoConfig').addEventListener('click', () => closeModal('repoConfigModal'));
+            document.getElementById('closeRepoHelp').addEventListener('click', () => closeModal('repoHelpModal'));
+
+            // 点击模态框外部关闭
+            document.getElementById('repoConfigModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeModal('repoConfigModal');
+                }
+            });
+
+            document.getElementById('repoHelpModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeModal('repoHelpModal');
+                }
+            });
+
+            // 检查是否配置了GitHub，显示/隐藏同步按钮
+            updateSyncButtonVisibility();
+        }
+
+        // 更新同步按钮可见性
+        function updateSyncButtonVisibility() {
+            const syncButton = document.getElementById('syncNotesBtn');
+            const hasGithubConfig = localStorage.getItem('github_repo') && localStorage.getItem('github_token');
+            syncButton.style.display = hasGithubConfig ? 'inline-flex' : 'none';
+        }
+
+        // 自动同步笔记
+        function autoSyncNotes() {
+            if (localStorage.getItem('auto_sync') === 'true') {
+                syncNotesToGithub();
+            }
+        }
+
+        // 更新仪表盘数据
+        function updateDashboard() {
+            if (!quizData) return;
+
+            // 计算总章节数
+            const totalChapters = quizData.chapters.length;
+            document.getElementById('totalChapters').textContent = totalChapters;
+
+            // 计算总题目数、已答题数和正确题数
+            let totalQuestions = 0;
+            let answeredQuestions = 0;
+            let correctQuestions = 0;
+
+            quizData.chapters.forEach(chapter => {
+                totalQuestions += chapter.questions.length;
+                chapter.questions.forEach(question => {
+                    if (question.userAnswer) {
+                        answeredQuestions++;
+                        if (question.userAnswer === question.answer) {
+                            correctQuestions++;
+                        }
+                    }
+                });
+            });
+
+            // 更新各个指标
+            document.getElementById('totalQuestions').textContent = totalQuestions;
+            document.getElementById('answeredQuestions').textContent = answeredQuestions;
+            document.getElementById('correctQuestions').textContent = correctQuestions;
+
+            // 计算正确率
+            const accuracyRate = answeredQuestions > 0 ? Math.round((correctQuestions / answeredQuestions) * 100) : 0;
+            document.getElementById('accuracyRate').textContent = `${accuracyRate}%`;
+        }
+
+        // 添加测试API连接的函数
+        async function testAPIConnection() {
+            const apiUrl = document.getElementById('aiApiUrl').value;
+            const apiKey = document.getElementById('aiApiKey').value;
+            
+            if (!apiUrl || !apiKey) {
+                showToast('请先填写API地址和密钥', 'error');
+                return;
+            }
+            
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${apiKey}`,
+                        'Accept': 'application/json'
+                    },
+                    mode: 'cors',
+                    body: JSON.stringify({
+                        model: document.getElementById('aiModel').value,
+                        messages: [
+                            { role: "system", content: "测试连接" },
+                            { role: "user", content: "你好" }
+                        ]
+                    })
+                });
+
+                if (response.ok) {
+                    showToast('API连接测试成功！', 'success');
+                } else {
+                    throw new Error(`API连接失败: ${response.status} ${response.statusText}`);
+                }
+            } catch (error) {
+                console.error('API连接测试失败:', error);
+                showToast('API连接测试失败: ' + error.message, 'error');
+            }
+        }
+
+        // 在API配置模态框的按钮区域添加测试按钮
+        // 在HTML中的api-config-buttons div中添加:
+        /*
+        <button onclick="testAPIConnection()" class="secondary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+            测试连接
+        </button>
+        */
     </script>
 </body>
 
