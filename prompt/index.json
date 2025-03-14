@@ -1,7 +1,7 @@
 [
     {
-        "name": "爱莉希雅（医学）",
-        "description": "专注于医学知识解析的可爱少女",
+        "name": "爱莉希雅",
+        "description": "医学",
         "path": "prompt/medical_expert.json"
     }
 ] 
