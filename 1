@@ -1,0 +1,396 @@
+我将为你的应用添加这些功能。以下是实现方案的逐步说明和代码修改建议：
+
+### 1. 自动拉取功能
+在应用启动时从 GitHub 拉取最新数据。
+
+#### 修改 `initRepoFeatures` 函数
+在页面加载时自动拉取数据：
+
+```javascript
+// 在 <script> 标签内修改 initRepoFeatures 函数
+function initRepoFeatures() {
+    // 现有代码...
+    document.getElementById('closeRepoConfig').addEventListener('click', () => closeModal('repoConfigModal'));
+    document.getElementById('closeRepoHelp').addEventListener('click', () => closeModal('repoHelpModal'));
+
+    // 点击模态框外部关闭
+    document.getElementById('repoConfigModal').addEventListener('click', function (e) {
+        if (e.target === this) closeModal('repoConfigModal');
+    });
+    document.getElementById('repoHelpModal').addEventListener('click', function (e) {
+        if (e.target === this) closeModal('repoHelpModal');
+    });
+
+    // 检查是否配置了 GitHub 并自动拉取
+    updateSyncButtonVisibility();
+    if (localStorage.getItem('github_repo') && localStorage.getItem('github_token')) {
+        fetchDataFromGithub(true); // 启动时自动拉取
+    }
+}
+
+// 新增拉取数据的函数
+async function fetchDataFromGithub(auto = false) {
+    const repo = localStorage.getItem('github_repo');
+    let path = localStorage.getItem('github_path');
+    const branch = localStorage.getItem('github_branch') || 'main';
+    const token = localStorage.getItem('github_token');
+
+    if (!repo || !token) {
+        if (!auto) showToast('请先配置 GitHub 仓库信息', 'error');
+        return;
+    }
+
+    path = path.replace(/\/+$/, '');
+    if (!path.endsWith('.json')) path += '/quiz_data.json';
+
+    try {
+        const response = await fetch(`https://api.github.com/repos/${repo}/contents/${path}?ref=${branch}`, {
+            headers: {
+                'Authorization': `token ${token}`,
+                'Accept': 'application/vnd.github.v3+json'
+            }
+        });
+
+        if (!response.ok) {
+            if (response.status === 404 && !auto) {
+                showToast('远程文件不存在，将使用本地数据', 'info');
+            }
+            return;
+        }
+
+        const data = await response.json();
+        const remoteContent = JSON.parse(decodeURIComponent(escape(atob(data.content))));
+        
+        // 检查本地数据
+        const localData = JSON.parse(localStorage.getItem('quizData') || '{}');
+        
+        if (JSON.stringify(localData) !== JSON.stringify(remoteContent)) {
+            // 数据不同，触发合并流程
+            showMergeModal(localData, remoteContent);
+        } else if (!auto) {
+            showToast('本地数据已是最新版本', 'success');
+        }
+        
+        if (auto) {
+            updateSyncStatus('success');
+        }
+    } catch (error) {
+        console.error('拉取 GitHub 数据失败:', error);
+        if (!auto) showToast('拉取数据失败: ' + error.message, 'error');
+        updateSyncStatus('error');
+    }
+}
+```
+
+#### 在 HTML 中添加调用
+在 `<body>` 标签末尾的脚本中初始化时调用：
+
+```javascript
+document.addEventListener('DOMContentLoaded', () => {
+    initRepoFeatures();
+    // 其他初始化代码...
+});
+```
+
+---
+
+### 2. 数据合并功能
+提供合并选项，避免直接覆盖本地数据。
+
+#### 添加合并模态框 HTML
+在 `<body>` 中添加合并模态框：
+
+```html
+<div id="mergeModal" class="modal-overlay">
+    <div class="settings-modal">
+        <div class="modal-header">
+            <h2>数据合并</h2>
+            <button id="closeMergeModal" class="modal-close">&times;</button>
+        </div>
+        <div class="merge-content">
+            <p class="merge-message">检测到远程数据与本地数据不一致，请选择合并方式：</p>
+            <div class="merge-options">
+                <button id="useLocalBtn" class="btn-primary">使用本地数据</button>
+                <button id="useRemoteBtn" class="btn-primary">使用远程数据</button>
+                <button id="mergeDataBtn" class="btn-primary">合并数据</button>
+            </div>
+            <div class="merge-preview" id="mergePreview"></div>
+        </div>
+    </div>
+</div>
+```
+
+#### 添加合并逻辑
+在 `<script>` 中添加合并相关函数：
+
+```javascript
+function showMergeModal(localData, remoteData) {
+    const modal = document.getElementById('mergeModal');
+    modal.classList.add('active');
+
+    document.getElementById('closeMergeModal').onclick = () => closeModal('mergeModal');
+    modal.onclick = (e) => { if (e.target === modal) closeModal('mergeModal'); };
+
+    document.getElementById('useLocalBtn').onclick = () => {
+        closeModal('mergeModal');
+        showToast('已保留本地数据', 'success');
+        syncNotesToGithub(); // 将本地数据推送到远程
+    };
+
+    document.getElementById('useRemoteBtn').onclick = () => {
+        localStorage.setItem('quizData', JSON.stringify(remoteData));
+        quizData = remoteData;
+        closeModal('mergeModal');
+        showToast('已使用远程数据', 'success');
+        updateDashboard();
+    };
+
+    document.getElementById('mergeDataBtn').onclick = () => {
+        const mergedData = mergeData(localData, remoteData);
+        localStorage.setItem('quizData', JSON.stringify(mergedData));
+        quizData = mergedData;
+        closeModal('mergeModal');
+        showToast('数据已合并', 'success');
+        syncNotesToGithub();
+        updateDashboard();
+    };
+
+    // 显示预览（可选）
+    const preview = document.getElementById('mergePreview');
+    preview.innerHTML = '<strong>本地数据:</strong><br>' + JSON.stringify(localData, null, 2).substring(0, 200) + '...<br><br>' +
+                       '<strong>远程数据:</strong><br>' + JSON.stringify(remoteData, null, 2).substring(0, 200) + '...';
+}
+
+function mergeData(local, remote) {
+    // 简单的合并策略：优先保留有用户答案的数据
+    const merged = { chapters: [] };
+    const localChapters = local.chapters || [];
+    const remoteChapters = remote.chapters || [];
+
+    const allTitles = [...new Set([...localChapters.map(c => c.title), ...remoteChapters.map(c => c.title)])];
+
+    allTitles.forEach(title => {
+        const localChap = localChapters.find(c => c.title === title) || { questions: [] };
+        const remoteChap = remoteChapters.find(c => c.title === title) || { questions: [] };
+        
+        const questions = [];
+        const allQuestions = [...new Set([...localChap.questions.map(q => q.question), ...remoteChap.questions.map(q => q.question)])];
+        
+        allQuestions.forEach(qText => {
+            const localQ = localChap.questions.find(q => q.question === qText);
+            const remoteQ = remoteChap.questions.find(q => q.question === qText);
+            if (localQ && localQ.userAnswer) {
+                questions.push(localQ); // 优先保留本地有用户答案的
+            } else if (remoteQ) {
+                questions.push(remoteQ);
+            } else if (localQ) {
+                questions.push(localQ);
+            }
+        });
+
+        merged.chapters.push({ title, questions });
+    });
+
+    return merged;
+}
+```
+
+---
+
+### 3. 离线队列功能
+当网络断开时，将操作放入队列，恢复连接后自动执行。
+
+#### 添加离线队列 HTML
+在 `<body>` 中添加离线队列显示：
+
+```html
+<div id="offlineQueueModal" class="modal-overlay">
+    <div class="settings-modal">
+        <div class="modal-header">
+            <h2>离线队列</h2>
+            <button id="closeOfflineQueueModal" class="modal-close">&times;</button>
+        </div>
+        <div class="offline-queue-content">
+            <div id="offlineQueueList"></div>
+            <button id="clearQueueBtn" class="btn-danger">清空队列</button>
+        </div>
+    </div>
+</div>
+```
+
+#### 添加离线队列逻辑
+在 `<script>` 中：
+
+```javascript
+let offlineQueue = JSON.parse(localStorage.getItem('offlineQueue') || '[]');
+
+// 保存到离线队列
+function addToOfflineQueue(operation) {
+    offlineQueue.push({
+        timestamp: new Date().toISOString(),
+        operation,
+        data: JSON.stringify(quizData)
+    });
+    localStorage.setItem('offlineQueue', JSON.stringify(offlineQueue));
+    updateSyncStatus('offline');
+    showToast('操作已加入离线队列', 'info');
+}
+
+// 检查网络状态并处理队列
+function processOfflineQueue() {
+    if (navigator.onLine && offlineQueue.length > 0) {
+        showToast('网络已恢复，正在处理离线队列...', 'info');
+        while (offlineQueue.length > 0) {
+            const item = offlineQueue.shift();
+            quizData = JSON.parse(item.data);
+            syncNotesToGithub();
+        }
+        localStorage.setItem('offlineQueue', JSON.stringify(offlineQueue));
+        updateSyncStatus('success');
+        showToast('离线队列已处理完成', 'success');
+    }
+}
+
+// 修改 syncNotesToGithub 函数以支持离线
+async function syncNotesToGithub() {
+    if (!navigator.onLine) {
+        addToOfflineQueue('sync');
+        return;
+    }
+    // 现有同步逻辑...
+    // 在成功同步后更新状态
+    updateSyncStatus('success');
+}
+
+// 显示离线队列
+function showOfflineQueue() {
+    const modal = document.getElementById('offlineQueueModal');
+    modal.classList.add('active');
+    
+    const list = document.getElementById('offlineQueueList');
+    list.innerHTML = offlineQueue.length === 0 ? '<p>队列为空</p>' : '';
+    
+    offlineQueue.forEach((item, index) => {
+        const div = document.createElement('div');
+        div.className = 'queue-item';
+        div.innerHTML = `<span>${item.operation} - ${item.timestamp}</span>`;
+        list.appendChild(div);
+    });
+
+    document.getElementById('closeOfflineQueueModal').onclick = () => closeModal('offlineQueueModal');
+    document.getElementById('clearQueueBtn').onclick = () => {
+        offlineQueue = [];
+        localStorage.setItem('offlineQueue', '[]');
+        list.innerHTML = '<p>队列为空</p>';
+        showToast('离线队列已清空', 'success');
+    };
+}
+
+// 监听网络状态
+window.addEventListener('online', processOfflineQueue);
+window.addEventListener('offline', () => updateSyncStatus('offline'));
+```
+
+---
+
+### 4. 同步状态指示器
+在界面上显示同步状态。
+
+#### 修改 HTML
+在 `<header>` 中添加状态指示器：
+
+```html
+<header>
+    <div class="header-content">
+        <h1>巡夜医学 <span id="syncStatus" class="sync-status offline" title="同步状态"></span></h1>
+    </div>
+    <div class="header-actions">
+        <!-- 现有按钮 -->
+        <button id="showQueueBtn" class="btn-group-item" title="查看离线队列">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 6h18M3 12h18M3 18h18"></path>
+            </svg>
+        </button>
+    </div>
+</header>
+```
+
+#### 添加状态更新逻辑
+在 `<script>` 中：
+
+```javascript
+function updateSyncStatus(status) {
+    const syncStatus = document.getElementById('syncStatus');
+    syncStatus.className = `sync-status ${status}`;
+    syncStatus.title = {
+        'pending': '同步中...',
+        'success': '已同步',
+        'error': '同步失败',
+        'offline': '离线'
+    }[status] || '未知状态';
+}
+
+// 初始化时更新状态
+document.addEventListener('DOMContentLoaded', () => {
+    updateSyncStatus(navigator.onLine ? 'success' : 'offline');
+    document.getElementById('showQueueBtn').onclick = showOfflineQueue;
+});
+```
+
+---
+
+### 5. 定期自动同步
+设置定时器定期同步数据。
+
+#### 添加定期同步逻辑
+在 `<script>` 中：
+
+```javascript
+let syncInterval;
+
+// 开始定期同步
+function startAutoSync() {
+    const interval = 1000 * 60 * 5; // 每5分钟
+    if (syncInterval) clearInterval(syncInterval);
+    syncInterval = setInterval(() => {
+        if (navigator.onLine && localStorage.getItem('auto_sync') === 'true') {
+            syncNotesToGithub();
+        }
+    }, interval);
+}
+
+// 修改 initRepoFeatures 以启动定期同步
+function initRepoFeatures() {
+    // 现有代码...
+    updateSyncButtonVisibility();
+    if (localStorage.getItem('github_repo') && localStorage.getItem('github_token')) {
+        fetchDataFromGithub(true);
+        startAutoSync();
+    }
+}
+
+// 在保存配置时重新启动定时器
+function saveRepoConfig() {
+    // 现有代码...
+    localStorage.setItem('github_repo', repo);
+    localStorage.setItem('github_branch', branch);
+    localStorage.setItem('github_path', path);
+    localStorage.setItem('github_token', token);
+    localStorage.setItem('auto_sync', autoSync);
+
+    showToast('远程仓库配置已保存', 'success');
+    closeModal('repoConfigModal');
+    startAutoSync(); // 保存后重启定时器
+}
+```
+
+---
+
+### 完整实现说明
+1. **自动拉取**: 应用启动时通过 `fetchDataFromGithub` 检查远程数据。
+2. **数据合并**: 当本地与远程数据不同时，显示合并模态框，提供三种选择。
+3. **离线队列**: 网络断开时将操作加入队列，恢复时自动执行。
+4. **同步状态**: 通过圆点指示器显示当前同步状态。
+5. **定期同步**: 每5分钟检查并同步一次（可调整）。
+
+这些功能的 CSS 样式已包含在你的原始文档中（`.sync-status`, `.offline-queue-content` 等），无需额外修改样式。你可以根据需要调整时间间隔或合并策略。
