@@ -12,10 +12,10 @@
         /* 主题变量 - 支持亮色/暗色模式 */
         :root {
             /* 核心颜色系统 - 更加协调的主色调 */
-            --primary-color: #4468ee;
-            --heading-color: #5a6bf2;
+            --primary-color: #5164f4;
+            --heading-color: #7684ef;
             --primary-light: rgba(68, 104, 238, 0.12);
-            --secondary-color: #3a42d5;
+            --secondary-color: #5a6bf2;
             --tertiary-color: rgba(155, 175, 245, 0.12);
             --success-color: #36b991;
             --success-bg: rgba(54, 185, 145, 0.12);
@@ -72,12 +72,16 @@
             --note-code-text: #2d2d35;
             --note-code-border: #edf0f7;
 
-            /* 笔记表格样式 - 优化对比 */
-            --note-table-header-bg: #f0f4ff;
-            --note-table-header-text: #2a2a30;
-            --note-table-border: #e5eaf6;
-            --note-table-stripe: #f8faff;
-            --note-table-bg: #ffffff;
+            /* 亮色主题变量 */
+            --table-border: #f0f0f0;
+            --table-shadow: rgba(0, 0, 0, 0.05);
+            --table-header-bg: #f9f3e9;
+            --table-header-text: #7b6c63;
+            --table-header-border: #e8d9c5;
+            --table-cell-border: #f5efe8;
+            --table-text: #5a5a5a;
+            --table-bg: #ffffff;
+            --table-stripe-bg: #fdfaf6;
 
             /* 笔记引用块样式 - 提高层次感 */
             --note-quote-bg: rgba(68, 104, 238, 0.08);
@@ -104,8 +108,10 @@
             --card-bg: #ffffff;
             --text-color: #2a2a30;
             --text-light: #5a5a68;
-            --key-color: rgba(0, 0, 0, 0.15);
-            --btn-key-color: rgba(255, 255, 255, 0.85);
+            --key-color: rgba(0, 0, 0, 0.2);
+            --bg-key-color: rgba(255, 255, 255, 0.8);
+            --btn-key-color: rgba(255, 255, 255, 0.8);
+            --bg-btn-key-color: transform;
             --border-color: #eaeef8;
 
             /* UI 样式变量 - 提高精致度 */
@@ -121,57 +127,58 @@
             --note-link-markdown: #2a4dd1;
             --note-mark-markdown-bg: rgba(58, 86, 212, 0.12);
             --note-mark-markdown: #2a4dd1;
+            --note-hr-markdown: rgba(0, 0, 0, 0.2);
 
             /* Mermaid 变量 - 优化图表视觉 */
             --mermaid-bg: #ffffff;
-            --mermaid-primary: #f8f9fa;
-            --mermaid-secondary: #eef1f8;
-            --mermaid-tertiary: #e5e9f0;
-            --mermaid-text: #2a2a30;
-            --mermaid-line: #4468ee;
-            --mermaid-node-bg: #ffffff;
-            --mermaid-node-border: #b0b8c8;
-            --mermaid-cluster-bg: #f8f9fa;
-            --mermaid-cluster-border: rgba(0, 0, 0, 0.1);
-            --mermaid-label-bg: #ffffff;
-            --mermaid-label-border: #e5e9f0;
+            --mermaid-primary: #e7eef7;
+            --mermaid-secondary: #d9e4f2;
+            --mermaid-tertiary: #c6d6e9;
+            --mermaid-text: #3a4a5e;
+            --mermaid-line: #8ba3c7;
+            --mermaid-node-bg: #f7faff;
+            --mermaid-node-border: #a8bcda;
+            --mermaid-cluster-bg: #e7eef7;
+            --mermaid-cluster-border: rgba(124, 151, 187, 0.3);
+            --mermaid-label-bg: #f7faff;
+            --mermaid-label-border: #d1e0f0;
 
             /* 字体设置 */
             --font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
-
-            /* 同步状态样式 */
-            --sync-pending: #f5a623;
-            --sync-success: #36b991;
-            --sync-error: #e54960;
-            --sync-offline: #607d8b;
         }
 
-        /* 同步状态指示器 */
-        .sync-status {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            margin-left: 5px;
-            background-color: var(--sync-offline);
-            transition: background-color 0.3s ease;
+        /* 同步状态指示器 - WiFi样式 */
+        button.btn-group-item.sync-status {
+            background-color: transparent;
+            color: var(--text-color);
+            background: none;
         }
 
-        .sync-status.pending {
-            background-color: var(--sync-pending);
-            animation: pulse 1.5s infinite;
+        button.btn-group-item.sync-status.offline {
+            color: var(--text-color);
+            opacity: 0.5;
         }
 
-        .sync-status.success {
-            background-color: var(--sync-success);
+        button.btn-group-item.sync-status.success {
+            color: var(--success-color);
         }
 
-        .sync-status.error {
-            background-color: var(--sync-error);
+        button.btn-group-item.sync-status.error {
+            color: var(--danger-color);
         }
 
-        .sync-status.offline {
-            background-color: var(--sync-offline);
+        button.btn-group-item.sync-status.pending {
+            color: var(--warning-color);
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         /* 离线队列样式 */
@@ -241,15 +248,15 @@
         /* 暗色模式样式 */
         [data-theme="dark"] {
             /* 核心颜色系统 - 优化暗色体验 */
-            --primary-color: #7a8ef5;
-            --heading-color: #8da2f7;
-            --primary-light: rgba(122, 142, 245, 0.15);
-            --secondary-color: #8e94f2;
-            --tertiary-color: rgba(142, 148, 242, 0.1);
-            --success-color: #4ecaa0;
-            --success-bg: rgba(78, 202, 160, 0.15);
-            --danger-color: #e87685;
-            --danger-bg: rgba(232, 118, 133, 0.15);
+            --primary-color: #f39c12;
+            --heading-color: #f5b041;
+            --primary-light: rgba(128, 128, 128, 0.15);
+            --secondary-color: #b47e3c;
+            --tertiary-color: rgba(109, 109, 109, 0.15);
+            --success-color: #36a18c;
+            --success-bg: rgba(62, 181, 135, 0.2);
+            --danger-color: #9e414f;
+            --danger-bg: rgba(214, 95, 110, 0.2);
             --surface-card: var(--card-bg);
             --surface-bg: var(--bg-color);
 
@@ -268,7 +275,7 @@
             --note-cyan: #4cd2e4;
 
             /* 笔记文本颜色 - 提高暗色下可读性 */
-            --note-text-primary: #f5f8fb;
+            --note-text-primary: #E6E1E3;
             --note-text-secondary: #cbd4dd;
             --note-text-light: #a5aeba;
             --note-text-highlight: #9facf9;
@@ -296,16 +303,21 @@
             --note-border-info: #6abcf8;
 
             /* 笔记代码块样式 - 暗色下代码更清晰 */
-            --note-code-bg: #2a2d3e;
-            --note-code-text: #edf2f7;
+            --note-code-bg: rgba(255, 255, 255, 0.1);
+            --note-code-text: #E6E1E3;
             --note-code-border: #3c3f52;
 
-            /* 笔记表格样式 - 暗色下表格更有层次 */
-            --note-table-header-bg: #33354a;
-            --note-table-header-text: #edf2f7;
-            --note-table-border: #3f4255;
-            --note-table-stripe: #2e303f;
-            --note-table-bg: #292b3a;
+            /* 暗色主题变量 */
+            --table-border: #2d3544;
+            --table-shadow: rgba(0, 0, 0, 0.3);
+            --table-header-bg: #212836;
+            --table-header-text: #6d8ac7;
+            --table-header-border: #364156;
+            --table-cell-border: #2d3544;
+            --table-text: #c0c7d8;
+            --table-bg: rgba(26, 29, 38, 0.6);
+            --table-stripe-bg: rgba(33, 37, 48, 0.6);
+            --table-title-color: #6d8ac7;
 
             /* 笔记引用块样式 - 暗色下引用更突出 */
             --note-quote-bg: rgba(122, 142, 245, 0.12);
@@ -328,12 +340,14 @@
             --note-chart-info: #6abcf8;
 
             /* 背景和文本颜色 - 暗色护眼模式 */
-            --bg-color: #1e2030;
-            --card-bg: #282a3a;
-            --text-color: #edf2f7;
+            --bg-color: #252628;
+            --card-bg: #313337;
+            --text-color: #E6E1E3;
             --text-light: #b4bec9;
             --key-color: rgba(255, 255, 255, 0.45);
             --btn-key-color: rgba(255, 255, 255, 0.8);
+            --bg-key-color: transform;
+            --bg-btn-key-color: transform;
             --border-color: #3f4255;
 
             /* UI 样式变量 - 调整暗色下的阴影效果 */
@@ -348,20 +362,21 @@
             --note-link-markdown: #b5d1ff;
             --note-mark-markdown-bg: rgba(111, 139, 228, 0.15);
             --note-mark-markdown: #b5d1ff;
+            --note-hr-markdown: rgba(255, 255, 255, 0.2);
 
-            /* Mermaid 深色变量 - 优化图表效果 */
-            --mermaid-bg: #282a3a;
-            --mermaid-primary: #33354a;
-            --mermaid-secondary: #3f4255;
-            --mermaid-tertiary: #4a4e63;
-            --mermaid-text: #edf2f7;
-            --mermaid-line: #7a8ef5;
-            --mermaid-node-bg: #33354a;
-            --mermaid-node-border: #4a4e63;
-            --mermaid-cluster-bg: #282a3a;
-            --mermaid-cluster-border: rgba(255, 255, 255, 0.2);
-            --mermaid-label-bg: #33354a;
-            --mermaid-label-border: #4a4e63;
+            /* Mermaid 深色变量 - 手帐风格暗色 */
+            --mermaid-bg: #24252D;
+            --mermaid-primary: #212831;
+            --mermaid-secondary: #2b3548;
+            --mermaid-tertiary: #384057;
+            --mermaid-text: #e2e8f0;
+            --mermaid-line: #64748b;
+            --mermaid-node-bg: #2d3748;
+            --mermaid-node-border: #4a5568;
+            --mermaid-cluster-bg: #1e2430;
+            --mermaid-cluster-border: rgba(226, 232, 240, 0.15);
+            --mermaid-label-bg: #2d3748;
+            --mermaid-label-border: #4a5568;
 
             /* 字体设置 */
             --font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
@@ -374,37 +389,68 @@
             border: 1px solid #363748;
         }
 
-        /* Mermaid图表样式 - 控制大小和外观 */
+        /* Mermaid图表样式 - 手帐风格 */
         .mermaid {
-            max-width: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
             overflow-x: auto;
-            background-color: var(--mermaid-bg);
-            padding: 1em;
-            border-radius: var(--border-radius);
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            background-color: var(--mermaid-bg) !important;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--mermaid-tertiary);
         }
 
         /* 限制Mermaid图表中的SVG大小 */
         .mermaid svg {
             max-width: 100%;
             height: auto !important;
-            font-family: var(--font-family);
         }
 
-        /* 调整Mermaid图表中的文本大小 */
+        /* 调整Mermaid图表中的文本大小和样式 */
         .mermaid .label {
             font-size: 16px !important;
         }
 
-        /* 调整Mermaid节点大小 */
+        /* 调整Mermaid节点样式为手帐风格 */
         .mermaid .node rect,
         .mermaid .node circle,
         .mermaid .node ellipse,
         .mermaid .node polygon,
         .mermaid .node path {
             fill: var(--mermaid-node-bg);
-            stroke: var(--mermaid-node-border);
-            stroke-width: 1px;
+            stroke: var(--mermaid-node-border) !important;
+            stroke-width: 1.5px !important;
+            rx: 6px;
+            ry: 6px;
+        }
+
+        /* 添加手帐风格的线条 */
+        .mermaid .edgePath .path {
+            stroke: var(--mermaid-line) !important;
+            stroke-width: 1.5px !important;
+            stroke-dasharray: 3, 3;
+        }
+
+        /* 调整箭头样式 */
+        .mermaid .arrowheadPath {
+            fill: var(--mermaid-line) !important;
+            stroke: none !important;
+        }
+
+        /* 集群样式调整 */
+        .mermaid .cluster rect {
+            fill: var(--mermaid-cluster-bg) !important;
+            stroke: var(--mermaid-cluster-border) !important;
+            stroke-width: 1.5px !important;
+            rx: 8px;
+            ry: 8px;
+        }
+
+        /* 手帐风格的标签 */
+        .mermaid .edgeLabel {
+            background-color: var(--mermaid-bg) !important;
+            padding: 2px 4px;
         }
 
         /* 基础样式 */
@@ -498,7 +544,7 @@
         }
 
         h2 {
-            color: var(--secondary-color);
+            color: var(--primary-color);
             font-size: 22px;
             margin: 0px 0 15px;
         }
@@ -610,35 +656,41 @@
             background-color: var(--danger-color);
         }
 
-        .btn-primary {
-            background-color: var(--primary-color);
-            color: #ffffff;
+        .btn-primary button {
+            background-color: var(--primary-color) !important;
+            color: #ffffff !important;
+            text-align: center;
         }
 
-        .btn-secondary {
-            background-color: var(--secondary-color);
-            color: #ffffff;
+        button.btn-primary-light {
+            background-color: var(--primary-light) !important;
+            color: var(--text-color);
         }
 
-        .btn-success {
-            background-color: var(--success-color);
+        .btn-secondary button {
+            background-color: var(--secondary-color) !important;
+            color: #ffffff !important;
         }
 
-        .btn-danger {
-            background-color: var(--danger-color);
+        button.btn-secondary {
+            background-color: var(--secondary-color) !important;
+            color: #ffffff !important;
+        }
+
+        button.btn-success {
+            background-color: var(--success-color) !important;
+        }
+
+        button.btn-danger {
+            background-color: var(--danger-color) !important;
         }
 
         /* 布局组件 */
-        .import-section,
-        .quiz-section {
-            margin-bottom: 30px;
-        }
 
         .controls {
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
-            margin-bottom: 20px;
             padding: 15px;
             background-color: var(--primary-light);
             border-radius: var(--border-radius);
@@ -708,6 +760,7 @@
 
         /* 问题和选项样式 */
         .question-container {
+            margin-top: 15px;
             margin-bottom: 25px;
             animation: fadeIn 0.5s ease;
         }
@@ -726,7 +779,7 @@
 
         .question-id {
             font-weight: 700;
-            color: var(--primary-color);
+            color: var(--heading-color);
             margin-right: 8px;
         }
 
@@ -871,7 +924,7 @@
 
         .accuracy {
             font-weight: 700;
-            color: var(--primary-color);
+            color: var(--heading-color);
         }
 
         /* 导航按钮 */
@@ -941,7 +994,6 @@
             border: 1px solid var(--border-color);
             border-radius: var(--border-radius);
             resize: vertical;
-            font-family: inherit;
             background-color: var(--card-bg);
             color: var(--text-color);
             transition: var(--transition);
@@ -966,7 +1018,7 @@
         .toggle-switch {
             position: relative;
             display: inline-block;
-            width: 50px;
+            width: 42px;
             height: 24px;
         }
 
@@ -985,16 +1037,16 @@
             bottom: 0;
             background-color: var(--text-light);
             transition: .4s;
-            border-radius: 8px;
+            border-radius: 15px;
         }
 
         .slider:before {
             position: absolute;
             content: "";
-            height: 18px;
-            width: 18px;
-            left: 3px;
-            bottom: 3px;
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
             background-color: white;
             transition: .4s;
             border-radius: 8px;
@@ -1005,7 +1057,7 @@
         }
 
         input:checked+.slider:before {
-            transform: translateX(26px);
+            transform: translateX(18px);
         }
 
         /* 导入/导出按钮 */
@@ -1014,6 +1066,11 @@
             gap: 10px;
             margin-top: 15px;
             flex-wrap: wrap;
+        }
+
+        .io-buttons button {
+            background-color: var(--primary-light);
+            color: var(--text-color);
         }
 
         /* 模态框样式 */
@@ -1173,8 +1230,8 @@
         .shortcut-hint,
         .key-hint {
             display: inline-block;
-            background-color: var(--primary-light);
-            color: var(--text-color);
+            background-color: var(--bg-key-color);
+            color: var(--key-color);
             padding: 3px 8px;
             border-radius: 8px;
             font-size: 12px;
@@ -1187,6 +1244,7 @@
             display: inline-block;
             padding: 2px 7px;
             color: var(--btn-key-color);
+            background-color: var(--bg-btn-key-color);
             border-radius: 8px;
             margin-left: 5px;
             font-size: 12px;
@@ -1231,8 +1289,8 @@
         }
 
         /* 题目总览 */
-        .question-overview-button {
-            margin-left: 10px;
+        button.question-overview-button {
+            margin-left: 5px;
             min-width: auto;
             padding: 8px 12px;
             display: inline-flex;
@@ -1372,7 +1430,6 @@
         /* Markdown渲染和编辑 */
         .markdown-body {
             color: var(--note-text-markdown);
-            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
             line-height: 1.8;
             transition: var(--transition);
         }
@@ -1392,9 +1449,13 @@
         }
 
         .markdown-body hr {
-            text-align: center !important;
-            background-color: var(--key-color) !important;
-            margin: 0 auto 16px auto !important;
+            display: inline-flex;
+            width: 70%;
+            margin: 0 auto 16px auto;
+            border: none;
+            /* 移除原有边框 */
+            height: 1px;
+            background: linear-gradient(to right, var(--note-hr-markdown), transparent);
         }
 
         .markdown-body a {
@@ -1408,14 +1469,14 @@
             background-color: var(--note-code-markdown);
             padding: 2px 4px;
             border-radius: 8px;
-            font-family: monospace;
             color: var(--note-text-markdown);
             transition: var(--transition);
         }
 
         .markdown-body pre {
-            background-color: var(--note-code-bg);
-            padding: 10px;
+            background-color: transparent;
+            margin: 0;
+            padding: 0;
             border-radius: var(--border-radius);
             overflow: auto;
             transition: var(--transition);
@@ -1424,7 +1485,6 @@
         .markdown-body pre code {
             background-color: transparent;
             padding: 0;
-            font-family: 'Microsoft YaHei Mono', Monaco, 'Noto Sans Mono CJK SC', 'Courier New', monospace;
             white-space: pre;
             display: block;
             line-height: 1.4;
@@ -1457,52 +1517,63 @@
             margin-bottom: 8px !important;
         }
 
-        .markdown-body table {
-            border-collapse: collapse;
-            width: auto;
-            min-width: 50%;
-            max-width: 100%;
-            margin: 16px 0 !important;
-            border: 1px solid var(--note-table-border);
-            border-radius: 4px;
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 25px 0;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px var(--table-shadow);
+            font-size: 14px;
             overflow: hidden;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--table-border);
         }
 
-        .markdown-body th {
-            padding: 10px 12px;
-            text-align: left;
+        th {
+            background-color: var(--table-header-bg);
+            color: var(--table-header-text);
             font-weight: 600;
-            background-color: var(--note-table-header-bg);
-            color: var(--note-table-header-text);
-            border-bottom: 2px solid var(--note-table-border);
-            position: relative;
-        }
-
-        .markdown-body td {
-            padding: 10px 12px;
             text-align: left;
-            border-bottom: 1px solid var(--note-table-border);
-            transition: var(--transition);
+            padding: 14px 18px;
+            border-bottom: 2px dashed var(--table-header-border);
+            letter-spacing: 0.5px;
         }
 
-        .markdown-body tr:nth-child(even) {
-            background-color: var(--note-table-stripe);
-            transition: var(--transition);
+        td {
+            padding: 12px 18px;
+            border-bottom: 1px solid var(--table-cell-border);
+            vertical-align: middle;
+            color: var(--table-text);
         }
 
-        .markdown-body tr:nth-child(odd) {
-            background-color: var(--note-table-bg);
-            transition: var(--transition);
+        tr {
+            background-color: var(--table-bg);
+            transition: background-color 0.3s ease;
         }
 
-        .markdown-body tr:last-child td {
+        tr:nth-child(even) {
+            background-color: var(--table-stripe-bg);
+        }
+
+        tr:last-child td {
             border-bottom: none;
         }
 
-        .markdown-body img {
-            max-width: 100%;
-            height: auto;
+        /* 首尾行圆角处理 */
+        th:first-child {
+            border-top-left-radius: 10px;
+        }
+
+        th:last-child {
+            border-top-right-radius: 10px;
+        }
+
+        tr:last-child td:first-child {
+            border-bottom-left-radius: 10px;
+        }
+
+        tr:last-child td:last-child {
+            border-bottom-right-radius: 10px;
         }
 
         .markdown-body mark {
@@ -1515,7 +1586,6 @@
         .markdown-note {
             color: var(--note-text-primary);
             line-height: 1.8;
-            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
             padding: 1em;
         }
 
@@ -1540,20 +1610,18 @@
             color: var(--note-code-text);
             padding: 0.2em 0.4em;
             border-radius: 8px;
-            font-family: monospace;
         }
 
         .markdown-note pre {
-            background-color: var(--note-code-bg);
+            background-color: transparent;
+            padding: 0;
             border: 1px solid var(--note-code-border);
-            padding: 1em;
             border-radius: var(--border-radius);
             overflow-x: auto;
-            margin: 1em 0;
+            margin: 0;
         }
 
         .markdown-note pre code {
-            font-family: 'Microsoft YaHei Mono', Monaco, 'Noto Sans Mono CJK SC', 'Courier New', monospace;
             white-space: pre;
             display: block;
             line-height: 1.4;
@@ -1571,27 +1639,6 @@
         .markdown-note pre code:has(table) {
             letter-spacing: 0;
             font-size: 14px;
-        }
-
-        .markdown-note table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 1em 0;
-            font-size: 0.95em;
-        }
-
-        .markdown-note table[border="1"] {
-            border: 1px solid var(--note-gray);
-        }
-
-        .markdown-note th,
-        .markdown-note td {
-            padding: 8px 12px;
-            border: 1px solid var(--note-gray);
-        }
-
-        .markdown-note th {
-            font-weight: 600;
         }
 
         .markdown-note blockquote {
@@ -1865,7 +1912,6 @@
         .api-textarea {
             resize: vertical;
             min-height: 100px;
-            font-family: inherit;
         }
 
         .api-config-group {
@@ -1963,10 +2009,6 @@
                 text-align: center;
             }
 
-            .import-section .control-group {
-                margin-bottom: 10px;
-            }
-
             .control-group {
                 display: flex;
                 align-items: center;
@@ -2001,7 +2043,6 @@
                 padding: 10px;
                 background-color: var(--primary-light);
                 border-radius: 8px;
-                margin-bottom: 15px;
                 overflow-x: auto;
                 box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
             }
@@ -2353,10 +2394,6 @@
                 font-size: 12px;
                 padding: 0.5em;
             }
-
-            .markdown-note pre {
-                margin: 0.5em 0;
-            }
         }
 
         @media (max-width: 480px) {
@@ -2466,7 +2503,7 @@
     <div class="container">
         <header>
             <div class="header-content">
-                <h1>巡夜医学 <span id="syncStatus" class="sync-status offline" title="同步状态"></span></h1>
+                <h1>巡夜医学</h1>
             </div>
             <div class="header-actions" style="left: 0; right: auto;">
                 <button class="btn-group-item" id="returnButton" title="返回" aria-label="返回" onclick="backToImport()"
@@ -2482,11 +2519,6 @@
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                         stroke-linecap="round" stroke-linejoin="round">
                         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                </button>
-                <button id="showQueueBtn" class="btn-group-item" title="查看离线队列">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M3 6h18M3 12h18M3 18h18"></path>
                     </svg>
                 </button>
                 <button class="btn-group-item" id="settingsToggle" title="设置" aria-label="设置">
@@ -2605,13 +2637,10 @@
                 <h2>刷题设置</h2>
                 <div class="controls">
                     <div class="control-group">
-                        <select id="chapterSelect">
+                        <select id="chapterSelect" class="select-styled">
                             <option value="all">全部章节</option>
                         </select>
-                    </div>
-
-                    <div class="control-group">
-                        <button class="question-overview-button" id="importModeButton" title="刷题模式" aria-label="刷题模式">
+                        <button id="importModeButton" title="刷题模式" aria-label="刷题模式" class="btn-primary-light">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path
@@ -2630,12 +2659,8 @@
                     </div>
                 </div>
 
-                <div class="io-buttons">
-                    <button onclick="startQuiz()" id="startButton" disabled class="scale-in center-on-mobile">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                        </svg>
+                <div class="io-buttons btn-secondary">
+                    <button onclick="startQuiz()" id="startButton" class="scale-in center-on-mobile">
                         开始刷题
                     </button>
                 </div>
@@ -2721,7 +2746,8 @@
                 </div>
 
                 <div class="control-group">
-                    <button class="question-overview-button" id="quizModeButton" title="刷题模式" aria-label="刷题模式">
+                    <button class="question-overview-button btn-primary-light" id="quizModeButton" title="刷题模式"
+                        aria-label="刷题模式">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path
@@ -2730,41 +2756,9 @@
                         </svg>
                         刷题模式
                     </button>
-                </div>
 
-                <button onclick="toggleQuestionOverview()" class="question-overview-button" title="题目总览">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                        <line x1="9" y1="3" x2="9" y2="21"></line>
-                        <line x1="15" y1="3" x2="15" y2="21"></line>
-                        <line x1="3" y1="9" x2="21" y2="9"></line>
-                        <line x1="3" y1="15" x2="21" y2="15"></line>
-                    </svg>
-                    题目总览
-                </button>
-            </div>
-
-            <div class="mobile-controls-bar">
-                <div class="control-item">
-                    <select id="mobileChapterSelect" class="select-styled">
-                        <option value="all">全部章节</option>
-                    </select>
-                </div>
-
-                <div class="control-item">
-                    <button class="question-overview-button" id="mobileModeButton" title="刷题模式" aria-label="刷题模式">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path
-                                d="M12 3v3m0 12v3M3 12h3m12 0h3M5.636 5.636l2.122 2.122m8.484 8.484l2.122 2.122M5.636 18.364l2.122-2.122m8.484-8.484l2.122-2.122">
-                            </path>
-                        </svg>
-                        刷题模式
-                    </button>
-                </div>
-
-                <div class="control-item">
-                    <button onclick="toggleQuestionOverview()" class="question-overview-button" title="题目总览">
+                    <button onclick="toggleQuestionOverview()" class="question-overview-button btn-primary-light"
+                        title="题目总览">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="2">
                             <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
@@ -2774,6 +2768,39 @@
                             <line x1="3" y1="15" x2="21" y2="15"></line>
                         </svg>
                         题目总览
+                    </button>
+                </div>
+            </div>
+
+            <div class="mobile-controls-bar">
+                <div class="control-item">
+                    <select id="mobileChapterSelect" class="select-styled">
+                        <option value="all">全部章节</option>
+                    </select>
+
+
+
+                    <button class="question-overview-button btn-primary-light" id="mobileModeButton" title="刷题模式"
+                        aria-label="刷题模式">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M12 3v3m0 12v3M3 12h3m12 0h3M5.636 5.636l2.122 2.122m8.484 8.484l2.122 2.122M5.636 18.364l2.122-2.122m8.484-8.484l2.122-2.122">
+                            </path>
+                        </svg>
+                    </button>
+
+
+                    <button onclick="toggleQuestionOverview()" class="question-overview-button btn-primary-light"
+                        title="题目总览">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="9" y1="3" x2="9" y2="21"></line>
+                            <line x1="15" y1="3" x2="15" y2="21"></line>
+                            <line x1="3" y1="9" x2="21" y2="9"></line>
+                            <line x1="3" y1="15" x2="21" y2="15"></line>
+                        </svg>
                     </button>
                 </div>
             </div>
@@ -2788,7 +2815,7 @@
                 <div class="navigation-buttons">
                     <!-- 按照移动端要求的顺序排列按钮: 提交答案, 下一题, 下一题, 交卷, 返回 -->
                     <div class="navigation-right">
-                        <button onclick="submitAnswer()" id="submitButton">
+                        <button onclick="submitAnswer()" id="submitButton" class="btn-secondary">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2">
                                 <polyline points="20 6 9 17 4 12"></polyline>
@@ -2851,6 +2878,15 @@
                     <div class="notes-title">
                         <h3>笔记</h3>
                         <div class="notes-actions">
+                            <button class="btn-group-item sync-status" onclick="showOfflineQueue()" title="同步状态"
+                                aria-label="同步状态">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path
+                                        d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+                                    </path>
+                                </svg>
+                            </button>
                             <button id="editNotesBtn" class="secondary" title="编辑笔记" onclick="toggleNotesEditor()">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                     stroke-width="2">
@@ -2858,18 +2894,8 @@
                                     <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
                                 </svg>
                             </button>
-                            <button id="syncNotesBtn" class="secondary" title="同步到GitHub" onclick="syncNotesToGithub()"
-                                style="display: none;">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <path
-                                        d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
-                                    </path>
-                                </svg>
-                                <span class="sync-status" id="syncStatus"></span>
-                            </button>
                             <button id="aiGenerateNotesBtn" class="secondary" title="AI自动生成笔记"
-                                onclick="generateNotesWithAI()">
+                                onclick="generateAINotes()">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <polygon points="5 3 19 12 5 21 5 3"></polygon>
@@ -2927,14 +2953,15 @@
                             🔄
                         </button>
                         <select id="fontSelect" class="select-styled">
-                            <option value="'PingFang SC', 'Microsoft YaHei', sans-serif">苹方 / 微软雅黑</option>
-                            <option value="'Noto Sans SC', sans-serif">Noto Sans SC</option>
-                            <option value="'LXGW WenKai', sans-serif">霞鹜文楷</option>
-                            <option value="'JetBrains Mono', monospace">JetBrains Mono</option>
-                            <option value="'Fira Code', monospace">Fira Code</option>
-                            <option value="'IBM Plex Sans', sans-serif">IBM Plex Sans</option>
-                            <option value="'Roboto Mono', monospace">Roboto Mono</option>
-                            <option value="'Sarasa Gothic', sans-serif">更纱黑体</option>
+                            <option value="PingFang SC">苹方 (PingFang SC)</option>
+                            <option value="Microsoft YaHei">微软雅黑 (Microsoft YaHei)</option>
+                            <option value="Noto Sans SC">Noto Sans SC</option>
+                            <option value="LXGW WenKai">霞鹜文楷 (LXGW WenKai)</option>
+                            <option value="JetBrains Mono">JetBrains Mono</option>
+                            <option value="Fira Code">Fira Code</option>
+                            <option value="IBM Plex Sans">IBM Plex Sans</option>
+                            <option value="Roboto Mono">Roboto Mono</option>
+                            <option value="Sarasa Gothic">更纱黑体 (Sarasa Gothic)</option>
                         </select>
                     </div>
                 </div>
@@ -3406,6 +3433,7 @@
             <div class="offline-queue-content">
                 <div id="offlineQueueList"></div>
                 <button id="clearQueueBtn" class="btn-danger">清空队列</button>
+                <button id="syncQueueBtn" class="btn-group-item">清空队列</button>
             </div>
         </div>
     </div>
@@ -3463,6 +3491,202 @@
 
         let offlineQueue = JSON.parse(localStorage.getItem('offlineQueue') || '[]');
 
+
+        // 获取字体URL（如果有配置的话）
+        // 字体URL配置
+        const fontUrls = {
+            'PingFang SC': 'local',
+            'Microsoft YaHei': 'local',
+            'Noto Sans SC': ['https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap'],
+            'LXGW WenKai': ['https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css'],
+            'JetBrains Mono': ['https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5.2.5/index.css'],
+            'Fira Code': ['https://cdn.jsdelivr.net/npm/@fontsource/fira-code@5.2.5/index.css'],
+            'IBM Plex Sans': ['https://cdn.jsdelivr.net/npm/@fontsource/ibm-plex-sans@5.1.1/index.css'],
+            'Roboto Mono': ['https://cdn.jsdelivr.net/npm/@fontsource/roboto-mono@5.2.5/index.css'],
+            'Sarasa Gothic': ['https://static.zeoseven.com/zsft/161/main/result.css']
+        };
+
+        // 字体缓存系统
+        const fontCache = {
+            cache: {},
+            CACHE_DURATION: 7 * 24 * 60 * 60 * 1000,
+
+            init() {
+                try {
+                    const saved = localStorage.getItem('font-cache');
+                    this.cache = saved ? JSON.parse(saved) : {};
+                } catch (e) {
+                    console.warn('初始化字体缓存失败:', e);
+                    this.cache = {};
+                }
+            },
+
+            save() {
+                try {
+                    localStorage.setItem('font-cache', JSON.stringify(this.cache));
+                } catch (e) {
+                    console.warn('保存字体缓存失败:', e);
+                }
+            },
+
+            isCached(fontName) {
+                const entry = this.cache[fontName];
+                return entry && (Date.now() - entry.time < this.CACHE_DURATION) && entry.url;
+            },
+
+            addFont(fontName, url) {
+                this.cache[fontName] = { url, time: Date.now() };
+                this.save();
+            },
+
+            clear() {
+                this.cache = {};
+                localStorage.removeItem('font-cache');
+            }
+        };
+
+        // 加载字体
+        async function loadFont(fontFamily, fontUrl) {
+            if (fontUrl === 'local') {
+                fontCache.addFont(fontFamily, 'local');
+                return true;
+            }
+
+            if (fontCache.isCached(fontFamily)) {
+                applyFont(fontFamily);
+                return true;
+            }
+
+            const loadSingleFont = async (url) => {
+                const link = document.createElement('link');
+                link.rel = 'stylesheet';
+                link.href = url;
+
+                return new Promise((resolve, reject) => {
+                    link.onload = () => resolve(true);
+                    link.onerror = () => reject(new Error(`加载 ${url} 失败`));
+                    document.head.appendChild(link);
+                    setTimeout(() => reject(new Error('字体加载超时')), 5000);
+                });
+            };
+
+            try {
+                const urls = Array.isArray(fontUrl) ? fontUrl : [fontUrl];
+                for (const url of urls) {
+                    try {
+                        await loadSingleFont(url);
+                        await document.fonts.ready;
+                        fontCache.addFont(fontFamily, url);
+                        applyFont(fontFamily);
+                        return true;
+                    } catch (e) {
+                        console.warn(`从 ${url} 加载 ${fontFamily} 失败:`, e);
+                    }
+                }
+                throw new Error('所有字体源均不可用');
+            } catch (e) {
+                console.error(`加载字体 ${fontFamily} 失败:`, e);
+                return false;
+            }
+        }
+
+        // 应用字体
+        function applyFont(fontFamily) {
+            const isMono = ['JetBrains Mono', 'Fira Code', 'Roboto Mono'].includes(fontFamily);
+            const fontStack = `"${fontFamily}", ${isMono ? 'monospace' : '"PingFang SC", "Microsoft YaHei", sans-serif'}`;
+            document.documentElement.style.setProperty('--font-family', fontStack);
+            localStorage.setItem('font-family', fontFamily);
+        }
+
+        // 切换字体
+        async function changeFont(fontFamily) {
+            const cleanFont = fontFamily.trim();
+            showToast('正在加载字体...', 'info');
+
+            if (['PingFang SC', 'Microsoft YaHei'].includes(cleanFont)) {
+                applyFont(cleanFont);
+                showToast('字体切换成功', 'success');
+                return true;
+            }
+
+            const success = await loadFont(cleanFont, fontUrls[cleanFont] || 'local');
+            if (success) {
+                showToast('字体加载成功', 'success');
+            } else {
+                showToast(`加载 ${cleanFont} 失败，已回退到系统字体`, 'error');
+                applyFont('PingFang SC');
+            }
+            return success;
+        }
+
+        // 刷新字体缓存
+        async function refreshFontCache() {
+            const button = document.getElementById('refreshFontBtn');
+            button.innerHTML = '<span class="loading-spinner"></span>';
+            button.disabled = true;
+
+            try {
+                fontCache.clear();
+                const fontSelect = document.getElementById('fontSelect');
+                if (fontSelect?.value) {
+                    await changeFont(fontSelect.value);
+                    showToast('字体缓存刷新成功', 'success');
+                }
+            } catch (e) {
+                showToast('刷新字体缓存失败', 'error');
+                console.error('刷新失败:', e);
+            } finally {
+                button.innerHTML = '🔄';
+                button.disabled = false;
+            }
+        }
+
+        // 初始化字体设置
+        function initFontSettings() {
+            fontCache.init();
+
+            const restoreCachedFonts = () => {
+                Object.entries(fontCache.cache).forEach(([fontName, { url }]) => {
+                    if (url !== 'local' && !document.querySelector(`link[href="${url}"]`)) {
+                        const link = document.createElement('link');
+                        link.rel = 'stylesheet';
+                        link.href = url;
+                        document.head.appendChild(link);
+                    }
+                });
+            };
+
+            const preloadFont = async () => {
+                const savedFont = localStorage.getItem('font-family');
+                if (!savedFont) return;
+
+                const cleanFont = savedFont.trim();
+                applyFont(cleanFont);
+
+                try {
+                    await changeFont(cleanFont);
+                    const fontSelect = document.getElementById('fontSelect');
+                    if (fontSelect) fontSelect.value = cleanFont;
+                } catch (e) {
+                    console.error('预加载字体失败:', e);
+                    applyFont('PingFang SC');
+                }
+            };
+
+            restoreCachedFonts();
+            preloadFont();
+
+            const fontSelect = document.getElementById('fontSelect');
+            if (fontSelect) {
+                fontSelect.addEventListener('change', (e) => changeFont(e.target.value));
+            }
+
+            const refreshBtn = document.getElementById('refreshFontBtn');
+            if (refreshBtn) {
+                refreshBtn.addEventListener('click', refreshFontCache);
+            }
+        }
+
         // 滚动事件
         window.addEventListener('scroll', function () {
             document.body.classList.add('scrolling');
@@ -3488,488 +3712,10 @@
             initFontSettings(); // 添加字体设置初始化
         });
 
-        // 字体缓存管理
-        const fontCache = {
-            // 存储已加载的字体信息
-            loadedFonts: {},
-
-            // 初始化缓存
-            init: function () {
-                // 从localStorage加载缓存信息
-                const cachedFonts = localStorage.getItem('font-cache');
-                if (cachedFonts) {
-                    try {
-                        this.loadedFonts = JSON.parse(cachedFonts);
-                        console.log('已从本地存储加载字体缓存信息', this.loadedFonts);
-                    } catch (e) {
-                        console.error('解析字体缓存信息失败', e);
-                        this.loadedFonts = {};
-                        localStorage.removeItem('font-cache');
-                    }
-                }
-            },
-
-            // 检查字体是否已缓存
-            isCached: function (fontFamily, fontUrl) {
-                return this.loadedFonts[fontFamily] &&
-                    (this.loadedFonts[fontFamily].url === fontUrl ||
-                        (Array.isArray(fontUrl) && this.loadedFonts[fontFamily].url === fontUrl[0]));
-            },
-
-            // 添加字体到缓存
-            addFont: function (fontFamily, fontUrl) {
-                // 如果是数组，只存储第一个URL（成功加载的那个）
-                const urlToStore = Array.isArray(fontUrl) ? fontUrl[0] : fontUrl;
-
-                this.loadedFonts[fontFamily] = {
-                    url: urlToStore,
-                    loadedAt: new Date().toISOString()
-                };
-
-                // 保存到localStorage
-                try {
-                    localStorage.setItem('font-cache', JSON.stringify(this.loadedFonts));
-                } catch (e) {
-                    console.error('保存字体缓存信息失败', e);
-                }
-            },
-
-            // 清除缓存
-            clearCache: function () {
-                this.loadedFonts = {};
-                localStorage.removeItem('font-cache');
-                console.log('字体缓存已清除');
-
-                // 清除已加载的字体
-                try {
-                    // 尝试移除所有非默认字体
-                    if (document.fonts && document.fonts.forEach) {
-                        document.fonts.forEach(font => {
-                            if (font.family !== 'system-ui' && font.family !== '-apple-system') {
-                                document.fonts.delete(font);
-                            }
-                        });
-                    }
-                } catch (e) {
-                    console.warn('清除已加载字体失败', e);
-                }
-
-                return true;
-            }
-        };
 
         // 监听网络状态
         window.addEventListener('online', processOfflineQueue);
         window.addEventListener('offline', () => updateSyncStatus('offline'));
-
-        // 使用FontFace API加载字体
-        function loadFontWithAPI(fontFamily, fontUrl) {
-            return new Promise((resolve, reject) => {
-                // 检查字体是否已缓存
-                if (fontCache.isCached(fontFamily, fontUrl)) {
-                    console.log(`使用缓存的字体: ${fontFamily}`);
-                    // 检查字体是否已加载到document.fonts中
-                    checkFontLoading(fontFamily, (loaded) => {
-                        if (loaded) {
-                            console.log(`缓存的字体 "${fontFamily}" 已可用`);
-                            resolve();
-                        } else {
-                            console.log(`缓存的字体 "${fontFamily}" 需要重新加载`);
-                            // 清除此字体的缓存记录
-                            delete fontCache.loadedFonts[fontFamily];
-                            // 更新localStorage
-                            try {
-                                localStorage.setItem('font-cache', JSON.stringify(fontCache.loadedFonts));
-                            } catch (e) {
-                                console.error('更新字体缓存信息失败', e);
-                            }
-                            // 继续正常加载流程
-                            loadFontNormally();
-                        }
-                    });
-                    return;
-                }
-
-                // 正常加载字体的函数
-                function loadFontNormally() {
-                    // 如果是本地字体，直接应用
-                    if (fontUrl === 'local') {
-                        console.log(`使用本地字体: ${fontFamily}`);
-                        // 直接检查本地字体是否可用
-                        checkFontLoading(fontFamily, (loaded) => {
-                            if (loaded) {
-                                // 添加到缓存
-                                fontCache.addFont(fontFamily, 'local');
-                                resolve();
-                            } else {
-                                // 即使检测不到也不报错，因为可能是系统默认字体
-                                console.warn(`无法确认本地字体 "${fontFamily}" 是否可用，但仍将应用`);
-                                resolve();
-                            }
-                        });
-                        return;
-                    }
-
-                    // 如果有多个备选URL，尝试依次加载
-                    if (Array.isArray(fontUrl)) {
-                        console.log(`尝试多个字体源加载: ${fontFamily}`);
-                        tryLoadFontUrls(fontFamily, fontUrl, 0, (successUrl) => {
-                            // 添加到缓存，记录成功的URL
-                            fontCache.addFont(fontFamily, successUrl);
-                            resolve();
-                        }, reject);
-                        return;
-                    }
-
-                    // 如果是CSS样式表URL，使用link标签加载
-                    if (fontUrl && fontUrl.endsWith('.css')) {
-                        const link = document.createElement('link');
-                        link.rel = 'stylesheet';
-                        link.href = fontUrl;
-                        link.onload = () => {
-                            // 给字体一些时间加载
-                            setTimeout(() => {
-                                checkFontLoading(fontFamily, (loaded) => {
-                                    if (loaded) {
-                                        // 添加到缓存
-                                        fontCache.addFont(fontFamily, fontUrl);
-                                        resolve();
-                                    } else {
-                                        console.warn(`字体样式表已加载，但无法确认字体 "${fontFamily}" 是否可用，仍将应用`);
-                                        resolve(); // 即使检测不到也不报错，避免阻塞UI
-                                    }
-                                });
-                            }, 500);
-                        };
-                        link.onerror = () => {
-                            console.error(`加载字体样式表失败: ${fontUrl}`);
-                            reject(new Error('加载字体样式表失败'));
-                        };
-                        document.head.appendChild(link);
-                        return;
-                    }
-
-                    // 如果是Google Fonts URL，需要先获取实际的字体文件URL
-                    if (fontUrl && (fontUrl.includes('fonts.googleapis.com') || fontUrl.includes('fonts.loli.net'))) {
-                        fetch(fontUrl)
-                            .then(response => {
-                                if (!response.ok) {
-                                    throw new Error(`加载Google字体CSS失败 (${response.status})`);
-                                }
-                                return response.text();
-                            })
-                            .then(css => {
-                                // 从CSS中提取字体URL
-                                const urlMatch = css.match(/url\(([^)]+)\)/);
-                                if (urlMatch && urlMatch[1]) {
-                                    const actualFontUrl = urlMatch[1].replace(/['\"]/g, '');
-                                    console.log(`从Google Fonts提取到实际字体URL: ${actualFontUrl}`);
-
-                                    try {
-                                        const font = new FontFace(fontFamily, `url(${actualFontUrl})`);
-                                        font.load().then(() => {
-                                            try {
-                                                document.fonts.add(font);
-                                                // 添加到缓存
-                                                fontCache.addFont(fontFamily, fontUrl);
-                                                resolve();
-                                            } catch (e) {
-                                                console.error('添加字体到document.fonts失败', e);
-                                                // 尝试使用CSS回退方式
-                                                useCssFallback(fontFamily, actualFontUrl, resolve, reject);
-                                            }
-                                        }).catch(error => {
-                                            console.error(`加载字体文件失败: ${error.message}`);
-                                            // 尝试使用CSS回退方式
-                                            useCssFallback(fontFamily, actualFontUrl, resolve, reject);
-                                        });
-                                    } catch (error) {
-                                        console.error('FontFace API出错:', error);
-                                        // 尝试使用CSS回退方式
-                                        useCssFallback(fontFamily, actualFontUrl, resolve, reject);
-                                    }
-                                } else {
-                                    console.warn('无法从Google Fonts CSS中提取字体URL');
-                                    // 即使找不到也不报错，可能CSS里有@font-face
-                                    resolve();
-                                }
-                            })
-                            .catch(error => {
-                                console.error(`获取Google字体失败: ${error.message}`);
-                                reject(error);
-                            });
-                        return;
-                    }
-
-                    // 如果没有指定字体URL，检查系统字体
-                    if (!fontUrl) {
-                        checkFontLoading(fontFamily, (loaded) => {
-                            if (loaded) {
-                                // 添加到缓存
-                                fontCache.addFont(fontFamily, null);
-                                resolve();
-                            } else {
-                                console.warn(`系统字体 "${fontFamily}" 不可用`);
-                                reject(new Error('系统字体加载失败'));
-                            }
-                        });
-                        return;
-                    }
-
-                    // 直接加载字体文件URL
-                    try {
-                        const font = new FontFace(fontFamily, `url(${fontUrl})`);
-                        font.load().then(() => {
-                            try {
-                                document.fonts.add(font);
-                                // 添加到缓存
-                                fontCache.addFont(fontFamily, fontUrl);
-                                resolve();
-                            } catch (e) {
-                                console.error('添加字体到document.fonts失败', e);
-                                // 尝试使用CSS回退方式
-                                useCssFallback(fontFamily, fontUrl, resolve, reject);
-                            }
-                        }).catch(error => {
-                            console.error(`加载字体文件失败: ${fontUrl}`, error);
-                            // 尝试使用CSS回退方式
-                            useCssFallback(fontFamily, fontUrl, resolve, reject);
-                        });
-                    } catch (error) {
-                        console.error('FontFace API不受支持或出错:', error);
-                        // 尝试用CSS方式加载
-                        useCssFallback(fontFamily, fontUrl, resolve, reject);
-                    }
-                }
-
-                // CSS回退方式加载字体
-                function useCssFallback(fontFamily, fontUrl, resolve, reject) {
-                    const style = document.createElement('style');
-                    style.textContent = `
-                        @font-face {
-                            font-family: '${fontFamily}';
-                            src: url('${fontUrl}');
-                            font-display: swap;
-                        }
-                    `;
-                    document.head.appendChild(style);
-
-                    // 检查字体是否加载
-                    setTimeout(() => {
-                        checkFontLoading(fontFamily, (loaded) => {
-                            if (loaded) {
-                                // 添加到缓存
-                                fontCache.addFont(fontFamily, fontUrl);
-                                resolve();
-                            } else {
-                                console.warn(`通过CSS加载字体失败: ${fontFamily}`);
-                                reject(new Error('字体加载失败'));
-                            }
-                        });
-                    }, 1000);
-                }
-
-                // 执行正常加载流程
-                loadFontNormally();
-            });
-        }
-
-        // 尝试依次加载多个字体URL
-        function tryLoadFontUrls(fontFamily, urls, index, resolve, reject) {
-            if (index >= urls.length) {
-                reject(new Error('所有字体源都加载失败'));
-                return;
-            }
-
-            const currentUrl = urls[index];
-            console.log(`尝试加载字体源 ${index + 1}/${urls.length}: ${currentUrl}`);
-
-            // 创建一个新的Promise来加载当前URL
-            loadFontWithAPI(fontFamily, currentUrl)
-                .then(() => {
-                    console.log(`字体源 ${index + 1} 加载成功: ${currentUrl}`);
-                    // 如果resolve是函数，传入成功的URL
-                    if (typeof resolve === 'function') {
-                        resolve(currentUrl);
-                    } else {
-                        resolve();
-                    }
-                })
-                .catch(error => {
-                    console.warn(`字体源 ${index + 1} 加载失败: ${error.message}，尝试下一个源`);
-                    // 尝试下一个URL
-                    tryLoadFontUrls(fontFamily, urls, index + 1, resolve, reject);
-                });
-        }
-
-        // 切换字体
-        function changeFont(fontFamily) {
-            // 显示加载提示
-            showToast('正在加载字体...', 'info');
-
-            // 获取字体URL（如果有配置的话）
-            const fontUrls = {
-                'PingFang SC': 'local', // 系统自带字体
-                'Microsoft YaHei': 'local', // 系统自带字体
-                'Noto Sans SC': [
-                    'https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap'
-                ],
-                'LXGW WenKai': [
-                    'https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css',
-                    'https://npm.elemecdn.com/lxgw-wenkai-webfont@1.7.0/style.css',
-                    'https://unpkg.com/lxgw-wenkai-webfont@1.7.0/style.css'
-                ],
-                'JetBrains Mono': [
-                    'https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5.2.5/index.css',
-                    'https://npm.elemecdn.com/@fontsource/jetbrains-mono@5.2.5/index.css'
-                ],
-                'Fira Code': [
-                    'https://cdn.jsdelivr.net/npm/@fontsource/fira-code@5.2.5/index.css',
-                    'https://npm.elemecdn.com/@fontsource/fira-code@5.2.5/index.css'
-                ],
-                'IBM Plex Sans': [
-                    'https://cdn.jsdelivr.net/npm/@fontsource/ibm-plex-sans@5.1.1/index.css',
-                    'https://npm.elemecdn.com/@fontsource/ibm-plex-sans@5.1.1/index.css'
-                ],
-                'Roboto Mono': [
-                    'https://cdn.jsdelivr.net/npm/@fontsource/roboto-mono@5.2.5/index.css',
-                    'https://npm.elemecdn.com/@fontsource/roboto-mono@5.2.5/index.css'
-                ],
-                'Sarasa Gothic': [
-                    'https://static.zeoseven.com/zsft/161/main/result.css',
-                    'https://static.zeoseven.com/zsft/161/main/result.css'
-                ]
-            };
-
-            // 提取纯字体名称（不含引号和sans-serif）
-            const cleanFontName = fontFamily.replace(/['"]/g, '').split(',')[0].trim();
-            const fontUrl = fontUrls[cleanFontName] || 'local'; // 如果找不到配置，则认为是本地字体
-
-            // 使用新的字体加载方法
-            loadFontWithAPI(cleanFontName, fontUrl)
-                .then(() => {
-                    // 更新CSS变量
-                    document.documentElement.style.setProperty('--font-family', fontFamily);
-
-                    // 直接更新body的字体
-                    document.body.style.fontFamily = fontFamily;
-
-                    // 更新markdown相关元素的字体
-                    const markdownElements = document.querySelectorAll('.markdown-body, .markdown-note');
-                    markdownElements.forEach(element => {
-                        element.style.fontFamily = fontFamily;
-                    });
-
-                    // 更新笔记编辑器的字体
-                    const notesTextarea = document.getElementById('notesTextarea');
-                    if (notesTextarea) {
-                        notesTextarea.style.fontFamily = fontFamily;
-                    }
-
-                    // 保存设置
-                    localStorage.setItem('font-family', fontFamily);
-                    showToast('字体已更改', 'success');
-                })
-                .catch(error => {
-                    console.error('字体加载失败:', error);
-                    // 回退到系统默认字体
-                    document.documentElement.style.setProperty('--font-family', 'system-ui, -apple-system, sans-serif');
-                    document.body.style.fontFamily = 'system-ui, -apple-system, sans-serif';
-                    showToast('字体加载失败，已回退到系统字体: ' + error.message, 'error');
-                });
-        }
-
-        // 初始化字体设置
-        function initFontSettings() {
-            // 初始化字体缓存
-            fontCache.init();
-
-            // 添加刷新字体缓存按钮事件监听
-            const refreshFontBtn = document.getElementById('refreshFontBtn');
-            if (refreshFontBtn) {
-                refreshFontBtn.addEventListener('click', function () {
-                    if (fontCache.clearCache()) {
-                        showToast('字体缓存已清除', 'success');
-                        // 重新加载当前字体
-                        const fontSelect = document.getElementById('fontSelect');
-                        if (fontSelect && fontSelect.value) {
-                            changeFont(fontSelect.value);
-                        }
-                    } else {
-                        showToast('清除字体缓存失败', 'error');
-                    }
-                });
-            }
-
-            // 添加清除字体缓存按钮
-            const fontSettingsSection = document.querySelector('.settings-section:nth-child(2)');
-            if (fontSettingsSection) {
-                const clearCacheBtn = document.createElement('button');
-                clearCacheBtn.className = 'btn btn-sm btn-outline-danger mt-2';
-                clearCacheBtn.textContent = '清除字体缓存';
-                clearCacheBtn.onclick = function () {
-                    if (fontCache.clearCache()) {
-                        showToast('字体缓存已清除', 'success');
-                        // 重新加载当前字体
-                        const fontSelect = document.getElementById('fontSelect');
-                        if (fontSelect && fontSelect.value) {
-                            changeFont(fontSelect.value);
-                        }
-                    } else {
-                        showToast('清除字体缓存失败', 'error');
-                    }
-                };
-                fontSettingsSection.appendChild(clearCacheBtn);
-            }
-
-            // 预加载可能使用的字体
-            function preloadFonts() {
-                // 获取保存的字体
-                const savedFont = localStorage.getItem('font-family');
-                if (savedFont) {
-                    try {
-                        // 只预加载当前选择的字体，而不是所有字体
-                        const cleanFontName = savedFont.replace(/['"]/g, '').split(',')[0].trim();
-                        console.log(`预加载已保存的字体: ${cleanFontName}`);
-
-                        // 调用changeFont来加载字体
-                        setTimeout(() => {
-                            try {
-                                changeFont(savedFont);
-                                const fontSelect = document.getElementById('fontSelect');
-                                if (fontSelect) {
-                                    fontSelect.value = savedFont;
-                                }
-                            } catch (e) {
-                                console.error('预加载字体时出错:', e);
-                                // 回退到系统默认字体
-                                document.documentElement.style.setProperty('--font-family', 'system-ui, -apple-system, sans-serif');
-                                document.body.style.fontFamily = 'system-ui, -apple-system, sans-serif';
-                            }
-                        }, 200); // 增加延迟确保DOM已准备好
-                    } catch (e) {
-                        console.error('处理保存的字体时出错:', e);
-                    }
-                }
-            }
-
-            // 开始预加载字体
-            preloadFonts();
-
-            // 添加字体选择事件监听
-            const fontSelect = document.getElementById('fontSelect');
-            if (fontSelect) {
-                fontSelect.addEventListener('change', function () {
-                    changeFont(this.value);
-                });
-
-                // 修复字体选择器值
-                const savedFont = localStorage.getItem('font-family');
-                if (savedFont && fontSelect.querySelector(`option[value="${savedFont}"]`)) {
-                    fontSelect.value = savedFont;
-                }
-            }
-        }
 
         // 初始化移动端UI功能
         function initMobileUI() {
@@ -5796,7 +5542,7 @@
             });
         }
 
-        async function generateNotesWithAI() {
+        async function generateAINotes() {
             const apiConfig = getAIAPIConfig();
 
             // 验证必要的API配置
@@ -5823,13 +5569,12 @@
             const questionData = {
                 question: currentQuestion.question,
                 options: currentQuestion.options,
-                answer: currentQuestion.answer,
-                explanation: currentQuestion.explanation || ""
+                answer: currentQuestion.answer
             };
 
             try {
                 // 构建请求数据
-                const prompt = `请根据以下医学题目生成详细的学习笔记，包括重点知识、相关概念解释和记忆技巧：\n\n问题：${questionData.question}\n\n选项：${JSON.stringify(questionData.options)}\n\n正确答案：${questionData.answer}\n\n解析：${questionData.explanation}`;
+                const prompt = `请根据以下题目生成详细的学习笔记，包括重点知识、相关概念解释和记忆技巧：\n\n问题：${questionData.question}\n\n选项：${JSON.stringify(questionData.options)}\n\n正确答案：${questionData.answer}`;
 
                 const requestData = {
                     model: apiConfig.model,
@@ -5907,10 +5652,8 @@
                 // 保存到缓存
                 saveQuestionToCache(currentQuestion);
 
-                // 添加到待同步队列
-                addToOfflineQueue('sync');
+                showToast('AI笔记生成完成！', 'success');
 
-                showToast('AI笔记生成完成！已加入同步队列', 'success');
             } catch (error) {
                 console.error('生成笔记出错:', error);
                 showToast('生成笔记失败: ' + error.message, 'error');
@@ -5923,6 +5666,16 @@
                     generateBtn.disabled = false;
                     generateBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>';
                 }, 2000);
+
+                // 自动同步
+                try {
+                    await syncNotesToGithub();
+                    showToast('笔记同步成功！', 'success');
+                } catch (error) {
+                    // 只有同步失败时才加入队列
+                    addToOfflineQueue('sync');
+                    showToast('同步失败，已加入离线队列', 'warning');
+                }
             }
         }
         // 获取AI API配置
@@ -5983,17 +5736,23 @@
         // 保存问题到缓存
         function saveQuestionToCache(question) {
             try {
-                // 创建一个唯一键
-                const cacheKey = `note_cache_${currentMode}_${currentQuiz.chapter}_${question.index}`;
-                localStorage.setItem(cacheKey, JSON.stringify({
-                    timestamp: Date.now(),
-                    notes: question.notes
-                }));
+                // 找到当前章节
+                for (const chapter of quizData.chapters) {
+                    // 查找匹配的问题
+                    const matchedQuestion = chapter.questions.find(q => q.id === question.id);
+                    if (matchedQuestion) {
+                        // 更新题目的笔记
+                        matchedQuestion.notes = question.notes;
+                        // 将整个 quizData 保存到 localStorage
+                        localStorage.setItem('quizData', JSON.stringify(quizData));
+                        return; // 找到并更新后退出函数
+                    }
+                }
+                console.warn(`未找到索引为 ${question.id} 的题目`);
             } catch (error) {
                 console.error('保存笔记到缓存失败:', error);
             }
         }
-
         // 关闭模态框
         function closeModal(modalId) {
             const modal = document.getElementById(modalId);
@@ -6504,31 +6263,39 @@
 
         // 保存到离线队列
         function addToOfflineQueue(operation) {
-            offlineQueue.push({
+            offlineQueue = [{
                 timestamp: new Date().toISOString(),
                 operation,
                 data: JSON.stringify(quizData)
-            });
+            }];
             localStorage.setItem('offlineQueue', JSON.stringify(offlineQueue));
             updateSyncStatus('offline');
             showToast('操作已加入离线队列', 'info');
         }
 
+        function clearOfflineQueue() {
+            offlineQueue = [];
+            localStorage.setItem('offlineQueue', '[]');
+            updateSyncStatus('success');
+            showToast('离线队列已清空', 'success');
+        }
         // 检查网络状态并处理队列
-        function processOfflineQueue() {
+        async function processOfflineQueue() {
             if (navigator.onLine && offlineQueue.length > 0) {
                 showToast('网络已恢复，正在处理离线队列...', 'info');
-                while (offlineQueue.length > 0) {
-                    const item = offlineQueue.shift();
+                for (let i = 0; i < offlineQueue.length; i++) {
+                    const item = offlineQueue[i];
                     quizData = JSON.parse(item.data);
-                    syncNotesToGithub();
+                    await syncNotesToGithub(); // 等待同步完成
                 }
+                offlineQueue = [];
                 localStorage.setItem('offlineQueue', JSON.stringify(offlineQueue));
                 updateSyncStatus('success');
                 showToast('离线队列已处理完成', 'success');
             }
         }
-        
+
+        // 检查网络状态并处理队列
         async function syncNotesToGithub() {
             const repo = localStorage.getItem('github_repo');
             let path = localStorage.getItem('github_path');
@@ -6540,52 +6307,22 @@
                 return;
             }
 
-            if (!navigator.onLine) {
-                addToOfflineQueue('sync');
-                return;
-            }
-
-            // 处理路径
             path = path.replace(/\/+$/, '');
             if (!path.endsWith('.json')) path += '/quiz_data.json';
 
-            async function attemptSync() {
+            async function attemptSync(currentSha) {
                 try {
-                    // 获取文件的当前 SHA（如果文件存在）
-                    let sha;
-                    const fileResponse = await fetch(`https://api.github.com/repos/${repo}/contents/${path}?ref=${branch}`, {
-                        headers: {
-                            'Authorization': `token ${token}`,
-                            'Accept': 'application/vnd.github.v3+json'
-                        }
-                    });
-
-                    if (fileResponse.ok) {
-                        const fileData = await fileResponse.json();
-                        sha = fileData.sha; // 文件存在，获取 SHA
-                    } else if (fileResponse.status === 404) {
-                        console.log('文件不存在，将创建新文件');
-                        sha = undefined; // 文件不存在，无需 SHA
-                    } else {
-                        throw new Error(`获取文件信息失败: ${fileResponse.status} ${fileResponse.statusText}`);
-                    }
-
-                    // 准备要上传的内容
                     const content = JSON.stringify(quizData);
-                    const encodedContent = btoa(unescape(encodeURIComponent(content))); // Base64 编码
-
-                    // 准备请求体
+                    const encodedContent = btoa(unescape(encodeURIComponent(content)));
                     const requestBody = {
                         message: `Sync notes at ${new Date().toISOString()}`,
                         content: encodedContent,
                         branch: branch
                     };
-
-                    if (sha) {
-                        requestBody.sha = sha; // 只有文件存在时才添加 SHA
+                    if (currentSha) {
+                        requestBody.sha = currentSha;
                     }
 
-                    // 发送更新请求
                     const updateResponse = await fetch(`https://api.github.com/repos/${repo}/contents/${path}`, {
                         method: 'PUT',
                         headers: {
@@ -6599,33 +6336,42 @@
                     if (updateResponse.ok) {
                         showToast('笔记已成功同步到 GitHub！', 'success');
                         updateSyncStatus('success');
-                        return true; // 同步成功
+                        clearOfflineQueue();
+                        return true;
                     } else if (updateResponse.status === 409) {
-                        // 版本冲突，抛出特定错误
-                        const errorData = await updateResponse.json();
-                        throw new Error(`data/${path} does not match ${sha}: ${errorData.message}`);
+                        return false; // 冲突，需要重试
                     } else {
-                        const errorData = await updateResponse.json();
-                        throw new Error(errorData.message || `同步失败: ${updateResponse.statusText}`);
+                        throw new Error(`同步失败: ${updateResponse.statusText}`);
                     }
                 } catch (error) {
-                    console.error('同步笔记到 GitHub 出错:', error);
-                    if (error.message.includes('does not match')) {
-                        return false; // 表示需要重试
-                    } else {
-                        showToast('同步笔记到 GitHub 失败: ' + error.message, 'error');
-                        updateSyncStatus('error');
-                        return true; // 其他错误，不重试
-                    }
+                    console.error('同步出错:', error);
+                    showToast('同步失败: ' + error.message, 'error');
+                    updateSyncStatus('error');
+                    return true; // 其他错误，不重试
                 }
             }
 
-            // 尝试同步，如果冲突则处理
-            let syncSuccess = await attemptSync();
-            if (!syncSuccess) {
-                showToast('检测到版本冲突，正在尝试合并并重试...', 'info');
+            // 获取当前文件 SHA
+            let sha;
+            const fileResponse = await fetch(`https://api.github.com/repos/${repo}/contents/${path}?ref=${branch}`, {
+                headers: {
+                    'Authorization': `token ${token}`,
+                    'Accept': 'application/vnd.github.v3+json'
+                }
+            });
+            if (fileResponse.ok) {
+                const fileData = await fileResponse.json();
+                sha = fileData.sha;
+            }
 
-                // 拉取最新远程数据
+            let syncSuccess = await attemptSync(sha);
+            let retryCount = 0;
+            const maxRetries = 3;
+
+            while (!syncSuccess && retryCount < maxRetries) {
+                retryCount++;
+                showToast(`检测到版本冲突，第 ${retryCount} 次尝试合并...`, 'info');
+
                 const fetchResponse = await fetch(`https://api.github.com/repos/${repo}/contents/${path}?ref=${branch}`, {
                     headers: {
                         'Authorization': `token ${token}`,
@@ -6636,22 +6382,18 @@
                 if (fetchResponse.ok) {
                     const fileData = await fetchResponse.json();
                     const remoteContent = JSON.parse(decodeURIComponent(escape(atob(fileData.content))));
-                    const localData = quizData;
-
-                    // 合并数据
-                    quizData = mergeData(localData, remoteContent);
+                    quizData = mergeData(quizData, remoteContent);
                     localStorage.setItem('quizData', JSON.stringify(quizData));
-
-                    // 重试同步
-                    syncSuccess = await attemptSync();
-                    if (syncSuccess) {
-                        showToast('版本冲突已解决，同步成功！', 'success');
-                    } else {
-                        showToast('合并后仍无法同步，请手动检查', 'error');
-                    }
+                    sha = fileData.sha; // 更新 SHA
+                    syncSuccess = await attemptSync(sha);
                 } else {
-                    showToast('无法拉取最新数据以解决冲突', 'error');
+                    showToast('无法拉取最新数据', 'error');
+                    break;
                 }
+            }
+
+            if (!syncSuccess) {
+                showToast('多次尝试后仍无法同步，请手动检查', 'error');
             }
         }
         // 显示离线队列
@@ -6671,8 +6413,7 @@
 
             document.getElementById('closeOfflineQueueModal').onclick = () => closeModal('offlineQueueModal');
             document.getElementById('clearQueueBtn').onclick = () => {
-                offlineQueue = [];
-                localStorage.setItem('offlineQueue', '[]');
+                clearOfflineQueue();
                 list.innerHTML = '<p>队列为空</p>';
                 showToast('离线队列已清空', 'success');
             };
@@ -6755,7 +6496,24 @@
                 // 检查本地数据
                 const localData = JSON.parse(localStorage.getItem('quizData') || '{}');
 
-                if (JSON.stringify(localData) !== JSON.stringify(remoteContent)) {
+                // 深度比较函数，忽略特定字段
+                const areDataEqual = (local, remote) => {
+                    const cleanObject = (obj) => {
+                        if (!obj?.chapters) return obj;
+                        const newObj = structuredClone(obj); // 深拷贝
+                        newObj.chapters.forEach(chapter => {
+                            chapter.questions.forEach(q => {
+                                delete q.userAnswer;
+                                delete q.previousAnswer;
+                            });
+                        });
+                        return newObj;
+                    };
+
+                    return JSON.stringify(cleanObject(local)) === JSON.stringify(cleanObject(remote));
+                };
+
+                if (!areDataEqual(localData, remoteContent)) {
                     // 数据不同，触发合并流程
                     showMergeModal(localData, remoteContent);
                 } else if (!auto) {
@@ -6773,9 +6531,11 @@
         }
         // 更新同步按钮可见性
         function updateSyncButtonVisibility() {
-            const syncButton = document.getElementById('syncNotesBtn');
             const hasGithubConfig = localStorage.getItem('github_repo') && localStorage.getItem('github_token');
-            syncButton.style.display = hasGithubConfig ? 'inline-flex' : 'none';
+            const syncStatusButtons = document.querySelectorAll('.sync-status');
+            syncStatusButtons.forEach(button => {
+                button.style.display = hasGithubConfig ? 'inline-flex' : 'none';
+            });
         }
 
         // 自动同步笔记
@@ -7111,7 +6871,6 @@
         }
 
         function mergeData(local, remote) {
-            // 简单的合并策略：优先保留有用户答案的数据
             const merged = { chapters: [] };
             const localChapters = local.chapters || [];
             const remoteChapters = remote.chapters || [];
@@ -7122,41 +6881,51 @@
                 const localChap = localChapters.find(c => c.title === title) || { questions: [] };
                 const remoteChap = remoteChapters.find(c => c.title === title) || { questions: [] };
 
-                const questions = [];
-                const allQuestions = [...new Set([...localChap.questions.map(q => q.question), ...remoteChap.questions.map(q => q.question)])];
-
-                allQuestions.forEach(qText => {
-                    const localQ = localChap.questions.find(q => q.question === qText);
-                    const remoteQ = remoteChap.questions.find(q => q.question === qText);
-                    if (localQ && localQ.userAnswer) {
-                        questions.push(localQ); // 优先保留本地有用户答案的
-                    } else if (remoteQ) {
-                        questions.push(remoteQ);
-                    } else if (localQ) {
-                        questions.push(localQ);
+                const questionsMap = new Map();
+                [...localChap.questions, ...remoteChap.questions].forEach(q => {
+                    const key = q.index || q.question; // 使用 index 或 question 作为唯一标识
+                    if (!questionsMap.has(key)) {
+                        questionsMap.set(key, q);
+                    } else {
+                        const existing = questionsMap.get(key);
+                        // 合并策略：优先保留有 userAnswer 或 notes 的数据
+                        if (q.userAnswer || q.notes) {
+                            questionsMap.set(key, { ...existing, ...q });
+                        }
                     }
                 });
 
-                merged.chapters.push({ title, questions });
+                merged.chapters.push({ title, questions: Array.from(questionsMap.values()) });
             });
 
             return merged;
         }
+
         function updateSyncStatus(status) {
-            const syncStatus = document.getElementById('syncStatus');
-            syncStatus.className = `sync-status ${status}`;
-            syncStatus.title = {
-                'pending': '同步中...',
-                'success': '已同步',
-                'error': '同步失败',
-                'offline': '离线'
-            }[status] || '未知状态';
+            const syncStatusButtons = document.querySelectorAll('.sync-status');
+            syncStatusButtons.forEach(button => {
+                button.className = `btn-group-item sync-status ${status}`;
+                button.title = {
+                    'pending': '同步中...',
+                    'success': '已同步',
+                    'error': '同步失败',
+                    'offline': '离线'
+                }[status] || '未知状态';
+            });
         }
 
         // 初始化时更新状态
         document.addEventListener('DOMContentLoaded', () => {
+            offlineQueue = JSON.parse(localStorage.getItem('offlineQueue') || '[]');
             updateSyncStatus(navigator.onLine ? 'success' : 'offline');
-            document.getElementById('showQueueBtn').onclick = showOfflineQueue;
+            const cachedQuizData = localStorage.getItem('quizData');
+            if (cachedQuizData) {
+                quizData = JSON.parse(cachedQuizData);
+                updateDashboard();
+                showToast('已加载上次使用的题库', 'success');
+            } else {
+                showToast('请先选择题库', 'info');
+            }
         });
     </script>
 </body>
