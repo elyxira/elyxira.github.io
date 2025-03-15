@@ -371,7 +371,7 @@
             --mermaid-tertiary: #384057;
             --mermaid-text: #e2e8f0;
             --mermaid-line: #64748b;
-            --mermaid-node-bg: #2d3748;
+            --mermaid-node-bg: #1F2020;
             --mermaid-node-border: #4a5568;
             --mermaid-cluster-bg: #1e2430;
             --mermaid-cluster-border: rgba(226, 232, 240, 0.15);
@@ -383,74 +383,10 @@
         }
 
         /* 暗色模式下的代码块样式 - 提高代码可读性 */
-        [data-theme="dark"] .markdown-note pre code {
+        [data-theme="dark"] .markdown-body pre code {
             background-color: #252836;
             color: #edf0f7;
             border: 1px solid #363748;
-        }
-
-        /* Mermaid图表样式 - 手帐风格 */
-        .mermaid {
-            width: 100%;
-            margin: 0;
-            padding: 0;
-            overflow-x: auto;
-            background-color: var(--mermaid-bg) !important;
-            border-radius: 8px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-            border: 1px solid var(--mermaid-tertiary);
-        }
-
-        /* 限制Mermaid图表中的SVG大小 */
-        .mermaid svg {
-            max-width: 100%;
-            height: auto !important;
-        }
-
-        /* 调整Mermaid图表中的文本大小和样式 */
-        .mermaid .label {
-            font-size: 16px !important;
-        }
-
-        /* 调整Mermaid节点样式为手帐风格 */
-        .mermaid .node rect,
-        .mermaid .node circle,
-        .mermaid .node ellipse,
-        .mermaid .node polygon,
-        .mermaid .node path {
-            fill: var(--mermaid-node-bg);
-            stroke: var(--mermaid-node-border) !important;
-            stroke-width: 1.5px !important;
-            rx: 6px;
-            ry: 6px;
-        }
-
-        /* 添加手帐风格的线条 */
-        .mermaid .edgePath .path {
-            stroke: var(--mermaid-line) !important;
-            stroke-width: 1.5px !important;
-            stroke-dasharray: 3, 3;
-        }
-
-        /* 调整箭头样式 */
-        .mermaid .arrowheadPath {
-            fill: var(--mermaid-line) !important;
-            stroke: none !important;
-        }
-
-        /* 集群样式调整 */
-        .mermaid .cluster rect {
-            fill: var(--mermaid-cluster-bg) !important;
-            stroke: var(--mermaid-cluster-border) !important;
-            stroke-width: 1.5px !important;
-            rx: 8px;
-            ry: 8px;
-        }
-
-        /* 手帐风格的标签 */
-        .mermaid .edgeLabel {
-            background-color: var(--mermaid-bg) !important;
-            padding: 2px 4px;
         }
 
         /* 基础样式 */
@@ -1427,101 +1363,11 @@
             margin-top: 20px;
         }
 
-        /* Markdown渲染和编辑 */
-        .markdown-body {
-            color: var(--note-text-markdown);
-            line-height: 1.8;
-            transition: var(--transition);
-        }
-
-        .markdown-body h1,
-        .markdown-body h2,
-        .markdown-body h3,
-        .markdown-body h4 {
-            color: var(--note-primary);
-            margin-top: 0 !important;
-            margin-bottom: 0 !important;
-        }
-
-        .markdown-body h4 {
-            color: var(--note-secondary);
-            font-weight: 600;
-        }
-
-        .markdown-body hr {
-            display: inline-flex;
-            width: 70%;
-            margin: 0 auto 16px auto;
-            border: none;
-            /* 移除原有边框 */
-            height: 1px;
-            background: linear-gradient(to right, var(--note-hr-markdown), transparent);
-        }
-
-        .markdown-body a {
-            color: var(--note-link-markdown);
-            text-decoration: underline;
-            transition: color 0.3s ease;
-            font-weight: 500;
-        }
-
-        .markdown-body code {
-            background-color: var(--note-code-markdown);
-            padding: 2px 4px;
-            border-radius: 8px;
-            color: var(--note-text-markdown);
-            transition: var(--transition);
-        }
-
-        .markdown-body pre {
-            background-color: transparent;
-            margin: 0;
-            padding: 0;
-            border-radius: var(--border-radius);
-            overflow: auto;
-            transition: var(--transition);
-        }
-
-        .markdown-body pre code {
-            background-color: transparent;
-            padding: 0;
-            white-space: pre;
-            display: block;
-            line-height: 1.4;
-            font-size: 14px;
-            tab-size: 4;
-            -moz-tab-size: 4;
-            padding: 1.2em;
-            background-color: var(--note-code-bg);
-            border-radius: var(--border-radius);
-            overflow-x: auto;
-            border: 1px solid var(--note-code-border);
-        }
-
-        .markdown-body blockquote {
-            border-left: 4px solid var(--note-quote-markdown-border);
-            padding: 10px 15px;
-            background-color: var(--note-quote-markdown-bg);
-            margin: 10px 0 !important;
-            transition: var(--transition);
-        }
-
-        .markdown-body ul,
-        .markdown-body ol {
-            margin: 1em 0 !important;
-            padding-left: 2em;
-        }
-
-        .markdown-body p {
-            margin-top: 0 !important;
-            margin-bottom: 8px !important;
-        }
-
         table {
             width: 100%;
             border-collapse: separate;
             border-spacing: 0;
-            margin: 25px 0;
+            margin: 0.5em 0;
             border-radius: 12px;
             box-shadow: 0 5px 15px var(--table-shadow);
             font-size: 14px;
@@ -1534,16 +1380,18 @@
             color: var(--table-header-text);
             font-weight: 600;
             text-align: left;
-            padding: 14px 18px;
             border-bottom: 2px dashed var(--table-header-border);
             letter-spacing: 0.5px;
+            vertical-align: top;
+            padding: 0.25em;
         }
 
         td {
-            padding: 12px 18px;
+            padding: 0.25em;
             border-bottom: 1px solid var(--table-cell-border);
             vertical-align: middle;
             color: var(--table-text);
+            vertical-align: top;
         }
 
         tr {
@@ -1576,131 +1424,173 @@
             border-bottom-right-radius: 10px;
         }
 
-        .markdown-body mark {
-            background-color: var(--note-mark-markdown-bg);
-            color: var(--note-mark-markdown);
-            padding: 0 3px;
+        .mermaid {
+            .node rect {
+                fill: var(--mermaid-node-bg);
+                rx: 4px;
+                ry: 4px;
+                margin: 2px;
+            }
+
+            .edgeLabel {
+                background-color: transparent !important;
+                padding: 1px 3px;
+            }
+
+            .edgeLabel div {
+                background-color: transparent !important;
+            }
+
+            .edgeLabel p {
+                background-color: var(--mermaid-node-bg) !important;
+                padding: 1px 3px;
+            }
+
+            .label {
+                font-size: 12px;
+                padding: 2px 4px;
+            }
+
+            .edgePath .path {
+                stroke-width: 1.5px;
+                stroke-dasharray: 2, 2;
+            }
+
+            .cluster rect {
+                rx: 6px;
+                ry: 6px;
+            }
         }
 
-        /* Markdown笔记样式 */
-        .markdown-note {
+        /* Markdown渲染和编辑 */
+        .markdown-body {
             color: var(--note-text-primary);
-            line-height: 1.8;
-            padding: 1em;
+            line-height: 1.5;
+            transition: var(--transition);
         }
 
-        .markdown-note h1,
-        .markdown-note h2,
-        .markdown-note h3,
-        .markdown-note h4 {
+        .markdown-body h1,
+        .markdown-body h2,
+        .markdown-body h3,
+        .markdown-body h4 {
             color: var(--note-primary);
-            margin-top: 1.5em;
-            margin-bottom: 0.8em;
+            margin: 0;
             font-weight: 600;
         }
 
-        .markdown-note h4 {
+        .markdown-body h4 {
             color: var(--note-secondary);
-            margin-top: 1.2em;
-            margin-bottom: 0.8em;
         }
 
-        .markdown-note code {
+        .markdown-body hr {
+            display: block;
+            width: 70%;
+            margin-top: 0.5em;
+            margin-bottom: 0.5em;
+            border: none;
+            height: 1px;
+            background: linear-gradient(to right, var(--note-hr-markdown), transparent);
+        }
+
+        .markdown-body a {
+            color: var(--note-link-markdown);
+            text-decoration: underline;
+            transition: color 0.3s ease;
+            font-weight: 500;
+        }
+
+        .markdown-body code {
             background-color: var(--note-code-bg);
             color: var(--note-code-text);
             padding: 0.2em 0.4em;
             border-radius: 8px;
         }
 
-        .markdown-note pre {
+        .markdown-body pre {
             background-color: transparent;
+            margin: 0;
             padding: 0;
             border: 1px solid var(--note-code-border);
             border-radius: var(--border-radius);
             overflow-x: auto;
-            margin: 0;
         }
 
-        .markdown-note pre code {
+        .markdown-body pre code {
+            background-color: transparent;
+            padding: 1.2em;
             white-space: pre;
             display: block;
             line-height: 1.4;
             font-size: 14px;
             tab-size: 4;
             -moz-tab-size: 4;
-            padding: 1.2em;
-            background-color: transparent;
             font-feature-settings: "liga" 0, "calt" 0;
             -webkit-font-variant-ligatures: none;
             font-variant-ligatures: none;
             font-synthesis: none;
         }
 
-        .markdown-note pre code:has(table) {
+        .markdown-body pre code:has(table) {
             letter-spacing: 0;
-            font-size: 14px;
         }
 
-        .markdown-note blockquote {
+        .markdown-body blockquote {
             background-color: var(--note-quote-bg);
             border-left: 4px solid var(--note-quote-border);
             color: var(--note-quote-text);
             padding: 1em;
-            margin: 1em 0;
+            transition: var(--transition);
         }
 
-        .markdown-note p {
-            margin: 1em 0;
-        }
-
-        .markdown-note ul,
-        .markdown-note ol {
+        .markdown-body ul,
+        .markdown-body ol {
             padding-left: 2em;
-            margin: 1em 0;
         }
 
-        .markdown-note li {
-            margin: 0.5em 0;
+        .markdown-body p {
+            margin-top: 0.5em;
         }
 
-        .markdown-note mark {
+        .markdown-body mark {
+            background-color: var(--note-mark-markdown-bg);
+            color: var(--note-mark-markdown);
             padding: 2px 5px;
             border-radius: 8px;
         }
 
-        .markdown-note mark[style*="--note-bg-primary"] {
+        .markdown-body mark[style*="--note-bg-primary"] {
             background-color: var(--note-bg-primary);
             color: var(--note-text-primary);
         }
 
-        .markdown-note mark[style*="--note-bg-cyan"] {
+        .markdown-body mark[style*="--note-bg-cyan"] {
             background-color: var(--note-bg-cyan);
             color: var(--note-text-primary);
         }
 
         /* 标记样式 */
-        .markdown-note .mark-yellow {
+        .markdown-body .mark-yellow {
             background-color: var(--note-mark-yellow);
         }
 
-        .markdown-note .mark-green {
+        .markdown-body .mark-green {
             background-color: var(--note-mark-green);
         }
 
-        .markdown-note .mark-blue {
+        .markdown-body .mark-blue {
             background-color: var(--note-mark-blue);
         }
 
-        .markdown-note .mark-red {
+        .markdown-body .mark-red {
             background-color: var(--note-mark-red);
         }
 
-        .markdown-note .mark-purple {
+        .markdown-body .mark-purple {
             background-color: var(--note-mark-purple);
         }
 
         /* 提示框样式 */
-        .markdown-note .note-tip {
+        .markdown-body .note-tip {
             background-color: var(--note-bg-primary);
             border-left: 4px solid var(--note-border-primary);
             padding: 1em;
@@ -1708,22 +1598,22 @@
             border-radius: 0 var(--border-radius) var(--border-radius) 0;
         }
 
-        .markdown-note .note-warning {
+        .markdown-body .note-warning {
             background-color: var(--note-bg-warning);
             border-left: 4px solid var(--note-border-warning);
         }
 
-        .markdown-note .note-danger {
+        .markdown-body .note-danger {
             background-color: var(--note-bg-danger);
             border-left: 4px solid var(--note-border-danger);
         }
 
-        .markdown-note .note-info {
+        .markdown-body .note-info {
             background-color: var(--note-bg-info);
             border-left: 4px solid var(--note-border-info);
         }
 
-        .markdown-note .note-success {
+        .markdown-body .note-success {
             background-color: var(--note-bg-success);
             border-left: 4px solid var(--note-border-success);
         }
@@ -2390,7 +2280,7 @@
             }
 
             /* Markdown相关调整 */
-            .markdown-note pre code {
+            .markdown-body pre code {
                 font-size: 12px;
                 padding: 0.5em;
             }
@@ -2912,7 +2802,7 @@
                             </button>
                         </div>
                     </div>
-                    <div id="notesDisplay" class="notes-content markdown-body"></div>
+                    <div id="notesDisplay" class="notes-content"></div>
                     <div id="notesEditor" class="hidden">
                         <div class="markdown-toolbar">
                             <button onclick="insertMarkdown('**粗体**')">粗体</button>
@@ -3385,7 +3275,7 @@
                 <h2>远程仓库使用说明</h2>
                 <button class="modal-close" id="closeRepoHelp">&times;</button>
             </div>
-            <div class="markdown-note">
+            <div class="markdown-body">
                 <h3>配置说明</h3>
                 <ol>
                     <li>创建GitHub仓库用于存储题库文件</li>
@@ -3797,29 +3687,34 @@
                 flowchart: {
                     htmlLabels: true,
                     curve: 'basis',
-                    useMaxWidth: true
+                    useMaxWidth: true,
+                    nodeSpacing: 10,
+                    rankSpacing: 15,
+                    padding: 5
                 },
                 sequence: {
                     useMaxWidth: true,
-                    diagramMarginX: 20,
-                    diagramMarginY: 20,
-                    boxMargin: 10
+                    diagramMarginX: 10,
+                    diagramMarginY: 10,
+                    boxMargin: 5,
+                    actorMargin: 30,
+                    messageMargin: 5
                 },
                 gantt: {
-                    useMaxWidth: true
+                    useMaxWidth: true,
+                    barHeight: 20,
+                    padding: 10
                 },
                 er: {
-                    useMaxWidth: true
+                    useMaxWidth: true,
+                    entityPadding: 10
                 },
                 class: {
-                    useMaxWidth: true
-                },
-                themeCSS: `.node rect { fill: var(--mermaid-node-bg); }
-                          .edgeLabel { background-color: var(--mermaid-label-bg); }
-                          .label { font-size: 12px; }`
-            });
+                    useMaxWidth: true,
+                    nodeMargin: 30
+                }
+            })
         }
-
         // 初始化设置
         function initSettings() {
             // 从本地存储加载设置
@@ -4357,25 +4252,7 @@
             updateThemeToggleButton(newTheme);
 
             // 更新Mermaid主题
-            mermaid.initialize({
-                theme: newTheme === 'dark' ? 'dark' : 'default',
-                fontFamily: 'PingFang SC, Microsoft YaHei, sans-serif',
-                fontSize: 14,
-                flowchart: {
-                    htmlLabels: true,
-                    curve: 'basis',
-                    useMaxWidth: true
-                },
-                sequence: {
-                    useMaxWidth: true,
-                    diagramMarginX: 20,
-                    diagramMarginY: 20,
-                    boxMargin: 10
-                },
-                themeCSS: `.node rect { fill: var(--mermaid-node-bg); }
-                         .edgeLabel { background-color: var(--mermaid-label-bg); }
-                         .label { font-size: 12px; }`
-            });
+            initMermaid();
 
             // 重新渲染当前笔记中的Mermaid图表
             if (currentQuestion && currentQuestion.notes) {
@@ -4963,7 +4840,7 @@
                 marked.setOptions(markedOptions);
 
                 try {
-                    const wrappedContent = `<div class="markdown-note markdown-body">${marked.parse(notesTextarea.value)}</div>`;
+                    const wrappedContent = `<div class="markdown-body">${marked.parse(notesTextarea.value)}</div>`;
                     notesDisplay.innerHTML = wrappedContent;
 
                     // 处理并渲染Mermaid图表
@@ -5007,7 +4884,7 @@
                 marked.setOptions(markedOptions);
 
                 try {
-                    const wrappedContent = `<div class="markdown-note markdown-body">${marked.parse(noteContent)}</div>`;
+                    const wrappedContent = `<div class="markdown-body">${marked.parse(noteContent)}</div>`;
                     notesDisplay.innerHTML = wrappedContent;
 
                     const mermaidDivs = notesDisplay.querySelectorAll('.language-mermaid');
