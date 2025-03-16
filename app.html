@@ -3392,6 +3392,7 @@
         let reviewMode = false;        // 背题模式
         let answersCache = {};       // 答题缓存，切换章节/模式时刷新
 
+        let autoSync = true;    // 自动同步开关
         let offlineQueue = JSON.parse(localStorage.getItem('offlineQueue') || '[]');
 
 
@@ -4991,9 +4992,6 @@
             if (autoBackup && oldNotes !== currentQuestion.notes) {
                 localStorage.setItem('quizData', JSON.stringify(quizData));
                 showToast('笔记已保存并自动备份', 'success');
-
-                // 如果启用了自动同步，则同步到GitHub
-                autoSyncNotes();
             } else {
                 showToast('笔记已保存', 'success');
             }
@@ -5580,7 +5578,7 @@
                     generateBtn.disabled = false;
                     generateBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>';
                 }, 2000);
-                autoSyncNotes;
+                autoSyncNotes();
 
             }
         }
@@ -6155,7 +6153,6 @@
             const branch = document.getElementById('githubBranch').value;
             const path = document.getElementById('githubPath').value;
             const token = document.getElementById('githubToken').value;
-            const autoSync = document.getElementById('autoSyncToggle').checked;
 
             localStorage.setItem('github_repo', repo);
             localStorage.setItem('github_branch', branch);
@@ -6410,28 +6407,22 @@
                     localData = {};
                 }
 
-                // 深度比较函数，忽略特定字段
                 const areDataEqual = (local, remote) => {
                     const cleanObject = (obj) => {
-                        // 如果对象为空或没有 chapters，返回空对象或原对象
                         if (!obj || typeof obj !== 'object' || !obj.chapters) {
                             return { chapters: [] };
                         }
                         const newObj = structuredClone(obj);
-                        // 确保 chapters 存在且是数组
                         if (!Array.isArray(newObj.chapters)) {
                             newObj.chapters = [];
                         }
                         newObj.chapters.forEach(chapter => {
-                            // 确保 questions 存在且是数组
                             if (!Array.isArray(chapter.questions)) {
                                 chapter.questions = [];
                             }
                             chapter.questions.forEach(q => {
                                 delete q.userAnswer;
                                 delete q.previousAnswer;
-                                // 可选：清理其他可能导致差异的字段
-                                // delete q.someOtherField;
                             });
                         });
                         return newObj;
@@ -6440,13 +6431,19 @@
                     const cleanedLocal = cleanObject(local);
                     const cleanedRemote = cleanObject(remote);
 
-                    return JSON.stringify(cleanedLocal) === JSON.stringify(cleanedRemote);
+                    const isEqual = JSON.stringify(cleanedLocal) === JSON.stringify(cleanedRemote);
+                    if (!isEqual) {
+                        console.log('数据存在差异');
+                    }
+                    return isEqual;
                 };
 
                 if (!areDataEqual(localData, remoteContent)) {
                     // 数据不同，触发合并流程
                     showMergeModal(localData, remoteContent);
                     console.log('Data differs, showing merge modal');
+                    console.log(localData);
+                    console.log(remoteContent);
                 } else if (!auto) {
                     showToast('本地数据已是最新版本', 'success');
                 }
@@ -6471,7 +6468,8 @@
 
         // 自动同步笔记
         async function autoSyncNotes() {
-            if (localStorage.getItem('auto_sync') === 'true') {
+            console.log(autoSync);
+            if (autoSync) {
                 try {
                     await syncNotesToGithub();
                 } catch (error) {
