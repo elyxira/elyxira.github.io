@@ -3332,8 +3332,11 @@
             </div>
             <div class="offline-queue-content">
                 <div id="offlineQueueList"></div>
-                <button id="clearQueueBtn" class="btn-danger">清空队列</button>
-                <button id="syncQueueBtn" class="btn-group-item">清空队列</button>
+                <div>
+                    <button id="clearQueueBtn" class="btn-danger">清空队列</button>
+                    <button id="syncQueueBtn" class="btn-group btn-secondary"
+                        onclick="syncNotesToGithub()">手动同步</button>
+                </div>
             </div>
         </div>
     </div>
@@ -3610,7 +3613,6 @@
             initPromptPresets();
             initRepoFeatures();
             initFontSettings(); // 添加字体设置初始化
-            initSettingsPanel(); // 添加设置面板初始化
         });
 
 
@@ -3643,7 +3645,7 @@
         // 初始化滑动手势
         // 初始化滑动手势
         function initSwipeGesture() {
-            
+
 
             const container = document.getElementById('quizPage');
             let touchStartX = 0;
@@ -4124,9 +4126,9 @@
             // 刷题模式弹窗
             document.getElementById('closeModeSettings').addEventListener('click', toggleModeSettingsModal);
             document.getElementById('rangeEnabledToggle').addEventListener('change', toggleRangeSettingsGroup);
-        document.getElementById('swipeGestureToggle').addEventListener('change', function() {
-            swipeGestureEnabled = this.checked;
-        });
+            document.getElementById('swipeGestureToggle').addEventListener('change', function () {
+                swipeGestureEnabled = this.checked;
+            });
 
             // 当点击模态框外部时关闭模态框
             document.getElementById('settingsModal').addEventListener('click', function (e) {
@@ -5421,7 +5423,7 @@
         // 事件监听器添加部分
         document.getElementById('closeModeSettings').addEventListener('click', toggleModeSettingsModal);
         document.getElementById('rangeEnabledToggle').addEventListener('change', toggleRangeSettingsGroup);
-        document.getElementById('swipeGestureToggle').addEventListener('change', function() {
+        document.getElementById('swipeGestureToggle').addEventListener('change', function () {
             swipeGestureEnabled = this.checked;
         });
 
@@ -6199,105 +6201,108 @@
             }
         }
 
-        // 检查网络状态并处理队列
-        async function syncNotesToGithub() {
-            const repo = localStorage.getItem('github_repo');
-            let path = localStorage.getItem('github_path');
-            const branch = localStorage.getItem('github_branch') || 'main';
-            const token = localStorage.getItem('github_token');
+        // 使用全局锁防止重复提交
+        let isSyncing = false;
 
-            if (!repo || !token) {
-                showToast('请先配置 GitHub 仓库信息', 'error');
+        async function syncNotesToGithub() {
+            if (isSyncing) {
+                showToast('正在同步中，请稍候...', 'info');
                 return;
             }
 
-            path = path.replace(/\/+$/, '');
-            if (!path.endsWith('.json')) path += '/quiz_data.json';
+            isSyncing = true;
+            try {
+                const repo = localStorage.getItem('github_repo');
+                let path = localStorage.getItem('github_path');
+                const branch = localStorage.getItem('github_branch') || 'main';
+                const token = localStorage.getItem('github_token');
 
-            async function attemptSync(currentSha) {
-                try {
-                    const content = JSON.stringify(quizData);
-                    const encodedContent = btoa(unescape(encodeURIComponent(content)));
-                    const requestBody = {
-                        message: `Sync notes at ${new Date().toISOString()}`,
-                        content: encodedContent,
-                        branch: branch
-                    };
-                    if (currentSha) {
-                        requestBody.sha = currentSha;
-                    }
-
-                    const updateResponse = await fetch(`https://api.github.com/repos/${repo}/contents/${path}`, {
-                        method: 'PUT',
-                        headers: {
-                            'Authorization': `token ${token}`,
-                            'Content-Type': 'application/json',
-                            'Accept': 'application/vnd.github.v3+json'
-                        },
-                        body: JSON.stringify(requestBody)
-                    });
-
-                    if (updateResponse.ok) {
-                        showToast('笔记已成功同步到 GitHub！', 'success');
-                        updateSyncStatus('success');
-                        clearOfflineQueue();
-                        return true;
-                    } else if (updateResponse.status === 409) {
-                        return false; // 冲突，需要重试
-                    } else {
-                        throw new Error(`同步失败: ${updateResponse.statusText}`);
-                    }
-                } catch (error) {
-                    console.error('同步出错:', error);
-                    showToast('同步失败: ' + error.message, 'error');
-                    updateSyncStatus('error');
-                    return true; // 其他错误，不重试
+                if (!repo || !token) {
+                    showToast('请先配置 GitHub 仓库信息', 'error');
+                    return;
                 }
-            }
 
-            // 获取当前文件 SHA
-            let sha;
-            const fileResponse = await fetch(`https://api.github.com/repos/${repo}/contents/${path}?ref=${branch}`, {
-                headers: {
-                    'Authorization': `token ${token}`,
-                    'Accept': 'application/vnd.github.v3+json'
-                }
-            });
-            if (fileResponse.ok) {
-                const fileData = await fileResponse.json();
-                sha = fileData.sha;
-            }
+                path = path.replace(/\/+$/, '');
+                if (!path.endsWith('.json')) path += '/quiz_data.json';
 
-            let syncSuccess = await attemptSync(sha);
-            let retryCount = 0;
-            const maxRetries = 3;
+                async function forceSync(retryCount = 0, maxRetries = 3) {
+                    try {
+                        const content = JSON.stringify(quizData);
+                        const encodedContent = btoa(unescape(encodeURIComponent(content)));
 
-            while (!syncSuccess && retryCount < maxRetries) {
-                retryCount++;
-                showToast(`检测到版本冲突，第 ${retryCount} 次尝试合并...`, 'info');
+                        // 获取最新文件 SHA
+                        let sha;
+                        const fileResponse = await fetch(
+                            `https://api.github.com/repos/${repo}/contents/${path}?ref=${branch}`,
+                            {
+                                headers: {
+                                    'Authorization': `token ${token}`,
+                                    'Accept': 'application/vnd.github.v3+json'
+                                }
+                            }
+                        );
 
-                const fetchResponse = await fetch(`https://api.github.com/repos/${repo}/contents/${path}?ref=${branch}`, {
-                    headers: {
-                        'Authorization': `token ${token}`,
-                        'Accept': 'application/vnd.github.v3+json'
+                        if (fileResponse.ok) {
+                            const fileData = await fileResponse.json();
+                            sha = fileData.sha;
+                        } else if (fileResponse.status === 404) {
+                            sha = null; // 文件不存在
+                        } else {
+                            throw new Error(`获取文件状态失败: ${fileResponse.status}`);
+                        }
+
+                        const requestBody = {
+                            message: `Force sync notes at ${new Date().toISOString()}`,
+                            content: encodedContent,
+                            branch: branch
+                        };
+                        if (sha) {
+                            requestBody.sha = sha;
+                        }
+
+                        const updateResponse = await fetch(
+                            `https://api.github.com/repos/${repo}/contents/${path}`,
+                            {
+                                method: 'PUT',
+                                headers: {
+                                    'Authorization': `token ${token}`,
+                                    'Content-Type': 'application/json',
+                                    'Accept': 'application/vnd.github.v3+json'
+                                },
+                                body: JSON.stringify(requestBody)
+                            }
+                        );
+
+                        if (updateResponse.ok) {
+                            clearOfflineQueue();
+                            console.log('笔记已成功强制同步到 GitHub！');
+                            showToast('笔记已成功强制同步到 GitHub！', 'success');
+                            updateSyncStatus('success');
+                            return true;
+                        } else {
+                            const errorData = await updateResponse.json();
+                            if (updateResponse.status === 409 && retryCount < maxRetries) {
+                                showToast(`检测到冲突，第 ${retryCount + 1} 次重试...`, 'info');
+                                await new Promise(resolve => setTimeout(resolve, 1000)); // 等待1秒
+                                return await forceSync(retryCount + 1, maxRetries);
+                            }
+                            throw new Error(`同步失败: ${errorData.message || updateResponse.statusText}`);
+                        }
+                    } catch (error) {
+                        console.error('强制同步出错:', error);
+                        showToast('强制同步失败: ' + error.message, 'error');
+                        updateSyncStatus('error');
+                        return false;
                     }
-                });
-
-                if (fetchResponse.ok) {
-                    const fileData = await fetchResponse.json();
-                    const remoteContent = JSON.parse(decodeURIComponent(escape(atob(fileData.content))));
-                    quizData = mergeData(quizData, remoteContent);
-                    localStorage.setItem('quizData', JSON.stringify(quizData));
-                    sha = fileData.sha; // 更新 SHA
-                    syncSuccess = await attemptSync(sha);
-                } else {
-                    showToast('无法拉取最新数据', 'error');
-                    break;
                 }
-            }
 
-            if (!syncSuccess) {
-                showToast('多次尝试后仍无法同步，请手动检查', 'error');
+                const syncSuccess = await forceSync();
+
+                if (!syncSuccess) {
+                    showToast('多次尝试后仍无法同步，请检查网络或配置', 'error');
+                }
+            } finally {
+                isSyncing = false;
             }
         }
         // 显示离线队列
@@ -6364,7 +6369,6 @@
             }
         }
 
-        // 新增拉取数据的函数
         async function fetchDataFromGithub(auto = false) {
             const repo = localStorage.getItem('github_repo');
             let path = localStorage.getItem('github_path');
@@ -6397,29 +6401,52 @@
                 const data = await response.json();
                 const remoteContent = JSON.parse(decodeURIComponent(escape(atob(data.content))));
 
-                // 检查本地数据
-                const localData = JSON.parse(localStorage.getItem('quizData') || '{}');
+                // 检查本地数据，确保存储的数据是有效的 JSON
+                let localData;
+                try {
+                    localData = JSON.parse(localStorage.getItem('quizData') || '{}');
+                } catch (e) {
+                    console.error('本地数据解析失败，使用空对象', e);
+                    localData = {};
+                }
 
                 // 深度比较函数，忽略特定字段
                 const areDataEqual = (local, remote) => {
                     const cleanObject = (obj) => {
-                        if (!obj?.chapters) return obj;
-                        const newObj = structuredClone(obj); // 深拷贝
+                        // 如果对象为空或没有 chapters，返回空对象或原对象
+                        if (!obj || typeof obj !== 'object' || !obj.chapters) {
+                            return { chapters: [] };
+                        }
+                        const newObj = structuredClone(obj);
+                        // 确保 chapters 存在且是数组
+                        if (!Array.isArray(newObj.chapters)) {
+                            newObj.chapters = [];
+                        }
                         newObj.chapters.forEach(chapter => {
+                            // 确保 questions 存在且是数组
+                            if (!Array.isArray(chapter.questions)) {
+                                chapter.questions = [];
+                            }
                             chapter.questions.forEach(q => {
                                 delete q.userAnswer;
                                 delete q.previousAnswer;
+                                // 可选：清理其他可能导致差异的字段
+                                // delete q.someOtherField;
                             });
                         });
                         return newObj;
                     };
 
-                    return JSON.stringify(cleanObject(local)) === JSON.stringify(cleanObject(remote));
+                    const cleanedLocal = cleanObject(local);
+                    const cleanedRemote = cleanObject(remote);
+
+                    return JSON.stringify(cleanedLocal) === JSON.stringify(cleanedRemote);
                 };
 
                 if (!areDataEqual(localData, remoteContent)) {
                     // 数据不同，触发合并流程
                     showMergeModal(localData, remoteContent);
+                    console.log('Data differs, showing merge modal');
                 } else if (!auto) {
                     showToast('本地数据已是最新版本', 'success');
                 }
