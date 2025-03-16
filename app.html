@@ -2983,6 +2983,16 @@
                         <span class="slider"></span>
                     </label>
                 </div>
+                <div class="setting-item">
+                    <div class="setting-description">
+                        <div class="setting-name">滑动手势</div>
+                        <div class="setting-detail">启用左右滑动切换题目</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="swipeGestureToggle" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
             </div>
 
             <button onclick="saveSettings()" class="success">
@@ -3600,6 +3610,7 @@
             initPromptPresets();
             initRepoFeatures();
             initFontSettings(); // 添加字体设置初始化
+            initSettingsPanel(); // 添加设置面板初始化
         });
 
 
@@ -3623,7 +3634,9 @@
             document.getElementById('mobileModeButton').addEventListener('click', toggleModeSettingsModal);
 
             // 初始化左右滑动手势
-            initSwipeGesture();
+            if (swipeGestureEnabled) {
+                initSwipeGesture();
+            }
 
             // 同步章节选择器
             updateMobileSelectors();
@@ -3641,9 +3654,11 @@
             container.addEventListener('touchend', function (e) {
                 const touchEndX = e.changedTouches[0].clientX;
                 const diffX = touchStartX - touchEndX;
+                const touchEndY = e.changedTouches[0].clientY;
+                const diffY = touchStartX - touchEndY;
 
                 // 滑动距离超过50像素才触发
-                if (Math.abs(diffX) > 50) {
+                if (Math.abs(diffX) > 100 && Math.abs(diffY) < 50) {
                     if (diffX > 0) {
                         // 左滑：下一题
                         if (!document.getElementById('nextButton').disabled) {
@@ -3724,6 +3739,7 @@
             animationEnabled = localStorage.getItem('animationEnabled') !== 'false'; // 默认为true
             allowSkip = localStorage.getItem('allowSkip') === 'true'; // 默认为false
             showNotesAfterAnswer = localStorage.getItem('showNotesAfterAnswer') === 'true'; // 默认为false
+            swipeGestureEnabled = localStorage.getItem('swipeGestureEnabled') !== 'false'; // 默认为true
             viewWrongAfterAll = localStorage.getItem('viewWrongAfterAll') === 'true'; // 默认为false
             lockAnswerAfterWrong = localStorage.getItem('lockAnswerAfterWrong') === 'true'; // 默认为false
             showProgress = localStorage.getItem('showProgress') !== 'false'; // 默认为true
@@ -5543,16 +5559,8 @@
                     generateBtn.disabled = false;
                     generateBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>';
                 }, 2000);
-
-                // 自动同步
-                try {
-                    await syncNotesToGithub();
-                    showToast('笔记同步成功！', 'success');
-                } catch (error) {
-                    // 只有同步失败时才加入队列
-                    addToOfflineQueue('sync');
-                    showToast('同步失败，已加入离线队列', 'warning');
-                }
+                autoSyncNotes;
+                
             }
         }
         // 获取AI API配置
@@ -6416,9 +6424,15 @@
         }
 
         // 自动同步笔记
-        function autoSyncNotes() {
+        async function autoSyncNotes() {
             if (localStorage.getItem('auto_sync') === 'true') {
-                syncNotesToGithub();
+                try{
+                await syncNotesToGithub();
+                }catch (error) {
+                    console.error('自动同步笔记出错:', error);
+                    addToOfflineQueue('sync');
+                    showToast('同步失败，已加入离线队列', 'warning');
+                }
             }
         }
 
