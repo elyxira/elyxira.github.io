@@ -3641,22 +3641,35 @@
         }
 
         // 初始化滑动手势
+        // 初始化滑动手势
         function initSwipeGesture() {
-            const container = document.getElementById('questionContainer');
+            
+
+            const container = document.getElementById('quizPage');
             let touchStartX = 0;
+            let touchStartY = 0; // 添加Y轴起始点
+
+            // 获取屏幕尺寸
+            const screenWidth = window.innerWidth;
+            const screenHeight = window.innerHeight;
+            // 设置水平滑动阈值为屏幕宽度的15%
+            const horizontalThreshold = screenWidth * 0.15;
+            // 设置垂直滑动阈值为屏幕高度的10%
+            const verticalThreshold = screenHeight * 0.10;
 
             container.addEventListener('touchstart', function (e) {
                 touchStartX = e.touches[0].clientX;
+                touchStartY = e.touches[0].clientY; // 记录Y轴起始位置
             });
 
             container.addEventListener('touchend', function (e) {
                 const touchEndX = e.changedTouches[0].clientX;
-                const diffX = touchStartX - touchEndX;
                 const touchEndY = e.changedTouches[0].clientY;
-                const diffY = touchStartX - touchEndY;
+                const diffX = touchStartX - touchEndX;
+                const diffY = touchStartY - touchEndY; // 修改为使用touchStartY
 
-                // 滑动距离超过50像素才触发
-                if (Math.abs(diffX) > 50 && Math.abs(diffY) < 50 && swipeGestureEnabled) {
+                // 使用不同的水平和垂直阈值判断
+                if (Math.abs(diffX) > horizontalThreshold && Math.abs(diffY) < verticalThreshold && swipeGestureEnabled) {
                     if (diffX > 0) {
                         // 左滑：下一题
                         if (!document.getElementById('nextButton').disabled) {
@@ -3669,8 +3682,7 @@
                         }
                     }
                 }
-            })
-
+            });
         }
 
         // 更新移动端选择器
@@ -3760,6 +3772,8 @@
             document.getElementById('lockAnswerAfterWrongToggle').checked = lockAnswerAfterWrong;
             document.getElementById('showProgressToggle').checked = showProgress;
             document.getElementById('streamOutputToggle').checked = streamOutput;
+            document.getElementById('swipeGestureToggle').checked = swipeGestureEnabled;
+
 
             // 根据动画设置启用/禁用动画类
             if (!animationEnabled) {
@@ -3798,6 +3812,7 @@
             localStorage.setItem('lockAnswerAfterWrong', lockAnswerAfterWrong);
             localStorage.setItem('showProgress', showProgress);
             localStorage.setItem('streamOutput', streamOutput);
+            localStorage.setItem('swipeGestureEnabled', swipeGestureEnabled);
 
             // 关闭设置弹窗
             toggleSettingsModal();
@@ -4109,6 +4124,9 @@
             // 刷题模式弹窗
             document.getElementById('closeModeSettings').addEventListener('click', toggleModeSettingsModal);
             document.getElementById('rangeEnabledToggle').addEventListener('change', toggleRangeSettingsGroup);
+        document.getElementById('swipeGestureToggle').addEventListener('change', function() {
+            swipeGestureEnabled = this.checked;
+        });
 
             // 当点击模态框外部时关闭模态框
             document.getElementById('settingsModal').addEventListener('click', function (e) {
@@ -5403,6 +5421,9 @@
         // 事件监听器添加部分
         document.getElementById('closeModeSettings').addEventListener('click', toggleModeSettingsModal);
         document.getElementById('rangeEnabledToggle').addEventListener('change', toggleRangeSettingsGroup);
+        document.getElementById('swipeGestureToggle').addEventListener('change', function() {
+            swipeGestureEnabled = this.checked;
+        });
 
         // 当点击模态框外部时关闭模态框
         document.getElementById('modeSettingsModal').addEventListener('click', function (e) {
@@ -5558,7 +5579,7 @@
                     generateBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>';
                 }, 2000);
                 autoSyncNotes;
-                
+
             }
         }
         // 获取AI API配置
@@ -6424,9 +6445,9 @@
         // 自动同步笔记
         async function autoSyncNotes() {
             if (localStorage.getItem('auto_sync') === 'true') {
-                try{
-                await syncNotesToGithub();
-                }catch (error) {
+                try {
+                    await syncNotesToGithub();
+                } catch (error) {
                     console.error('自动同步笔记出错:', error);
                     addToOfflineQueue('sync');
                     showToast('同步失败，已加入离线队列', 'warning');
@@ -6534,6 +6555,9 @@
 
                 // 字体设置
                 'font-family': localStorage.getItem('font-family'),
+
+                // 功能设置
+                swipeGestureEnabled: localStorage.getItem('swipeGestureEnabled'),
 
                 // GitHub配置
                 github_repo: localStorage.getItem('github_repo'),
