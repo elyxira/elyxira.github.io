@@ -1,23 +1,81 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>巡夜医学 - 医学学习平台</title>
+    <title>巡夜医学</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <style>
+        /* 主题变量系统 */
+        :root {
+            /* 核心颜色系统 */
+            --primary-color: #5164f4;
+            --heading-color: #7684ef;
+            --primary-light: rgba(68, 104, 238, 0.12);
+            --secondary-color: #5a6bf2;
+            --tertiary-color: rgba(155, 175, 245, 0.12);
+            --success-color: #36b991;
+            --success-bg: rgba(54, 185, 145, 0.12);
+            --danger-color: #e54960;
+            --danger-bg: rgba(229, 73, 96, 0.1);
+            
+            /* 背景和文本颜色 */
+            --bg-color: #f9faff;
+            --card-bg: #ffffff;
+            --text-color: #2a2a30;
+            --text-light: #5a5a68;
+            --border-color: #eaeef8;
+            
+            /* UI 样式变量 */
+            --border-radius: 8px;
+            --box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            
+            /* 字体设置 */
+            --font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+        
+        /* 暗色模式样式 */
+        [data-theme="dark"] {
+            --primary-color: #f39c12;
+            --heading-color: #f5b041;
+            --primary-light: rgba(128, 128, 128, 0.15);
+            --secondary-color: #b47e3c;
+            --tertiary-color: rgba(109, 109, 109, 0.15);
+            --success-color: #36a18c;
+            --success-bg: rgba(62, 181, 135, 0.2);
+            --danger-color: #9e414f;
+            --danger-bg: rgba(214, 95, 110, 0.2);
+            
+            --bg-color: #252628;
+            --card-bg: #313337;
+            --text-color: #E6E1E3;
+            --text-light: #b4bec9;
+            --border-color: #3f4255;
+            
+            --box-shadow: 0 6px 16px rgba(0, 10, 30, 0.35);
+        }
+        
+        /* 基础样式 */
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            font-family: "PingFang SC", "Helvetica Neue", Arial, sans-serif;
         }
         
         body {
-            background-color: #f8f9fa;
-            color: #333;
+            font-family: var(--font-family);
+            background-color: var(--bg-color);
+            color: var(--text-color);
             line-height: 1.6;
+            transition: background-color 0.5s ease, color 0.5s ease;
+            -webkit-tap-highlight-color: transparent;
+            min-height: 100vh;
         }
         
+        /* 页面容器 */
         .container {
             min-height: 100vh;
             display: flex;
@@ -26,138 +84,197 @@
             align-items: center;
             padding: 2rem;
             text-align: center;
+            max-width: 1200px;
+            margin: 0 auto;
         }
         
+        /* 标题样式 */
         .logo {
-            font-size: 2.5rem;
+            font-size: 3rem;
             font-weight: 700;
             margin-bottom: 1rem;
-            color: #2c3e50;
+            color: var(--heading-color);
+            transition: var(--transition);
         }
         
         .tagline {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             margin-bottom: 3rem;
-            max-width: 600px;
-            color: #7f8c8d;
+            max-width: 700px;
+            color: var(--text-light);
+            transition: var(--transition);
         }
         
+        /* 主按钮样式 */
         .main-button {
-            background-color: #3498db;
+            background-color: var(--primary-color);
             color: white;
             text-decoration: none;
-            padding: 1rem 2rem;
-            border-radius: 8px;
+            padding: 1.2rem 2.5rem;
+            border-radius: var(--border-radius);
             font-size: 1.2rem;
             font-weight: 600;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+            transition: var(--transition);
+            box-shadow: var(--box-shadow);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            cursor: pointer;
         }
         
         .main-button:hover {
-            background-color: #2980b9;
-            transform: translateY(-2px);
-            box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
+            background-color: var(--secondary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
         }
         
+        /* 功能特性区域 */
         .features {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            margin-top: 4rem;
-            max-width: 900px;
+            margin-top: 5rem;
+            gap: 2rem;
+            max-width: 1000px;
         }
         
         .feature {
-            flex: 1 1 250px;
-            margin: 1rem;
-            padding: 1.5rem;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-            transition: all 0.3s ease;
+            flex: 1 1 280px;
+            padding: 2rem;
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
         }
         
         .feature:hover {
             transform: translateY(-5px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
         }
         
         .feature-icon {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            color: #3498db;
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
         }
         
         .feature-title {
-            font-size: 1.2rem;
+            font-size: 1.4rem;
             font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: #2c3e50;
+            margin-bottom: 1rem;
+            color: var(--heading-color);
         }
         
         .feature-desc {
-            font-size: 0.9rem;
-            color: #7f8c8d;
+            font-size: 1rem;
+            color: var(--text-light);
         }
         
+        /* 页脚样式 */
         footer {
-            margin-top: 4rem;
-            color: #95a5a6;
+            margin-top: 5rem;
+            padding: 2rem 0;
+            color: var(--text-light);
             font-size: 0.9rem;
+            width: 100%;
+            transition: var(--transition);
         }
         
         .footer-link {
-            color: #3498db;
+            color: var(--primary-color);
             text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .footer-link:hover {
+            color: var(--secondary-color);
+            text-decoration: underline;
+        }
+        
+        /* 暗色模式切换按钮 */
+        .theme-toggle {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--text-color);
+            transition: var(--transition);
         }
         
         /* 响应式调整 */
         @media (max-width: 768px) {
             .logo {
-                font-size: 2rem;
+                font-size: 2.5rem;
             }
             
             .tagline {
-                font-size: 1rem;
-                margin-bottom: 2rem;
+                font-size: 1.1rem;
+                margin-bottom: 2.5rem;
+                padding: 0 1rem;
             }
             
             .main-button {
-                padding: 0.8rem 1.5rem;
-                font-size: 1rem;
+                padding: 1rem 2rem;
+                font-size: 1.1rem;
             }
             
             .features {
-                margin-top: 2rem;
+                margin-top: 3rem;
+                gap: 1.5rem;
+                padding: 0 1rem;
+            }
+            
+            .feature {
+                padding: 1.5rem;
+            }
+            
+            .feature-icon {
+                font-size: 2.5rem;
+            }
+            
+            .feature-title {
+                font-size: 1.2rem;
+            }
+            
+            footer {
+                margin-top: 3rem;
+                padding: 1.5rem 1rem;
             }
         }
     </style>
 </head>
+
 <body>
+    <button class="theme-toggle" id="themeToggle">🌙</button>
+    
     <div class="container">
         <div class="logo">巡夜医学</div>
-        <p class="tagline">一站式医学学习平台，助力医学生高效备考</p>
+        <p class="tagline">一站式医学学习平台，助力医学生高效备考与知识掌握</p>
         
-        <a href="./app.html" class="main-button">立即开始刷题</a>
+        <a href="./app.html" class="main-button">开始刷题学习</a>
         
         <div class="features">
             <div class="feature">
                 <div class="feature-icon">📚</div>
                 <h3 class="feature-title">海量题库</h3>
-                <p class="feature-desc">覆盖各类医学考试，持续更新最新考点</p>
+                <p class="feature-desc">覆盖临床医学各类考试，持续更新最新考点和知识点，确保学习内容与考试同步</p>
             </div>
             
             <div class="feature">
                 <div class="feature-icon">📊</div>
                 <h3 class="feature-title">智能分析</h3>
-                <p class="feature-desc">个性化学习报告，精准定位薄弱环节</p>
+                <p class="feature-desc">基于AI的个性化学习报告，精准定位薄弱环节，制定最优学习路径</p>
             </div>
             
             <div class="feature">
-                <div class="feature-icon">📱</div>
-                <h3 class="feature-title">随时随地</h3>
-                <p class="feature-desc">多端同步，碎片时间高效学习</p>
+                <div class="feature-icon">📝</div>
+                <h3 class="feature-title">笔记系统</h3>
+                <p class="feature-desc">支持Markdown格式笔记，结合AI助手，高效整理学习要点，形成个人知识库</p>
             </div>
         </div>
         
@@ -165,6 +282,40 @@
             <p>© 2025 巡夜医学 - 开源医学学习平台 | <a href="https://github.com/yokuminto/yokuminto.github.io" class="footer-link">GitHub</a></p>
         </footer>
     </div>
-</body>
-</html>
 
+    <script>
+        // 暗色/亮色模式切换
+        const themeToggle = document.getElementById('themeToggle');
+        
+        // 检查本地存储的主题偏好
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                themeToggle.textContent = '☀️';
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+                themeToggle.textContent = '🌙';
+            }
+        }
+        
+        // 切换主题
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            if (currentTheme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
+                themeToggle.textContent = '🌙';
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+                themeToggle.textContent = '☀️';
+            }
+        });
+        
+        // 初始化主题
+        initTheme();
+    </script>
+</body>
+
+</html>
