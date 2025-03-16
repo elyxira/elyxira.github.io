@@ -3656,7 +3656,7 @@
                 const diffY = touchStartX - touchEndY;
 
                 // 滑动距离超过50像素才触发
-                if (Math.abs(diffX) > 100 && Math.abs(diffY) < 50 && swipeGestureEnabled) {
+                if (Math.abs(diffX) > 75 && Math.abs(diffY) < 50 && swipeGestureEnabled) {
                     if (diffX > 0) {
                         // 左滑：下一题
                         if (!document.getElementById('nextButton').disabled) {
