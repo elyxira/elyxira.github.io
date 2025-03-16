@@ -3640,10 +3640,15 @@
             updateMobileSelectors();
         }
 
-        // 初始化滑动手势
         function initSwipeGesture() {
             const container = document.getElementById('questionContainer');
             let touchStartX = 0;
+
+            // 获取屏幕宽度
+            const screenWidth = window.innerWidth;
+            // 设置滑动阈值为屏幕宽度的15%（可调整）
+            const swipeThreshold = screenWidth * 0.25;
+            const limitSwipeThreshold = screenWidth * 0.15;
 
             container.addEventListener('touchstart', function (e) {
                 touchStartX = e.touches[0].clientX;
@@ -3655,8 +3660,8 @@
                 const touchEndY = e.changedTouches[0].clientY;
                 const diffY = touchStartX - touchEndY;
 
-                // 滑动距离超过50像素才触发
-                if (Math.abs(diffX) > 75 && Math.abs(diffY) < 50 && swipeGestureEnabled) {
+                // 使用屏幕占比的滑动距离阈值判断，并限制垂直滑动
+                if (Math.abs(diffX) > swipeThreshold && Math.abs(diffY) < limitSwipeThreshold && swipeGestureEnabled) {
                     if (diffX > 0) {
                         // 左滑：下一题
                         if (!document.getElementById('nextButton').disabled) {
@@ -3669,8 +3674,7 @@
                         }
                     }
                 }
-            })
-
+            });
         }
 
         // 更新移动端选择器
@@ -5558,7 +5562,7 @@
                     generateBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>';
                 }, 2000);
                 autoSyncNotes;
-                
+
             }
         }
         // 获取AI API配置
@@ -6424,9 +6428,9 @@
         // 自动同步笔记
         async function autoSyncNotes() {
             if (localStorage.getItem('auto_sync') === 'true') {
-                try{
-                await syncNotesToGithub();
-                }catch (error) {
+                try {
+                    await syncNotesToGithub();
+                } catch (error) {
                     console.error('自动同步笔记出错:', error);
                     addToOfflineQueue('sync');
                     showToast('同步失败，已加入离线队列', 'warning');
