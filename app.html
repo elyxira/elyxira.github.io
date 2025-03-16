@@ -4456,9 +4456,15 @@
                             userAnswer: null,
                             notes: '' // 添加笔记字段
                         };
-                        if (currentChapter) {
-                            currentChapter.questions.push(currentQuestion);
+                        // 如果没有当前章节，创建一个默认章节
+                        if (!currentChapter) {
+                            currentChapter = {
+                                title: '默认章节',
+                                questions: []
+                            };
+                            chapters.push(currentChapter);
                         }
+                        currentChapter.questions.push(currentQuestion);
                         continue;
                     }
                 }
@@ -4469,16 +4475,23 @@
                     continue;
                 }
 
-                // 4. 识别答案（包含"标准答案："）
-                if (currentQuestion && line.includes('标准答案：')) {
-                    const answerMatch = line.match(/标准答案：\s*([A-E])/);
-                    if (answerMatch && answerMatch.length >= 2) {
-                        currentQuestion.answer = answerMatch[1];
+                // 4. 识别答案（包含"标准答案："或相关变体）
+                if (currentQuestion && (line.includes('标准答案：') || line.includes('正确答案：') || line.includes('答案：'))) {
+                    // 处理标准答案
+                    const standardAnswerMatch = line.match(/(?:标准答案|正确答案|答案)：\s*([A-E])/i);
+                    if (standardAnswerMatch && standardAnswerMatch.length >= 2) {
+                        currentQuestion.answer = standardAnswerMatch[1].toUpperCase();
                     }
-                    const userAnswerMatch = line.match(/您的答案：\s*([A-E])/);
+
+                    // 处理用户答案（可选）
+                    const userAnswerMatch = line.match(/您的答案：\s*([A-E])/i);
                     if (userAnswerMatch && userAnswerMatch.length >= 2) {
-                        currentQuestion.previousAnswer = userAnswerMatch[1];
+                        currentQuestion.previousAnswer = userAnswerMatch[1].toUpperCase();
+                    } else {
+                        currentQuestion.previousAnswer = null;
                     }
+
+                    // 如果有选项缓冲区，保存选项并清空缓冲区
                     if (optionBuffer.length > 0) {
                         currentQuestion.options = [...optionBuffer];
                         optionBuffer = [];
@@ -4494,8 +4507,19 @@
                 currentQuestion.options = [...optionBuffer];
             }
 
+            // 如果没有任何章节但有题目，创建一个默认章节
+            if (chapters.length === 0 && globalId > 1) {
+                const defaultChapter = {
+                    title: '默认章节',
+                    questions: []
+                };
+                chapters.push(defaultChapter);
+                return { chapters };
+            }
+
+            // 如果完全没有任何内容，仍然抛出错误
             if (chapters.length === 0) {
-                throw new Error('未找到任何章节');
+                throw new Error('未找到任何章节或题目');
             }
 
             return { chapters };
