@@ -15,7 +15,7 @@
             "type": "msedge",
             "request": "launch",
             "name": "Open app.html",
-            "file": "d:\\Project\\巡夜医学前端\\app.html"
+            "file": "d:\\Project\\Elyxira前端\\app.html"
         }
     ]
 }
