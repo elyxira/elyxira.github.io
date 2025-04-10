@@ -46,7 +46,7 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: dist
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.ELYXIRA_TOKEN }}
           branch: gh-pages
           clean: true
           commit-message: "由GitHub Actions自动部署"
