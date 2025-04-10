@@ -3,8 +3,8 @@ name: 构建和部署
 on:
   push:
     branches:
-      - main # 当main分支有提交时触发
-  workflow_dispatch: # 允许手动触发
+      - main
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
@@ -16,11 +16,25 @@ jobs:
       - name: 设置Node.js环境
         uses: actions/setup-node@v4
         with:
-          node-version: '18' # 或者使用你项目适用的Node版本
+          node-version: '18'
           cache: 'npm'
 
+      # 方法1：清除npm缓存
+      - name: 清除npm缓存
+        run: npm cache clean --force
+        
+      # 方法2：使用npm install替代npm ci
       - name: 安装依赖
-        run: npm ci
+        run: npm install
+        # 或者尝试指定官方源
+        # run: npm install --registry=https://registry.npmjs.org/
+
+      # 如果还有问题，可以尝试方法3：使用yarn替代npm
+      # - name: 设置Yarn
+      #   run: npm install -g yarn
+      #
+      # - name: 使用Yarn安装依赖
+      #   run: yarn install --frozen-lockfile
 
       - name: 构建项目
         run: npm run build
@@ -31,11 +45,8 @@ jobs:
       - name: 部署到GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: dist # 只部署构建后的dist目录
-          token: ${{ secrets.GITHUB_TOKEN }} # 使用自动生成的token
-          # 如果部署到组织仓库，使用以下配置
-          # token: ${{ secrets.GH_PAGES_TOKEN }}
-          # repository-name: 你的组织/你的组织.github.io
-          branch: gh-pages # 或者你期望的分支名
-          clean: true # 清理目标分支上的旧文件
+          folder: dist
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: gh-pages
+          clean: true
           commit-message: "由GitHub Actions自动部署"
