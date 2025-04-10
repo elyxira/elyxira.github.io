@@ -1,0 +1,41 @@
+name: 构建和部署
+
+on:
+  push:
+    branches:
+      - main # 当main分支有提交时触发
+  workflow_dispatch: # 允许手动触发
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出源码
+        uses: actions/checkout@v4
+
+      - name: 设置Node.js环境
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18' # 或者使用你项目适用的Node版本
+          cache: 'npm'
+
+      - name: 安装依赖
+        run: npm ci
+
+      - name: 构建项目
+        run: npm run build
+
+      - name: 配置404页面
+        run: cp dist/index.html dist/404.html
+
+      - name: 部署到GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: dist # 只部署构建后的dist目录
+          token: ${{ secrets.GITHUB_TOKEN }} # 使用自动生成的token
+          # 如果部署到组织仓库，使用以下配置
+          # token: ${{ secrets.GH_PAGES_TOKEN }}
+          # repository-name: 你的组织/你的组织.github.io
+          branch: gh-pages # 或者你期望的分支名
+          clean: true # 清理目标分支上的旧文件
+          commit-message: "由GitHub Actions自动部署"
