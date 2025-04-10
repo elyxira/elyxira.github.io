@@ -61,506 +61,362 @@ except ImportError:
     # 定义解析文本函数
 import re
 from typing import List, Dict
+import requests  # 用于API调用
+import logging  # 添加日志模块
+
+# 默认的 AI 提示词
+DEFAULT_AI_PROMPT = """
+你是一个用于处理医学考试题目录入的AI助手。请从以下通过OCR识别的文本中，提取关键信息，并严格按照指定的JSON格式返回结果。
+
+需要提取的信息：
+1.  "question": 完整的题目题干文本。请移除所有题号、分数提示（如"(1分)"）、题型说明（如"A1型题"、"单选题"）、页眉、页脚（如"上一题"、"下一题"、"☆...开头的行"）以及其他与题目本身无关的标记。
+2.  "options": 一个包含所有选项字符串的Python列表。每个选项字符串应以选项字母（A-E）开头，后跟"、"或"."，然后是选项内容。请确保移除选项内容末尾可能混入的无关文字（如答案、解析提示、页脚）。如果选项格式是"内容 字母"，请将其转换为"字母、内容"的标准格式。
+3.  "answer": 正确答案的单个大写字母（A-E）。如果文本中同时存在"正确答案"和"我的答案"，优先提取"正确答案"。如果只找到"我的答案"，则提取它。如果找不到任何答案，则返回空字符串""。
+
+请忽略所有"试题解析"、"暂无解析"等解析内容。
+
+如果无法提取有效信息或文本内容混乱，请返回一个包含 "error" 键的JSON对象，例如：{{"error": "无法解析题目信息"}}。
+
+OCR文本如下：
+---
+{ocr_text}
+---
+
+请严格按以下JSON格式返回结果：
+{{
+  "question": "提取的题目题干",
+  "options": ["A、选项内容1", "B、选项内容2", ...],
+  "answer": "提取的答案字母"
+}}
+"""
 
 
 class OCRThread(QThread):
     finished = pyqtSignal(dict)
     raw_text = pyqtSignal(str)
 
-    def __init__(self, image):
+    def __init__(self, image, settings):
         super().__init__()
         self.image = image
-
-    def preprocess_text(self, lines: List[str]) -> str:
-        """预处理文本，规范化格式"""
-        text = " ".join(lines).replace("（）", "").replace("?", "").strip()
-        # 将全角符号转为半角
-        text = text.replace("：", ":").replace("。", ".").replace("、", ",")
-        return text
-
-    def extract_options(self, text: str) -> Dict[str, str]:
-        """提取选项"""
-        option_dict = {}
-        # 更加全面的正则表达式，适应更多格式，并防止提取到后续内容
-        pattern = r"(?:（\s*）|√\s*|×\s*|\?|\s)*([A-E])[\.\s,:、：]+([^A-E\n]+?)(?=\s*(?:（\s*）|√\s*|×\s*|\?|\s)*[A-E][\.\s,:、：]|答案[：:\s]|试题纠错|难度[：:\s]|$)"
-
-        for match in re.finditer(pattern, text):
-            code, content = match.groups()
-            content = content.strip()
-            if content:
-                option_dict[code] = content
-        return option_dict
-
-    def format_options(self, option_dict: Dict[str, str]) -> List[str]:
-        """格式化选项输出"""
-        options = []
-        for code in sorted(option_dict.keys()):
-            content = re.sub(r"[√×\s]+", "", option_dict[code]).strip()
-            if content:
-                options.append(f"{code}、{content}")
-        return options
-
-    def process_options(self, option_lines: List[str]) -> List[str]:
-        """主处理函数"""
-        # 预处理
-        text = self.preprocess_text(option_lines)
-        # 提取选项
-        option_dict = self.extract_options(text)
-        # 最多只保留5个选项（A-E）
-        valid_options = {}
-        for code in sorted(option_dict.keys()):
-            if len(valid_options) >= 5:
-                break
-            valid_options[code] = option_dict[code]
-        # 格式化输出
-        return self.format_options(valid_options)
-
-    def _process_options(self, result, option_lines):
-        """处理选项数据"""
-        if not option_lines:
-            return
-
-        # 最多只处理前5个选项（A-E）
-        option_count = 0
-        processed_options = {}
-
-        # 使用已有的选项处理方法
-        formatted_options = self.process_options(option_lines)
-        if formatted_options:
-            # 只保留前5个不同的选项
-            for opt in formatted_options:
-                if option_count >= 5:
-                    break
-
-                code = opt[0]  # 获取选项代码（A-E）
-                if code not in processed_options:
-                    processed_options[code] = opt
-                    option_count += 1
-
-            # 按照选项代码排序并添加到结果中
-            result["options"] = [
-                processed_options[code] for code in sorted(processed_options.keys())
-            ]
-        else:
-            # 备用方法：尝试直接提取每一行作为选项
-            processed_options = {}
-
-            for line in option_lines:
-                if option_count >= 5:
-                    break
-
-                # 改进的正则表达式，匹配更多选项格式，但排除后续解析内容
-                if match := re.match(
-                    r"(?:（\s*）|√\s*|×\s*|\?|\s)*([A-E])[\.、:：\s]+(.*?)(?=试题纠错|难度[：:\s]|标签|$)",
-                    line,
-                ):
-                    code, content = match.groups()
-
-                    # 如果该选项代码已处理过，跳过
-                    if code in processed_options:
-                        continue
-
-                    # 清理内容中的特殊标记
-                    content = re.sub(r"[?√×（）()\s]+", "", content).strip()
-                    if content:
-                        processed_options[code] = f"{code}、{content}"
-                        option_count += 1
-
-            # 按照选项代码排序并添加到结果中
-            result["options"] = [
-                processed_options[code] for code in sorted(processed_options.keys())
-            ]
-
-    def _clean_option_contents(self, options):
-        """清理选项内容，移除非选项的部分"""
-        cleaned_options = []
-        for opt in options:
-            # 查找是否包含试题纠错、难度、标签等关键词
-            match = re.match(
-                r"^([A-E])、(.*?)(?=试题纠错|难度[：:\s]|标签|收藏|评论|点赞|$)", opt
-            )
-            if match:
-                code, content = match.groups()
-                content = content.strip()
-                if content:
-                    cleaned_options.append(f"{code}、{content}")
-            else:
-                cleaned_options.append(opt)
-        return cleaned_options
-
-    def _clean_question_text(self, text):
-        """清理题目文本，移除括号等标记"""
-        if not text:
-            return text
-
-        # 移除题号
-        cleaned_text = re.sub(r"^\d+\.?\s*", "", text)
-
-        # 移除题目末尾的各种括号
-        cleaned_text = re.sub(r"\s*[\(（][\s\)）]*$", "", cleaned_text)
-
-        # 移除题目中的独立括号"（）"，但保留包含内容的括号
-        cleaned_text = re.sub(r"\s*[\(（]\s*[\)）]\s*", " ", cleaned_text)
-
-        # 清理多余空格
-        cleaned_text = re.sub(r"\s+", " ", cleaned_text).strip()
-
-        return cleaned_text
-
-    def _post_process_result(self, result):
-        """对解析结果进行后处理，确保数据格式正确"""
-        # 处理答案
-        if result.get("answer"):
-            result["answer"] = result["answer"].strip().upper()
-
-        # 确保所有选项都以"X、内容"格式
-        processed_options = []
-        for opt in result.get("options", []):
-            # 如果选项已经是正确格式
-            if re.match(r"^[A-E]、", opt):
-                processed_options.append(opt)
-            # 如果选项以A.或A:开头
-            elif match := re.match(r"^([A-E])[\.,:：]?\s*(.*)", opt):
-                code, content = match.groups()
-                if content.strip():
-                    processed_options.append(f"{code}、{content.strip()}")
-
-        # 更新选项
-        if processed_options:
-            result["options"] = processed_options
-
-        # 清理选项内容，移除非选项部分
-        result["options"] = self._clean_option_contents(result["options"])
-
-        # 过滤空选项
-        result["options"] = [opt for opt in result["options"] if len(opt) > 2]
-
-        # 确保题目不是选项
-        if result.get("question") and re.match(r"^[A-E][\.、:：]", result["question"]):
-            result["question"] = re.sub(r"^[A-E][\.、:：]\s*", "", result["question"])
-
-        # 清理题目中的括号标记
-        if result.get("question"):
-            result["question"] = self._clean_question_text(result["question"])
-
-        # 确保选项末尾没有解析内容
-        for i, opt in enumerate(result["options"]):
-            if "试题纠错" in opt or "难度：" in opt or "标签：" in opt:
-                parts = re.split(r"试题纠错|难度[：:\s]|标签", opt, 1)
-                if parts:
-                    result["options"][i] = parts[0].strip()
-
-        return result
-
-    def _extract_medical_exam_format(self, text):
-        """专门处理医学考试题格式"""
-        result = {"question": "", "options": [], "answer": ""}
-
-        # 先尝试提取答案
-        answer_match = re.search(r"答案[：:\s]*([A-E]+)", text, re.IGNORECASE)
-        if answer_match:
-            result["answer"] = answer_match.group(1).upper()
-
-        # 处理带有"（）"或"√"标记的选项
-        # 使用更精确的模式匹配医学考试题的选项格式，排除后续内容
-        option_matches = re.findall(
-            r"(?:（\s*）|√\s*|×\s*)?([A-E])[\.、:：\s]+(.*?)(?=\s*(?:（\s*）|√\s*|×\s*)?[A-E][\.、:：\s]|答案[：:\s]|试题纠错|难度[：:\s]|$)",
-            text,
-            re.DOTALL,
-        )
-
-        if option_matches:
-            # 限制最多提取5个选项（A-E）
-            valid_options = []
-            option_codes = set()
-
-            for code, content in option_matches:
-                # 如果已经有5个选项了，停止处理
-                if len(valid_options) >= 5:
-                    break
-
-                # 确保选项代码不重复
-                if code in option_codes:
-                    continue
-
-                # 清理选项内容，排除非选项内容
-                clean_content = re.sub(r"[?√×（）()\s]+", "", content).strip()
-                # 排除可能包含的解析内容
-                if (
-                    "试题纠错" in clean_content
-                    or "难度：" in clean_content
-                    or "标签：" in clean_content
-                ):
-                    parts = re.split(r"试题纠错|难度[：:\s]|标签", clean_content, 1)
-                    if parts:
-                        clean_content = parts[0].strip()
-
-                if clean_content:
-                    valid_options.append((code, clean_content))
-                    option_codes.add(code)
-
-            # 按选项代码排序并添加到结果中
-            for code, content in sorted(valid_options, key=lambda x: x[0]):
-                result["options"].append(f"{code}、{content}")
-
-            # 如果找到了选项，尝试提取题目
-            # 找到第一个选项的起始位置
-            first_option_pos = text.find(option_matches[0][0])
-            if first_option_pos > 0:
-                # 获取选项前的所有文本
-                question_part = text[:first_option_pos].strip()
-
-                # 清理题目
-                # 1. 移除章节信息
-                lines = [
-                    line.strip() for line in question_part.split("\n") if line.strip()
-                ]
-                question_lines = []
-                for line in lines:
-                    if not re.search(
-                        r"(医学|考试|科目|章|节|篇|单选题|多选题|判断题|\d+$)", line
-                    ):
-                        question_lines.append(line)
-
-                if question_lines:
-                    # 2. 合并题目文本
-                    question_text = " ".join(question_lines)
-                    # 3. 使用统一的题目清理方法
-                    result["question"] = self._clean_question_text(question_text)
-
-        return result
-
-    def _parse_text(self, text):
-        """试题解析器"""
-        # 先尝试专门的格式处理
-        medical_format_result = self._extract_medical_exam_format(text)
-
-        # 如果专门处理方法成功提取了完整的题目数据，直接返回
-        if (
-            medical_format_result["question"]
-            and medical_format_result["options"]
-            and medical_format_result["answer"]
-        ):
-            return medical_format_result
-
-        # 否则继续原有的处理逻辑
-        lines = [line.strip() for line in text.split("\n") if line.strip()]
-        result = {"question": "", "options": [], "answer": ""}
-
-        # 尝试先查找答案，可能在任何位置出现
-        for line in lines:
-            if "答案" in line:
-                if match := re.search(r"答案[：:\s]*([A-E]+)", line, re.IGNORECASE):
-                    result["answer"] = match.group(1).upper()
-                    break
-
-        # 预处理：识别选项行 - 更新正则以匹配更多格式
-        option_pattern = re.compile(
-            r"(?:（\s*）|√\s*|×\s*|\?|\s)*([A-E])[\.、:：\s]+(.*)"
-        )
-        option_lines = []
-        option_indices = []
-        for i, line in enumerate(lines):
-            if option_pattern.match(line):
-                option_lines.append(line)
-                option_indices.append(i)
-
-        # 如果找到选项行
-        if option_indices:
-            # 尝试提取题目：选项前的所有内容，但排除题号和考试信息
-            first_option_idx = min(option_indices)
-            if first_option_idx > 0:
-                # 过滤掉章节和考试信息
-                question_lines = []
-                for i in range(first_option_idx):
-                    line = lines[i]
-                    # 排除章节、考试信息等
-                    if not re.search(
-                        r"^(医学|考试|科目|章|节|篇|单选题|多选题|判断题|\d+$)", line
-                    ):
-                        question_lines.append(line)
-
-                if question_lines:
-                    question_text = " ".join(question_lines)
-                    # 使用统一的题目清理方法
-                    result["question"] = self._clean_question_text(question_text)
-
-            # 处理选项
-            self._process_options(result, option_lines)
-
-        # 如果没有题目，尝试在文本开头查找
-        if not result["question"] and lines:
-            # 尝试提取疑似题目内容，跳过章节信息
-            for line in lines:
-                if (
-                    not re.match(r"^\s*(?:\d+\.?\s*)?[A-E][\.、:：]", line)
-                    and "答案" not in line.lower()
-                    and not re.search(
-                        r"^(医学|考试|科目|章|节|篇|单选题|多选题|判断题|\d+$)", line
-                    )
-                ):
-                    # 使用统一的题目清理方法
-                    result["question"] = self._clean_question_text(line)
-                    break
-
-        # 确保每个选项都以 "A、" 格式开头
-        processed_options = []
-        for opt in result["options"]:
-            if not re.match(r"^[A-E]、", opt):
-                if re.match(r"^[A-E]", opt):
-                    code = opt[0]
-                    content = opt[1:].strip()
-                    if content:
-                        processed_options.append(f"{code}、{content}")
-            else:
-                processed_options.append(opt)
-
-        result["options"] = processed_options
-
-        # 清理问题文本中的多余空格和特殊字符
-        if result["question"]:
-            result["question"] = re.sub(r"\s+", " ", result["question"]).strip()
-
-        return result
+        self.settings = settings
+        logging.info("OCRThread initialized.")
 
     def run(self):
+        logging.info("OCRThread run started.")
         try:
             if PADDLE_OCR_AVAILABLE:
+                logging.info("PaddleOCR available. Starting OCR...")
                 ocr = PaddleOCR(use_angle_cls=True, lang="ch", show_log=False)
                 result = ocr.ocr(np.array(self.image), cls=True)
+                logging.info(f"OCR raw result length: {len(result) if result else 0}")
 
                 # 提取并格式化OCR文本
                 if result and len(result) > 0:
-                    # 按照行号排序以保证文本顺序正确
-                    sorted_lines = sorted(
-                        result[0], key=lambda x: x[0][0][1]
-                    )  # 按y坐标排序
-
-                    # 合并同一行的文本
+                    sorted_lines = sorted(result[0], key=lambda x: x[0][0][1])
                     merged_lines = []
                     current_y = -1
                     current_line = ""
+                    y_threshold = 10
 
-                    for line in sorted_lines:
-                        y_coord = line[0][0][1]
-                        text = line[1][0]
+                    for box_info in sorted_lines:
+                        box = box_info[0]
+                        text = box_info[1][0]
+                        center_y = (box[0][1] + box[2][1]) / 2
 
-                        # 如果y坐标相差不大，认为是同一行
-                        if (
-                            current_y == -1 or abs(y_coord - current_y) > 10
-                        ):  # 阈值可调整
+                        if current_y == -1 or abs(center_y - current_y) > y_threshold:
                             if current_line:
                                 merged_lines.append(current_line)
                             current_line = text
-                            current_y = y_coord
+                            current_y = center_y
                         else:
-                            # 检查是否需要在特定位置添加换行
-                            # 特殊处理：如果前一段文本以选项结尾，而这一段以"试题纠错"等开头，则添加换行
-                            if re.search(r"[A-E]\s*$", current_line) and re.match(
-                                r"试题纠错|难度[：:\s]|标签|答案", text
-                            ):
-                                merged_lines.append(current_line)
-                                current_line = text
-                                current_y = y_coord
-                            else:
-                                current_line += " " + text
+                            current_line += " " + text
+                            current_y = (current_y + center_y) / 2
 
-                    # 添加最后一行
                     if current_line:
                         merged_lines.append(current_line)
-
-                    # 连接所有行
                     ocr_text = "\n".join(merged_lines)
-
-                    # 预处理：分离解析部分
-                    ocr_text = self._preprocess_medical_text(ocr_text)
-
+                    logging.info(f"OCR processed text length: {len(ocr_text)}")
                     self.raw_text.emit(ocr_text)
 
-                    # 解析文本
-                    parsed_result = self._parse_text(ocr_text)
+                    # --- 使用 AI 进行解析 ---
+                    ai_api_url = self.settings.value("ai_api_url", "")
+                    ai_api_key = self.settings.value("ai_api_key", "")
+                    ai_model_name = self.settings.value("ai_model_name", "")
+                    logging.info(
+                        f"AI Config: URL='{ai_api_url}', Key='{'***' if ai_api_key else 'None'}', Model='{ai_model_name}'"
+                    )
 
-                    # 补充处理，确保选项和答案的格式
-                    parsed_result = self._post_process_result(parsed_result)
+                    if not all([ai_api_url, ai_api_key, ai_model_name]):
+                        logging.error(
+                            "AI configuration incomplete (URL, Key, or Model Name missing)."
+                        )
+                        self.finished.emit(
+                            {
+                                "error": "AI配置不完整（URL、密钥或模型名称缺失），请检查设置"
+                            }
+                        )
+                        return
 
-                    self.finished.emit(parsed_result)
+                    prompt = DEFAULT_AI_PROMPT.format(ocr_text=ocr_text)
+                    logging.info(f"Formatted AI Prompt length: {len(prompt)}")
+                    # logging.debug(f"Full Prompt: {prompt}")
+
+                    response_json = None
+                    try:
+                        # API Call Block
+                        logging.info(
+                            f"Sending request to AI API: {ai_api_url} with model {ai_model_name}"
+                        )
+                        headers = {
+                            "Authorization": f"Bearer {ai_api_key}",
+                            "Content-Type": "application/json",
+                        }
+                        data = {
+                            "model": ai_model_name,
+                            "messages": [
+                                {
+                                    "role": "system",
+                                    "content": "You are a helpful assistant designed to output JSON.",
+                                },
+                                {"role": "user", "content": prompt},
+                            ],
+                        }
+                        timeout_seconds = 30
+                        response = requests.post(
+                            ai_api_url,
+                            headers=headers,
+                            data=json.dumps(data),
+                            timeout=timeout_seconds,
+                        )
+                        logging.info(
+                            f"AI API Response Status Code: {response.status_code}"
+                        )
+                        response.raise_for_status()
+                        response_json = response.json()
+                        logging.info("AI API response received and parsed as JSON.")
+                        logging.debug(
+                            f"Raw API response JSON: {response_json}"
+                        )  # 取消注释以查看完整响应
+
+                    except requests.exceptions.RequestException as req_err:
+                        logging.error(f"AI API request failed: {req_err}")
+                        self.finished.emit({"error": f"AI API 请求失败: {req_err}"})
+                        return
+                    except Exception as api_conn_err:
+                        logging.error(
+                            f"Error during AI API call: {api_conn_err}", exc_info=True
+                        )
+                        self.finished.emit(
+                            {"error": f"AI API 调用时出错: {api_conn_err}"}
+                        )
+                        return
+
+                    # Now process the response_json safely
+                    try:
+                        if not response_json:
+                            logging.warning(
+                                "API response_json is None or empty after call block."
+                            )
+                            raise Exception("未能从API获取响应内容")
+
+                        logging.info("Processing AI response...")
+                        if "error" in response_json:
+                            error_details = response_json["error"]
+                            err_msg = f"AI API returned error: {error_details}"
+                            if (
+                                isinstance(error_details, dict)
+                                and "message" in error_details
+                            ):
+                                err_msg = (
+                                    f"AI API returned error: {error_details['message']}"
+                                )
+                            logging.error(err_msg)
+                            raise Exception(err_msg)
+
+                        parsed_result = None
+                        ai_content_str = (
+                            response_json.get("choices", [{}])[0]
+                            .get("message", {})
+                            .get("content", None)
+                        )
+                        logging.info(
+                            f"Extracted ai_content_str (type: {type(ai_content_str)}, len: {len(ai_content_str) if ai_content_str else 0})"
+                        )
+
+                        if ai_content_str:
+                            logging.info(
+                                "Attempting to parse ai_content_str as JSON..."
+                            )
+                            try:
+                                # Clean the string: remove potential markdown code fences and surrounding whitespace
+                                cleaned_content_str = ai_content_str.strip()
+                                if cleaned_content_str.startswith("```json"):
+                                    cleaned_content_str = cleaned_content_str[
+                                        len("```json") :
+                                    ].strip()
+                                if cleaned_content_str.startswith("```"):
+                                    cleaned_content_str = cleaned_content_str[
+                                        len("```") :
+                                    ].strip()
+                                if cleaned_content_str.endswith("```"):
+                                    cleaned_content_str = cleaned_content_str[
+                                        : -len("```")
+                                    ].strip()
+
+                                logging.info(
+                                    f"Cleaned content snippet for JSON parsing: {cleaned_content_str[:100]}..."
+                                )
+                                potential_result = json.loads(
+                                    cleaned_content_str
+                                )  # Use the cleaned string
+                                logging.info(
+                                    "Successfully parsed cleaned content string."
+                                )
+                                # Validate immediately after loading
+                                if not isinstance(potential_result, dict):
+                                    logging.error(
+                                        f"Validation Error: Parsed result is not a dict (type: {type(potential_result)})"
+                                    )
+                                    raise ValueError(
+                                        f"AI返回内容解析后类型错误 (应为dict, 实际为{type(potential_result)}) "
+                                    )
+                                if not all(
+                                    k in potential_result
+                                    for k in ("question", "options", "answer")
+                                ):
+                                    missing_keys = [
+                                        k
+                                        for k in ("question", "options", "answer")
+                                        if k not in potential_result
+                                    ]
+                                    logging.error(
+                                        f"Validation Error: Parsed JSON missing keys: {missing_keys}"
+                                    )
+                                    raise ValueError(
+                                        f"AI返回内容的JSON结构不符合预期 (缺少键: {missing_keys})"
+                                    )
+                                if not isinstance(
+                                    potential_result.get("options"), list
+                                ):
+                                    logging.error(
+                                        f"Validation Error: 'options' key is not a list (type: {type(potential_result.get('options'))})"
+                                    )
+                                    raise ValueError(
+                                        f"AI返回内容的JSON中'options'类型错误 (应为list, 实际为{type(potential_result.get('options'))})"
+                                    )
+                                parsed_result = potential_result
+                                logging.info(
+                                    "Validation successful for parsed ai_content_str."
+                                )
+                            except json.JSONDecodeError as json_err:
+                                logging.error(
+                                    f"Failed to parse ai_content_str as JSON: {json_err}. Content snippet: {ai_content_str[:100]}..."
+                                )
+                                raise Exception(
+                                    f"无法解析AI返回内容中的JSON: {json_err} (内容: {ai_content_str[:100]}...)"
+                                )
+                        else:
+                            logging.info(
+                                "ai_content_str is None or empty, attempting to parse top-level JSON."
+                            )
+                            if all(
+                                k in response_json
+                                for k in ("question", "options", "answer")
+                            ):
+                                potential_result = response_json
+                                logging.info("Found expected keys in top-level JSON.")
+                                # Validate immediately
+                                if not isinstance(
+                                    potential_result.get("options"), list
+                                ):
+                                    logging.error(
+                                        f"Validation Error (Top-Level): 'options' key is not a list (type: {type(potential_result.get('options'))})"
+                                    )
+                                    raise ValueError(
+                                        f"AI直接返回的JSON中'options'类型错误 (应为list, 实际为{type(potential_result.get('options'))})"
+                                    )
+                                parsed_result = potential_result
+                                logging.info(
+                                    "Validation successful for top-level JSON."
+                                )
+                            else:
+                                missing_keys = [
+                                    k
+                                    for k in ("question", "options", "answer")
+                                    if k not in response_json
+                                ]
+                                logging.error(
+                                    f"Neither content string nor top-level JSON is valid. Top-level missing: {missing_keys}"
+                                )
+                                raise Exception(
+                                    f"AI响应既无有效内容也无预期顶层结构 (顶层缺少: {missing_keys})"
+                                )
+
+                        if parsed_result is None:
+                            logging.warning(
+                                "Parsed_result is still None after processing."
+                            )
+                            raise Exception("未能从AI响应中成功解析出有效结果")
+
+                        logging.info(
+                            f"Successfully processed AI response. Result: {parsed_result}"
+                        )
+
+                    except json.JSONDecodeError as json_err:
+                        logging.error(
+                            f"JSONDecodeError during response processing: {repr(json_err)}"
+                        )
+                        self.finished.emit(
+                            {"error": f"解析AI响应时JSON解码失败: {repr(json_err)}"}
+                        )
+                        return
+                    except ValueError as val_err:
+                        logging.error(
+                            f"ValueError during response validation: {val_err}"
+                        )
+                        self.finished.emit({"error": f"AI返回数据验证失败: {val_err}"})
+                        return
+                    except KeyError as key_err:
+                        logging.error(f"KeyError during response processing: {key_err}")
+                        self.finished.emit(
+                            {"error": f"处理AI响应时遇到KeyError: {key_err}"}
+                        )
+                        return
+                    except Exception as parse_err:
+                        logging.error(
+                            f"Exception during response processing: {parse_err}",
+                            exc_info=True,
+                        )
+                        self.finished.emit({"error": f"处理AI响应时出错: {parse_err}"})
+                        return
+                    # === API 调用和解析代码结束 ===
+
+                    if parsed_result:
+                        logging.info(
+                            f"Emitting finished signal with result: {parsed_result}"
+                        )
+                        if "id" not in parsed_result:
+                            pass
+                        self.finished.emit(parsed_result)
+                    else:  # Should not happen if logic above is correct, but for safety
+                        logging.warning(
+                            "parsed_result is None before emitting signal, implies an error wasn't caught properly."
+                        )
+                        self.finished.emit(
+                            {"error": "未能获得最终解析结果 (内部逻辑错误)"}
+                        )
+
                 else:
+                    logging.warning("OCR returned no text result.")
                     self.finished.emit({"error": "OCR未能识别出文本"})
             else:
+                logging.error("PaddleOCR is not available.")
                 raise Exception("PaddleOCR未安装")
-        except Exception as e:
-            self.finished.emit({"error": str(e)})
-
-    def _preprocess_medical_text(self, text):
-        """预处理医学题文本，分离题目、选项和解析"""
-        # 在题目解析部分前添加明确的换行
-        for marker in [
-            "试题纠错",
-            "难度：",
-            "标签：",
-            "统计：",
-            "考点还原",
-            "标准解析",
-            "收藏",
-            "评论",
-            "点赞",
-        ]:
-            text = re.sub(f"({marker})", r"\n\1", text)
-
-        # 确保答案前有换行
-        text = re.sub(r"([A-E])\s*答案[：:\s]", r"\1\n答案:", text)
-
-        # 尝试找到题目解析的起始位置
-        analysis_start = -1
-        for marker in ["试题纠错", "难度：", "统计：", "考点还原", "标准解析"]:
-            pos = text.find(marker)
-            if pos > 0 and (analysis_start == -1 or pos < analysis_start):
-                analysis_start = pos
-
-        # 分割题目和选项与解析部分
-        main_content = text
-        analysis_content = ""
-        if analysis_start > 0:
-            main_content = text[:analysis_start].strip()
-            analysis_content = text[analysis_start:].strip()
-
-        # 处理选项格式，确保每个选项单独成行
-        lines = main_content.split("\n")
-        processed_lines = []
-
-        for line in lines:
-            # 如果行包含多个选项，拆分它们
-            if re.search(r"[A-E][\.、:：][^A-E]+[A-E][\.、:：]", line):
-                # 尝试按选项分割
-                option_splits = re.split(r"(?<=\S)(?=[A-E][\.、:：])", line)
-                processed_lines.extend(option_splits)
-            else:
-                processed_lines.append(line)
-
-        # 如果找到了解析部分，作为单独的行添加
-        if analysis_content:
-            processed_lines.append("")  # 空行作为分隔
-            processed_lines.append(analysis_content)
-
-        # 重新组合文本
-        return "\n".join(processed_lines)
-
-    def _clean_option_contents(self, options):
-        """清理选项内容，移除非选项的部分"""
-        cleaned_options = []
-        for opt in options:
-            # 查找是否包含试题纠错、难度、标签等关键词
-            match = re.match(
-                r"^([A-E])、(.*?)(?=试题纠错|难度[：:\s]|标签|收藏|评论|点赞|$)", opt
+        except Exception as e:  # Outer catch-all
+            logging.error(
+                f"Unhandled exception in OCRThread.run: {repr(e)}", exc_info=True
             )
-            if match:
-                code, content = match.groups()
-                content = content.strip()
-                if content:
-                    cleaned_options.append(f"{code}、{content}")
-            else:
-                cleaned_options.append(opt)
-        return cleaned_options
+            self.finished.emit({"error": f"OCR或AI处理失败: {repr(e)}"})
 
 
 class AutoCollectThread(QThread):
@@ -716,7 +572,7 @@ class AutoCollectThread(QThread):
             processed_image = self.parent.preprocess_image(image)
 
             # 创建OCR线程
-            ocr_thread = OCRThread(processed_image)
+            ocr_thread = OCRThread(processed_image, self.parent.settings)
 
             # 使用事件循环等待OCR完成
             loop = QEventLoop()
@@ -734,7 +590,7 @@ class AutoCollectThread(QThread):
             timer = QTimer()
             timer.setSingleShot(True)
             timer.timeout.connect(loop.quit)
-            timer.start(10000)  # 10秒超时
+            timer.start(90000)  # 10秒超时
 
             loop.exec_()
 
@@ -1110,6 +966,51 @@ class QuizCaptureApp(QMainWindow):
         layout.addLayout(adb_layout)
         layout.addLayout(device_layout)
         layout.addLayout(output_layout)
+        layout.addWidget(save_btn)
+        layout.addStretch()
+
+        # AI API 设置
+        ai_group = QWidget()
+        ai_layout = QVBoxLayout(ai_group)
+        ai_layout.setContentsMargins(0, 10, 0, 0)
+        ai_layout.addWidget(QLabel("<b>AI模型设置 (用于解析OCR文本)</b>"))
+
+        # API URL
+        api_url_layout = QHBoxLayout()
+        api_url_label = QLabel("API URL:")
+        self.api_url_edit = QLineEdit(self.settings.value("ai_api_url", ""))
+        self.api_url_edit.setPlaceholderText(
+            "例如: https://api.openai.com/v1/chat/completions"
+        )
+        api_url_layout.addWidget(api_url_label)
+        api_url_layout.addWidget(self.api_url_edit)
+        ai_layout.addLayout(api_url_layout)
+
+        # API Key
+        api_key_layout = QHBoxLayout()
+        api_key_label = QLabel("API Key:")
+        self.api_key_edit = QLineEdit(self.settings.value("ai_api_key", ""))
+        self.api_key_edit.setEchoMode(QLineEdit.Password)  # 隐藏密钥
+        api_key_layout.addWidget(api_key_label)
+        api_key_layout.addWidget(self.api_key_edit)
+        ai_layout.addLayout(api_key_layout)
+
+        # Model Name
+        model_name_layout = QHBoxLayout()
+        model_name_label = QLabel("模型名称:")
+        self.model_name_edit = QLineEdit(
+            self.settings.value("ai_model_name", "gpt-3.5-turbo")
+        )
+        model_name_layout.addWidget(model_name_label)
+        model_name_layout.addWidget(self.model_name_edit)
+        ai_layout.addLayout(model_name_layout)
+
+        layout.addWidget(ai_group)
+
+        # 保存按钮
+        save_btn = QPushButton("保存设置")
+        save_btn.clicked.connect(self.save_settings)
+
         layout.addWidget(save_btn)
         layout.addStretch()
 
@@ -1489,10 +1390,11 @@ class QuizCaptureApp(QMainWindow):
             # 使用标准的Ok按钮，并添加自定义的复制按钮
             btn_box = QDialogButtonBox(QDialogButtonBox.Ok)
             copy_btn = btn_box.addButton("复制", QDialogButtonBox.ActionRole)
-            btn_box.accepted.connect(dialog.accept)
+            # 修正：lambda函数需要捕获当前的last_raw_text值
             copy_btn.clicked.connect(
-                lambda: QApplication.clipboard().setText(self.last_raw_text)
+                lambda text=self.last_raw_text: QApplication.clipboard().setText(text)
             )
+            btn_box.accepted.connect(dialog.accept)
 
             layout.addWidget(text_edit)
             layout.addWidget(btn_box)
@@ -1514,7 +1416,7 @@ class QuizCaptureApp(QMainWindow):
         processed_image = self.preprocess_image(self.current_image)
 
         # 创建并启动OCR线程
-        self.ocr_thread = OCRThread(processed_image)
+        self.ocr_thread = OCRThread(processed_image, self.settings)
         self.ocr_thread.finished.connect(self.process_ocr_result)
         self.ocr_thread.raw_text.connect(self.process_raw_text)
         self.ocr_thread.start()
@@ -1918,6 +1820,15 @@ class QuizCaptureApp(QMainWindow):
                 self.settings.setValue("output_dir", output_dir)
                 self.output_dir = output_dir
 
+            # 保存 AI 设置
+            ai_api_url = self.api_url_edit.text().strip()
+            ai_api_key = self.api_key_edit.text()  # 不要strip密钥
+            ai_model_name = self.model_name_edit.text().strip()
+
+            self.settings.setValue("ai_api_url", ai_api_url)
+            self.settings.setValue("ai_api_key", ai_api_key)
+            self.settings.setValue("ai_model_name", ai_model_name)
+
             self.statusBar.showMessage("设置已保存", 3000)
         except Exception as e:
             QMessageBox.critical(self, "保存失败", f"无法保存设置: {str(e)}")
@@ -1955,6 +1866,12 @@ class QuizCaptureApp(QMainWindow):
 
 
 if __name__ == "__main__":
+    # 配置日志记录
+    logging.basicConfig(
+        level=logging.INFO,  # 可以改为 logging.DEBUG 查看更详细的日志
+        format="%(asctime)s - %(levelname)s - %(threadName)s - %(message)s",
+    )
+
     QApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
     app = QApplication(sys.argv)
     window = QuizCaptureApp()
