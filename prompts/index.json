@@ -1,7 +1,7 @@
 [
   {
     "name": "爱莉希雅",
-    "description": "医学",
-    "path": "medical_expert.json"
+    "description": "医学带教教授 — 正向临床推演教学",
+    "path": "medical_professor.json"
   }
 ]
